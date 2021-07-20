@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
     // モード値を production に設定すると最適化された状態で、
     // development に設定するとソースマップ有効でJSファイルが出力される
-    mode: 'development',
+    mode: 'production',
 
     // メインとなるJavaScriptファイル（エントリーポイント）
     entry: './typescript/script.ts',
@@ -30,9 +30,9 @@ module.exports = {
     },
 
     output: {
-        // 出力するファイル名
-        filename: 'script.js',
-        // 出力先のパス（v2系以降は絶対パスを指定する必要がある）
-        path: path.join(__dirname, 'build')
+        //出力先のフォルダ
+        path: path.resolve(__dirname, 'build'),
+        //出力先のファイル名
+        filename: '[name].js'
     }
 };

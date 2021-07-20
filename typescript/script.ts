@@ -91,7 +91,7 @@ PIXI.Loader.shared.load((loader, resources) =>
             dropShadowDistance: 2, // ドロップシャドウの影の距離
         });
 
-        const text = new PIXI.Text("SCORE:0", textStyle); //スコア表示テキスト
+        const text = new PIXI.Text("SCOOOORE:0", textStyle); //スコア表示テキスト
         gameScene.addChild(text); // スコア表示テキストを画面に追加する
 
         function gameLoop() // 毎フレームごとに処理するゲームループ
@@ -172,7 +172,7 @@ PIXI.Loader.shared.load((loader, resources) =>
          * 自作のボタン生成関数を使って、ツイートボタンを生成
          * 引数の内容はcreateButton関数を参考に
          */
-        const tweetButton = createButton("ツイート", 100, 60, 0x0000ff, () =>
+        const tweetButton = createButton("ツイートシアン", 100, 60, 0x0000ff, () =>
         {
             //ツイートＡＰＩに送信
             //結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
