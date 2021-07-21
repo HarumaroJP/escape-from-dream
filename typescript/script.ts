@@ -31,7 +31,7 @@ app.renderer.view.style.border = "2px dashed black";
 app.renderer.backgroundColor = 0x333333;
 
 // ゲームで使用する画像をあらかじめ読み込んでおく(プリロードという)
-// v5.3.2　だと PIXI.Loader.shared.addでプリロードする
+// v5.3.2だと PIXI.Loader.shared.addでプリロードする
 PIXI.Loader.shared.add("sound/hit.mp3");
 PIXI.Loader.shared.add("image/ball.png");
 
