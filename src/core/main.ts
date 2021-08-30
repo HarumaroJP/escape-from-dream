@@ -24,7 +24,7 @@ canvasStyle.height = "100%";
 canvasStyle.display = "block";
 document.body.style.margin = "0";
 
-app.renderer.backgroundColor = 0xaed6f1;
+app.renderer.backgroundColor = 0xffffff;
 
 const renderables: Renderable[] = [];
 
@@ -47,7 +47,7 @@ const createGameScene = () => {
 
 const resize = () => {
   app.renderer.resize(window.innerWidth, window.innerHeight);
-  renderables.forEach(r => r.onresize());
+  renderables.forEach((r) => r.onresize());
 };
 
 // preload
