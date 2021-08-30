@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 import * as PIXI_SOUND from "pixi-sound"; // node_modulesから PIXI_SOUNDをインポート
 import { PlayerLoop } from "./playerLoop";
 import { ChatDisplay } from "./chatDisplay";
+import { Renderable } from "./Renderable";
 
 //pixiの初期化処理
 PIXI_SOUND.default.init();
@@ -25,6 +26,11 @@ document.body.style.margin = "0";
 
 app.renderer.backgroundColor = 0xaed6f1;
 
+const renderables: Renderable[] = [];
+
+//画面リサイズ時にレンダラーもリサイズ
+window.onresize = () => resize();
+
 const playerLoop = new PlayerLoop(app);
 
 const createGameScene = () => {
@@ -36,6 +42,12 @@ const createGameScene = () => {
 
   const chatDisplay = new ChatDisplay();
   gameScene.addChild(chatDisplay.create());
+  renderables.push(chatDisplay);
+};
+
+const resize = () => {
+  app.renderer.resize(window.innerWidth, window.innerHeight);
+  renderables.forEach(r => r.onresize());
 };
 
 // preload
