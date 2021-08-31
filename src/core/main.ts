@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 import * as PIXI_SOUND from "pixi-sound"; // node_modulesから PIXI_SOUNDをインポート
+import axios from "axios";
 import { PlayerLoop } from "./playerLoop";
-import { ChatDisplay } from "./chatDisplay";
+import { ChatDisplay } from "./chat/chatDisplay";
 import { Renderable } from "./Renderable";
 
 //pixiの初期化処理
@@ -51,7 +52,17 @@ const resize = () => {
 };
 
 // preload
-PIXI.Loader.shared.load((loader, resources) => {
-  // 起動直後はゲームシーンを追加する
-  createGameScene();
+PIXI.Loader.shared.load(async (loader, resources) => {
+  // 起動時にスプレットシートからgetする
+  try {
+    const res = await axios.get(
+      "https://script.google.com/macros/s/AKfycbyQVt4nKc3ZZLpV5HDkZjHEWbbwwCWD4QQXFs3CeHI3IGTqHMNe4liu5AWieyH1A0R1FA/exec"
+    );
+
+    console.log(res.data);
+    createGameScene();
+  } catch (error) {
+    const { status, statusText } = error.response;
+    console.log(`通信に失敗しました！ ${status} : ${statusText}`);
+  }
 });

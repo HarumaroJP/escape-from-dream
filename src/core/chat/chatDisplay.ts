@@ -1,7 +1,10 @@
 import * as PIXI from "pixi.js";
 import { TextInput } from "pixi-textinput-v5";
-import { app } from "./main";
-import { Renderable } from "./Renderable";
+import { app } from "../main";
+import { Renderable } from "../Renderable";
+import { ScrollView } from "./scrollView";
+
+export type Target = "me" | "you";
 
 export class ChatDisplay implements Renderable {
   private container: PIXI.Container = new PIXI.Container();
@@ -23,6 +26,11 @@ export class ChatDisplay implements Renderable {
 
   private iptWidthOffset = 80;
   private iptHeightOffset = 80;
+
+  private sendButton: PIXI.Graphics = new PIXI.Graphics();
+  private buttonRadius: number = 20;
+
+  private scrollView: ScrollView = new ScrollView();
 
   private inputField = new TextInput({
     input: {
@@ -71,6 +79,16 @@ export class ChatDisplay implements Renderable {
     this.inputField.x = canvasX + 10;
     this.inputField.y = this.footer.y + this.iptHeightOffset - 10;
 
+    this.sendButton.interactive = true;
+    this.sendButton.buttonMode = true;
+    this.sendButton.x =
+      this.inputField.x + this.inputField.width + this.buttonRadius + 15;
+    this.sendButton.y = this.inputField.y + this.buttonRadius - 1;
+    this.sendButton
+      .beginFill(0x2c79c7)
+      .drawCircle(0, 0, this.buttonRadius)
+      .endFill();
+
     this.body.x = canvasX;
     this.body.y = canvasY + this.navHeight / 2;
     this.body
@@ -95,6 +113,12 @@ export class ChatDisplay implements Renderable {
         this.cavRadius
       )
       .endFill();
+
+    this.scrollView.reflesh(
+      this.body.x,
+      this.body.y + this.body.height,
+      this.body.width
+    );
   }
 
   create(): PIXI.Container {
@@ -103,6 +127,13 @@ export class ChatDisplay implements Renderable {
     this.container.addChild(this.footer);
     this.container.addChild(this.body);
     this.container.addChild(this.inputField);
+    this.container.addChild(this.sendButton);
+    this.container.addChild(this.scrollView.view);
+
+    this.sendButton.on("pointertap", (e) => {
+      this.scrollView.addElement("me", this.inputField.text);
+      this.inputField.text = "";
+    });
 
     return this.container;
   }
