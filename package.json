@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "pixi-filters": "^3.2.2",
     "pixi-sound": "^3.0.5",
     "pixi-textinput-v5": "^4.0.0-beta.10",
