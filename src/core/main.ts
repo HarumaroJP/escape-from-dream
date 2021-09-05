@@ -25,7 +25,7 @@ canvasStyle.height = "100%";
 canvasStyle.display = "block";
 document.body.style.margin = "0";
 
-app.renderer.backgroundColor = 0xffffff;
+app.renderer.backgroundColor = 0x5ab7e8;
 
 const renderables: Renderable[] = [];
 

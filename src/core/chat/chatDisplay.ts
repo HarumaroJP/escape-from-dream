@@ -6,12 +6,10 @@ import { ScrollView } from "./scrollView";
 
 export type Target = "me" | "you";
 
-export class ChatDisplay implements Renderable {
-  private container: PIXI.Container = new PIXI.Container();
-
+export class ChatDisplay extends PIXI.Container implements Renderable {
   private cavWidth: number = 400;
   private cavHeight: number = 800;
-  private cavRadius: number = 30;
+  private cavRadius: number = 10;
 
   private header: PIXI.Graphics = new PIXI.Graphics();
   private navHeight = 110;
@@ -54,6 +52,7 @@ export class ChatDisplay implements Renderable {
   });
 
   constructor() {
+    super();
     this.reflesh();
   }
 
@@ -122,20 +121,20 @@ export class ChatDisplay implements Renderable {
   }
 
   create(): PIXI.Container {
-    this.container.addChild(this.edge);
-    this.container.addChild(this.header);
-    this.container.addChild(this.footer);
-    this.container.addChild(this.body);
-    this.container.addChild(this.inputField);
-    this.container.addChild(this.sendButton);
-    this.container.addChild(this.scrollView.view);
+    this.addChild(this.edge);
+    this.addChild(this.header);
+    this.addChild(this.footer);
+    this.addChild(this.body);
+    this.addChild(this.inputField);
+    this.addChild(this.sendButton);
+    this.addChild(this.scrollView);
 
     this.sendButton.on("pointertap", (e) => {
       this.scrollView.addElement("me", this.inputField.text);
       this.inputField.text = "";
     });
 
-    return this.container;
+    return this;
   }
 
   onresize(): void {
