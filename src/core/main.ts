@@ -8,9 +8,9 @@ import { Renderable } from "./Renderable";
 //pixiの初期化処理
 PIXI_SOUND.default.init();
 export const app = new PIXI.Application({
-  resolution: window.devicePixelRatio || 1,
-  resizeTo: window,
-  antialias: true,
+	resolution: window.devicePixelRatio || 1,
+	resizeTo: window,
+	antialias: true,
 });
 
 //bodyに追加
@@ -34,35 +34,71 @@ window.onresize = () => resize();
 
 const playerLoop = new PlayerLoop(app);
 
+let chatDisplay: ChatDisplay;
+let isDraggable: boolean;
+
 const createGameScene = () => {
-  playerLoop.removeAllScene();
-  playerLoop.removeAllGameLoops();
+	playerLoop.removeAllScene();
+	playerLoop.removeAllGameLoops();
 
-  const gameScene = new PIXI.Container();
-  app.stage.addChild(gameScene);
+	requestAnimationFrame(animate);
 
-  const chatDisplay = new ChatDisplay();
-  gameScene.addChild(chatDisplay.create());
-  renderables.push(chatDisplay);
+	const gameScene = new PIXI.Container();
+	app.stage.addChild(gameScene);
+
+	chatDisplay = new ChatDisplay();
+	gameScene.addChild(chatDisplay.create());
+
+	const square = new PIXI.Graphics();
+	square.interactive = true;
+	square.buttonMode = true;
+
+	square
+		.on("pointerdown", (e: PIXI.InteractionEvent) => {
+			isDraggable = true;
+		})
+		.on("mousemove", (e: PIXI.InteractionEvent) => {
+			if (!isDraggable) return;
+			const point = e.data.getLocalPosition(square);
+ 
+			square.x = point.x;
+			square.y = point.y;
+		})
+		.on("pointerup", (e: PIXI.InteractionEvent) => {
+			isDraggable = false;
+		});
+
+	square.beginFill(0xffffff).drawRect(200, 200, 100, 100).endFill();
+
+	gameScene.addChild(square);
+
+	renderables.push(chatDisplay);
 };
 
 const resize = () => {
-  app.renderer.resize(window.innerWidth, window.innerHeight);
-  renderables.forEach((r) => r.onresize());
+	app.renderer.resize(window.innerWidth, window.innerHeight);
+	renderables.forEach((r) => r.onresize());
 };
+
+function animate(time: number) {
+	requestAnimationFrame(this.animate);
+
+	// render the stage
+	app.render();
+}
 
 // preload
 PIXI.Loader.shared.load(async (loader, resources) => {
-  // 起動時にスプレットシートからgetする
-  try {
-    const res = await axios.get(
-      "https://script.google.com/macros/s/AKfycbyQVt4nKc3ZZLpV5HDkZjHEWbbwwCWD4QQXFs3CeHI3IGTqHMNe4liu5AWieyH1A0R1FA/exec"
-    );
+	// 起動時にスプレットシートからgetする
+	try {
+		const res = await axios.get(
+			"https://script.google.com/macros/s/AKfycbyQVt4nKc3ZZLpV5HDkZjHEWbbwwCWD4QQXFs3CeHI3IGTqHMNe4liu5AWieyH1A0R1FA/exec"
+		);
 
-    console.log(res.data);
-    createGameScene();
-  } catch (error) {
-    const { status, statusText } = error.response;
-    console.log(`通信に失敗しました！ ${status} : ${statusText}`);
-  }
+		console.log(res.data);
+		createGameScene();
+	} catch (error) {
+		const { status, statusText } = error.response;
+		console.log(`通信に失敗しました！ ${status} : ${statusText}`);
+	}
 });
