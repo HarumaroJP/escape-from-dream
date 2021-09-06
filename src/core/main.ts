@@ -5,6 +5,8 @@ import { PlayerLoop } from "./playerLoop";
 import { ChatDisplay } from "./chat/chatDisplay";
 import { Renderable } from "./Renderable";
 
+const devVersion: string = "1.0d";
+
 //pixiの初期化処理
 PIXI_SOUND.default.init();
 export const app = new PIXI.Application({
@@ -60,7 +62,7 @@ const createGameScene = () => {
 		.on("mousemove", (e: PIXI.InteractionEvent) => {
 			if (!isDraggable) return;
 			const point = e.data.getLocalPosition(square);
- 
+
 			square.x = point.x;
 			square.y = point.y;
 		})
@@ -89,6 +91,8 @@ function animate(time: number) {
 
 // preload
 PIXI.Loader.shared.load(async (loader, resources) => {
+	console.log("PIXI loaded. devVersion = " + devVersion);
+
 	// 起動時にスプレットシートからgetする
 	try {
 		const res = await axios.get(
