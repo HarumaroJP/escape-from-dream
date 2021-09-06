@@ -5,7 +5,7 @@ import { PlayerLoop } from "./playerLoop";
 import { ChatDisplay } from "./chat/chatDisplay";
 import { Renderable } from "./Renderable";
 
-const devVersion: string = "1.0d";
+const devVersion: string = "1.1d";
 
 //pixiの初期化処理
 PIXI_SOUND.default.init();
@@ -83,7 +83,7 @@ const resize = () => {
 };
 
 function animate(time: number) {
-	requestAnimationFrame(this.animate);
+	requestAnimationFrame(animate);
 
 	// render the stage
 	app.render();
@@ -91,7 +91,10 @@ function animate(time: number) {
 
 // preload
 PIXI.Loader.shared.load(async (loader, resources) => {
-	console.log("PIXI loaded. devVersion = " + devVersion);
+	console.log(
+		"PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : " +
+			devVersion
+	);
 
 	// 起動時にスプレットシートからgetする
 	try {
