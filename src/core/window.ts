@@ -24,29 +24,7 @@ export class Window extends PIXI.Container {
 	isPointing: boolean;
 
 	createWindow() {
-		this.titleBar.interactive = true;
-		this.titleBar.buttonMode = true;
-
-		this.titleBar.on("mousedown", (e: PIXI.InteractionEvent) => {
-            this.isPointing = true;
-		});
-
-		this.titleBar.on("mousemove", (e: PIXI.InteractionEvent) => {
-			if (!this.isPointing) return;
-
-			const point = e.data.getLocalPosition(this.titleBar);
-
-			this.x = point.x;
-			this.y = point.y;
-		});
-
-		this.titleBar.on("mouseup", () => {
-			this.isPointing = false;
-		});
-
-		this.titleBar.on("mouseout", () => {
-			this.isPointing = false;
-		});
+		this.toDraggable(this.titleBar, this);
 
 		this.addChild(this.edge);
 		this.addChild(this.titleBar);
@@ -81,5 +59,35 @@ export class Window extends PIXI.Container {
 				this.radius
 			)
 			.endFill();
+	}
+
+	toDraggable(draggable: PIXI.Container, movable: PIXI.Container) {
+		draggable.interactive = true;
+		draggable.buttonMode = true;
+		movable.interactive = true;
+
+		let isDraggable: boolean;
+		let data: PIXI.InteractionData;
+		let dragPoint: PIXI.Point;
+		let lastDragPoint: PIXI.Point;
+
+		draggable
+			.on("pointerdown", (e: PIXI.InteractionEvent) => {
+				data = e.data;
+				lastDragPoint = data.getLocalPosition(movable.parent);
+				isDraggable = true;
+			})
+			.on("pointermove", () => {
+				if (!isDraggable) return;
+
+				dragPoint = data.getLocalPosition(movable.parent);
+				movable.transform.position.x += dragPoint.x - lastDragPoint.x;
+				movable.transform.position.y += dragPoint.y - lastDragPoint.y;
+				lastDragPoint = data.getLocalPosition(movable.parent);
+			})
+			.on("pointerup", () => {
+				data = null;
+				isDraggable = false;
+			});
 	}
 }

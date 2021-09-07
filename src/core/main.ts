@@ -8,12 +8,14 @@ import { Renderable } from "./Renderable";
 const devVersion: string = "1.1d";
 
 //pixiの初期化処理
-PIXI_SOUND.default.init();
 export const app = new PIXI.Application({
 	resolution: window.devicePixelRatio || 1,
 	resizeTo: window,
 	antialias: true,
 });
+
+//サウンドの初期化
+PIXI_SOUND.default.init();
 
 //bodyに追加
 document.body.appendChild(app.view);
@@ -37,13 +39,10 @@ window.onresize = () => resize();
 const playerLoop = new PlayerLoop(app);
 
 let chatDisplay: ChatDisplay;
-let isDraggable: boolean;
 
 const createGameScene = () => {
 	playerLoop.removeAllScene();
 	playerLoop.removeAllGameLoops();
-
-	requestAnimationFrame(animate);
 
 	const gameScene = new PIXI.Container();
 	app.stage.addChild(gameScene);
@@ -51,38 +50,18 @@ const createGameScene = () => {
 	chatDisplay = new ChatDisplay();
 	gameScene.addChild(chatDisplay.create());
 
-	const square = new PIXI.Graphics();
-	square.interactive = true;
-	square.buttonMode = true;
-
-	square
-		.on("pointerdown", (e: PIXI.InteractionEvent) => {
-			isDraggable = true;
-		})
-		.on("mousemove", (e: PIXI.InteractionEvent) => {
-			if (!isDraggable) return;
-			const point = e.data.getLocalPosition(square);
-
-			square.x = point.x;
-			square.y = point.y;
-		})
-		.on("pointerup", (e: PIXI.InteractionEvent) => {
-			isDraggable = false;
-		});
-
-	square.beginFill(0xffffff).drawRect(200, 200, 100, 100).endFill();
-
-	gameScene.addChild(square);
-
 	renderables.push(chatDisplay);
+
+	animate();
 };
 
 const resize = () => {
+	console.log("resize");
 	app.renderer.resize(window.innerWidth, window.innerHeight);
 	renderables.forEach((r) => r.onresize());
 };
 
-function animate(time: number) {
+function animate() {
 	requestAnimationFrame(animate);
 
 	// render the stage
