@@ -2,8 +2,9 @@ import * as PIXI from "pixi.js"; // node_modulesから PIXI.jsをインポート
 import * as PIXI_SOUND from "pixi-sound"; // node_modulesから PIXI_SOUNDをインポート
 import axios from "axios";
 import { PlayerLoop } from "./playerLoop";
-import { ChatDisplay } from "./chat/chatDisplay";
-import { Renderable } from "./Renderable";
+import { ChatDisplay } from "../controlElements/chat/chatDisplay";
+import { Renderable } from "./renderable";
+import { Taskbar } from "../controlElements/taskbar/taskbar";
 
 const devVersion: string = "1.1d";
 
@@ -39,6 +40,7 @@ window.onresize = () => resize();
 const playerLoop = new PlayerLoop(app);
 
 let chatDisplay: ChatDisplay;
+let taskBar: Taskbar;
 
 const createGameScene = () => {
 	playerLoop.removeAllScene();
@@ -49,6 +51,9 @@ const createGameScene = () => {
 
 	chatDisplay = new ChatDisplay();
 	gameScene.addChild(chatDisplay.create());
+
+	taskBar = new Taskbar();
+	gameScene.addChild(taskBar.create());
 
 	renderables.push(chatDisplay);
 
@@ -84,6 +89,8 @@ PIXI.Loader.shared.load(async (loader, resources) => {
 		console.log(res.data);
 		createGameScene();
 	} catch (error) {
+		console.log(error);
+		
 		const { status, statusText } = error.response;
 		console.log(`通信に失敗しました！ ${status} : ${statusText}`);
 	}
