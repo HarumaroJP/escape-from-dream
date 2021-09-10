@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js';
+import { AssetLoader } from '../../core/assetLoader';
 import { app } from '../../core/main';
+import { Renderable } from '../../core/renderable';
 import { Application } from './application';
 
-export class Taskbar extends PIXI.Container {
+export class Taskbar extends PIXI.Container implements Renderable {
   barColor: number = 0x2e2e2e;
   taskBar: PIXI.Graphics = new PIXI.Graphics();
   taskBarLeft: PIXI.Graphics = new PIXI.Graphics();
@@ -17,12 +19,10 @@ export class Taskbar extends PIXI.Container {
   barHeightOffset: number = 35;
   barYOffset: number = 20;
 
+  Searcher: Application;
+  Messenger: Application;
   Calculator: Application;
   applications: Application[] = [];
-
-  constructor() {
-    super();
-  }
 
   create(): PIXI.Container {
     let alphaFilter = new PIXI.filters.AlphaFilter();
@@ -32,17 +32,17 @@ export class Taskbar extends PIXI.Container {
 
     this.addChild(this.taskBar);
 
-    this.Calculator = this.createApplication('calculator');
-    this.createApplication('calculator');
-    this.createApplication('calculator');
+    this.Searcher = this.createApplication('searcher', AssetLoader.getSprite('search'));
+    this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'));
+    this.Calculator = this.createApplication('calculator', AssetLoader.getSprite('calculator'));
 
     this.reflesh();
 
     return this;
   }
 
-  createApplication(name: string): Application {
-    const app = new Application(name, this.appSize);
+  createApplication(name: string, texture: PIXI.Texture): Application {
+    const app = new Application(name, texture, this.appSize);
     this.applications.push(app);
     this.addChild(app);
 
@@ -51,12 +51,13 @@ export class Taskbar extends PIXI.Container {
 
   alignApplications() {
     let appCount = 1;
+    let appHalfSize = this.appSize * 0.5;
     this.applications.forEach((app: PIXI.Container) => {
       //isBarSide
       const space = appCount == 1 ? 0 : this.appSpace;
 
-      app.x += this.appSideSpace + (space + this.appSize) * (appCount - 1);
-      app.y += this.barHeightOffset * 0.5;
+      app.x = this.appSideSpace + (space + this.appSize) * (appCount - 1) + appHalfSize;
+      app.y = this.barHeightOffset * 0.5 + appHalfSize;
 
       appCount += 1;
     });
@@ -90,5 +91,8 @@ export class Taskbar extends PIXI.Container {
     this.taskBar.addChild(this.taskBarRight);
 
     this.alignApplications();
+  }
+  onResize(): void {
+    this.reflesh();
   }
 }

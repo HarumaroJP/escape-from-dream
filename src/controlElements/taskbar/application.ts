@@ -1,24 +1,47 @@
-import * as PIXI from "pixi.js";
+import * as PIXI from 'pixi.js';
+import { gsap } from 'gsap';
 
-export class Application extends PIXI.Graphics {
-	appName: string = "noname";
+export class Application extends PIXI.Sprite {
+  appName: string = 'noname';
 
-	spriteSize: number;
+  spriteSize: number;
 
-	constructor(appName: string, appSize: number) {
-		super();
-		this.appName = appName;
-        this.spriteSize = appSize;
+  constructor(appName: string, texture: PIXI.Texture, appSize: number) {
+    super(texture);
+    this.appName = appName;
+    this.spriteSize = appSize;
 
-        this.reflesh();
-	}
+    this.interactive = true;
+    this.buttonMode = true;
 
-    reflesh() {
-        this.width = this.spriteSize;
-        this.height = this.spriteSize;
+    this.anchor.set(0.5);
 
-		this.beginFill(0xffffff)
-			.drawRect(0, 0, this.spriteSize, this.spriteSize)
-            .endFill();
-	}
+    this.setAnimations();
+
+    this.reflesh();
+  }
+
+  scaleTween: gsap.core.Tween = gsap.to(this.scale, {
+    duration: 0.2,
+    x: 0.13,
+    y: 0.13,
+    paused: true,
+  });
+
+  setAnimations() {
+    this.on('pointerover', this.onMouseEnter).on('pointerout', this.onMouseExit);
+  }
+
+  onMouseEnter() {
+    this.scaleTween.play();
+  }
+
+  onMouseExit() {
+    this.scaleTween.reverse();
+  }
+
+  reflesh() {
+    this.width = this.spriteSize;
+    this.height = this.spriteSize;
+  }
 }
