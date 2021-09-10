@@ -17,7 +17,7 @@ export class AssetLoader {
     const dirName = assetDatabase.spriteDir + '/';
 
     assetDatabase.spriteList.forEach((path) =>
-      AssetLoader.loader.add(path, dirName + '/' + path + '.png')
+      AssetLoader.loader.add(path, dirName + path + '.png')
     );
   }
 
