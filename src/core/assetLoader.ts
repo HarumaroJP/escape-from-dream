@@ -16,9 +16,10 @@ export class AssetLoader {
   loadSpriteAssets() {
     const dirName = assetDatabase.spriteDir + '/';
 
-    assetDatabase.spriteList.forEach((path) =>
-      AssetLoader.loader.add(path, dirName + path + '.png')
-    );
+    assetDatabase.spriteList.forEach((path) => {
+      console.log(dirName + path + '.png');
+      AssetLoader.loader.add(path, dirName + path + '.png');
+    });
   }
 
   load(callback: () => void): void {
