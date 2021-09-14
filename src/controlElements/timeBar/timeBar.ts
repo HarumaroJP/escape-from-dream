@@ -1,43 +1,41 @@
-import * as PIXI from 'pixi.js';
-import { app } from '../../core/main';
-import { Renderable } from '../../core/renderable';
+import * as PIXI from 'pixi.js'
+import { app } from '../../core/main'
+import { Renderable } from '../../core/renderable'
+import { CustomRoundedShape } from '../../extensions/customRoundedShape'
 
 export class TimeBar extends PIXI.Container implements Renderable {
-  timeBar: PIXI.Graphics = new PIXI.Graphics();
-  timeBarLeft: PIXI.Graphics = new PIXI.Graphics();
-  timeBarRight: PIXI.Graphics = new PIXI.Graphics();
+  timeBar: CustomRoundedShape = new CustomRoundedShape()
 
   textStyle: PIXI.TextStyle = new PIXI.TextStyle({
     fill: '#f0f0f0',
+    fontFamily: 'Inter',
     fontSize: 30,
-  });
-  timeText: PIXI.Text = new PIXI.Text('0000/00/00 00:00:00', this.textStyle);
+  })
+  timeText: PIXI.Text = new PIXI.Text('0000/00/00 00:00:00', this.textStyle)
 
-  barWidth: number = 300;
-  barHeight: number = 80;
-  barColor: number = 0x2e2e2e;
+  barWidth: number = 400
+  barHeight: number = 80
+  barColor: number = 0x2e2e2e
 
-  edgeOffset: number = 20;
+  edgeOffset: number = 20
 
   create(): PIXI.Container {
-    let alphaFilter = new PIXI.filters.AlphaFilter();
-    alphaFilter.alpha = 0.5;
-    alphaFilter.resolution = window.devicePixelRatio || 1;
-    this.timeBar.filters = [alphaFilter];
+    this.timeBar.alpha = 0.5
+    this.timeText.anchor.set(0.5)
 
-    this.addChild(this.timeBar);
-    this.addChild(this.timeText);
+    this.addChild(this.timeBar)
+    this.addChild(this.timeText)
 
-    this.setTimer();
+    this.setTimer()
 
-    this.reflesh();
+    this.reflesh()
 
-    return this;
+    return this
   }
 
   setTimer() {
     window.setInterval(() => {
-      const now = new Date();
+      const now = new Date()
 
       // "YYYY/MM/DD HH:MM:SS"の形式にフォーマット
       // 可読性無視で
@@ -45,37 +43,26 @@ export class TimeBar extends PIXI.Container implements Renderable {
         now.getDate()
       ).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(
         now.getMinutes()
-      ).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+      ).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
 
-      this.timeText.text = text;
-    }, 1000);
+      this.timeText.text = text
+    }, 1000)
   }
 
   reflesh() {
-    const barSideRadius = this.barHeight * 0.5;
+    const barSideRadius = this.barHeight * 0.5
 
-    this.x = app.screen.width - this.barWidth - barSideRadius - this.edgeOffset;
-    this.y = app.screen.height - this.barHeight - this.edgeOffset;
+    this.x = app.screen.width - this.barWidth - barSideRadius - this.edgeOffset
+    this.y = app.screen.height - this.barHeight - this.edgeOffset
 
-    this.timeBar.beginFill(this.barColor).drawRect(0, 0, this.barWidth, this.barHeight).endFill();
+    this.timeBar.drawCustomCapusle(this.barWidth, this.barHeight, this.barColor, true, true)
+    this.timeBar.alpha = 0.5
 
-    this.timeBarLeft.beginFill(this.barColor).drawCircle(0, barSideRadius, barSideRadius).endFill();
-
-    this.timeBarRight
-      .beginFill(this.barColor)
-      .drawCircle(this.barWidth, barSideRadius, barSideRadius)
-      .endFill();
-
-    this.timeBar.addChild(this.timeBarRight);
-    this.timeBar.addChild(this.timeBarLeft);
-
-    this.timeText.x = (this.barWidth - this.timeText.width) * 0.5;
-    this.timeText.y = (this.barHeight - this.timeText.height) * 0.5;
+    this.timeText.x = this.barWidth * 0.5
+    this.timeText.y = this.barHeight * 0.5
   }
 
-  copyThis: TimeBar = this;
-
   onResize(): void {
-    this.reflesh();
+    this.reflesh()
   }
 }

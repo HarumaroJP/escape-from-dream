@@ -15,14 +15,16 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@pixi/events": "^6.1.2",
     "@types/node": "^16.9.0",
+    "@types/webfontloader": "^1.6.33",
     "axios": "^0.21.3",
     "gsap": "^3.7.1",
-    "pixi-filters": "^3.2.2",
-    "pixi-sound": "^3.0.5",
-    "pixi-textinput-v5": "^4.0.0-beta.10",
-    "pixi.js": "^5.3.7",
-    "ts-loader": "^9.2.3"
+    "pixi-scrollbox": "^2.3.1",
+    "pixi-viewport": "^4.32.0",
+    "pixi.js": "^6.1.2",
+    "ts-loader": "^9.2.3",
+    "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@types/typescript": "^2.0.0",

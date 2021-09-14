@@ -1,10 +1,18 @@
 import * as PIXI from 'pixi.js';
-import { CustomRoundedRect } from '../extensions/customRoundedRect';
+import { CustomRoundedShape } from '../extensions/customRoundedShape';
 import { app } from './main';
 
 export class Window extends PIXI.Container {
   // edge: PIXI.Graphics = new PIXI.Graphics();
-  titleBar: CustomRoundedRect = new CustomRoundedRect();
+  titleBar: CustomRoundedShape = new CustomRoundedShape();
+
+  titleText: PIXI.Text;
+  titleTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
+    align: 'center',
+    fontFamily: 'Inter',
+    fontSize: '18px',
+    fill: 0x000000,
+  });
 
   //window property
   winWidth: number;
@@ -13,10 +21,10 @@ export class Window extends PIXI.Container {
   winX: number;
   winY: number;
 
-  winColor: number = 0x2b2b2b;
+  winColor: number = 0xededed;
 
   //title property
-  titleHeight: number = 50;
+  titleHeight: number = 30;
   roundOffset: number = 20;
 
   //edge property
@@ -25,11 +33,18 @@ export class Window extends PIXI.Container {
 
   isPointing: boolean;
 
+  constructor(titleText: string) {
+    super();
+    this.titleText = new PIXI.Text(titleText, this.titleTextStyle);
+    this.titleText.anchor.set(0.5);
+  }
+
   createWindow() {
     this.toDraggable(this.titleBar, this);
 
     // this.addChild(this.edge);
     this.addChild(this.titleBar);
+    this.titleBar.addChild(this.titleText);
   }
 
   setWindowPivot(w: number, h: number) {
@@ -43,7 +58,7 @@ export class Window extends PIXI.Container {
   refleshWindow() {
     this.titleBar.x = this.winX;
     this.titleBar.y = this.winY - this.titleHeight;
-    this.titleBar.draw(
+    this.titleBar.drawCustomRect(
       this.round,
       this.winWidth,
       this.titleHeight,
@@ -53,6 +68,9 @@ export class Window extends PIXI.Container {
       false,
       false
     );
+
+    this.titleText.x = this.winWidth * 0.5;
+    this.titleText.y = this.titleHeight * 0.5;
     // this.edge.x = this.titleBar.x - this.thickness;
     // this.edge.y = this.titleBar.y - this.thickness;
 
