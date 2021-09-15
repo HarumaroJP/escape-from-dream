@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import { Target } from './chatDisplay'
+import { gsap } from 'gsap'
 
 export class ChatElement extends PIXI.Graphics {
   message: PIXI.Text
@@ -13,6 +13,13 @@ export class ChatElement extends PIXI.Graphics {
     fontFamily: 'hirakaku',
     fill: '#121212',
     fontSize: 15,
+  })
+  private buttonFade: gsap.core.Tween = gsap.to(this, {
+    pixi: {
+      tint: 0xc9c9c9,
+    },  
+    duration: 0.1,
+    paused: true,
   })
 
   private target: number
@@ -45,6 +52,13 @@ export class ChatElement extends PIXI.Graphics {
   }
 
   onClick(callback: () => void) {
+    this.on('mouseover', () => {
+      this.buttonFade.play()
+    })
+    this.on('mouseout', () => {
+      this.buttonFade.reverse()
+    })
+
     this.on('pointerdown', callback)
   }
 

@@ -58,4 +58,8 @@ export class AssetLoader {
   static getNameById(id: number): string {
     return this.gameData.nameList.get(id)
   }
+
+  static getConfigById(index: number): any {
+    return this.gameData.configList[index]
+  }
 }

@@ -11,13 +11,15 @@ export class ChatSequencer {
   selectMenu: SelectMenu
   waitingPlayerInput: boolean = false
 
-  chatInterval: number = 2
+  chatInterval: number
 
   constructor(scrollView: ScrollView, selectMenu: SelectMenu) {
     this.lineIterator = AssetLoader.lineData.entries()
     this.maxChatCount = AssetLoader.lineData.length
     this.scrollView = scrollView
     this.selectMenu = selectMenu
+
+    this.chatInterval = AssetLoader.getConfigById(0)
   }
 
   async start() {

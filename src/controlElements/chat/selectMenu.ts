@@ -51,8 +51,6 @@ export class SelectMenu extends CustomRoundedShape {
   }
 
   clearElements() {
-    console.log('clearElements')
-
     this.elements.forEach((elem) => {
       this.removeChild(elem)
       elem.destroy()

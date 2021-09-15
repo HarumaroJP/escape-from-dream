@@ -1,6 +1,7 @@
 export class GameData {
   nameList: Map<number, string> = new Map<number, string>()
   lineList: { id: number; line: string }[] = []
+  configList: any[] = []
 
   applyData(data: any) {
     data['names'].forEach((elem) => {
@@ -9,6 +10,10 @@ export class GameData {
 
     data['lines'].forEach((elem) => {
       this.lineList.push({ id: elem.id, line: elem.line })
+    })
+
+    data['config'].forEach((elem) => {
+      this.configList.push(elem)
     })
   }
 }

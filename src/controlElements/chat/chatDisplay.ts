@@ -7,7 +7,7 @@ import { TextRoundedRect } from './textRoundedRect'
 import { AssetLoader } from '../../core/assetLoader'
 import { SelectMenu } from './selectMenu'
 import { ChatSequencer } from './chatSequencer'
-import { ChatElement } from './chatElement'
+import { gsap } from 'gsap'
 
 export type Target = 'me' | 'you'
 
@@ -59,6 +59,13 @@ export class ChatDisplay extends Window implements Renderable {
   private buttonIconOffset: number = 60
 
   private buttonIconSize: number = 25
+  private buttonFade: gsap.core.Tween = gsap.to(this.sendButton, {
+    pixi: {
+      tint: 0xc9c9c9,
+    },
+    duration: 0.1,
+    paused: true,
+  })
 
   private scrollView: ScrollView = new ScrollView()
   private selectMenu: SelectMenu = new SelectMenu(this.scrollView)
@@ -140,6 +147,15 @@ export class ChatDisplay extends Window implements Renderable {
     this.sendButton.x = mainBodyWidth - this.buttonWidth - 10
     this.sendButton.y = (this.fHeight - this.buttonHeight) * 0.5
     this.sendButton.drawCustomCapusle(this.buttonWidth, this.buttonHeight, 0x77ff00, true, true)
+
+    this.sendButton.on('mouseover', () => {
+      console.log('mouseover')
+      this.buttonFade.play()
+    })
+    this.sendButton.on('mouseout', () => {
+      console.log('mouseout')
+      this.buttonFade.reverse()
+    })
     this.sendButton.on('pointerdown', () => {
       if (this.scrollView.currentElem == undefined) return
 

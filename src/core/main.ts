@@ -5,6 +5,8 @@ import { Renderable } from './renderable'
 import { Taskbar } from '../controlElements/taskbar/taskbar'
 import { TimeBar } from '../controlElements/timeBar/timeBar'
 import { AssetLoader } from './assetLoader'
+import { gsap } from 'gsap'
+import PixiPlugin from 'gsap/PixiPlugin'
 import WebFont from 'webfontloader'
 
 export const devVersion: string = '1.1d'
@@ -77,6 +79,9 @@ function animate() {
   // render the stage
   app.render()
 }
+
+gsap.registerPlugin(PixiPlugin)
+PixiPlugin.registerPIXI(PIXI)
 
 WebFont.load({
   google: {
