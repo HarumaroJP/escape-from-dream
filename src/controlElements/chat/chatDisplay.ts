@@ -7,6 +7,7 @@ import { TextRoundedRect } from './textRoundedRect'
 import { AssetLoader } from '../../core/assetLoader'
 import { SelectMenu } from './selectMenu'
 import { ChatSequencer } from './chatSequencer'
+import { ChatElement } from './chatElement'
 
 export type Target = 'me' | 'you'
 
@@ -30,13 +31,17 @@ export class ChatDisplay extends Window implements Renderable {
 
   private footer: CustomRoundedShape = new CustomRoundedShape()
   private fHeight = 60
-
-  private inputField: TextRoundedRect = new TextRoundedRect(this.titleTextStyle)
+  fieldTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
+    align: 'left',
+    fontFamily: 'hirakaku',
+    fontSize: '22px',
+    fill: 0x000000,
+  })
+  private inputField: TextRoundedRect = new TextRoundedRect(this.fieldTextStyle)
   private fieldOffsetW = 300
   private fieldOffsetH = 22
   private fiendOffsetX = 150
 
-  private selectMenu: SelectMenu = new SelectMenu()
   private sendButton: CustomRoundedShape = new CustomRoundedShape()
   private buttonTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
     align: 'center',
@@ -56,6 +61,7 @@ export class ChatDisplay extends Window implements Renderable {
   private buttonIconSize: number = 25
 
   private scrollView: ScrollView = new ScrollView()
+  private selectMenu: SelectMenu = new SelectMenu(this.scrollView)
 
   constructor() {
     super('LIME')
@@ -74,11 +80,11 @@ export class ChatDisplay extends Window implements Renderable {
     this.sendButton.addChild(this.buttonText)
     this.sendButton.addChild(this.buttonIcon)
     this.addChild(this.selectMenu)
-    this.addChild(this.scrollView.create())
+    this.addChild(this.scrollView.create(this.inputField))
 
     this.footer.addChild(this.inputField)
 
-    this.chatSequencer = new ChatSequencer(this.scrollView)
+    this.chatSequencer = new ChatSequencer(this.scrollView, this.selectMenu)
     this.chatSequencer.start()
 
     return this
@@ -127,13 +133,26 @@ export class ChatDisplay extends Window implements Renderable {
       true,
       true
     )
+    this.inputField.reflesh(mainBodyWidth - this.fieldOffsetW, this.fHeight - this.fieldOffsetH)
 
     this.sendButton.interactive = true
     this.sendButton.buttonMode = true
     this.sendButton.x = mainBodyWidth - this.buttonWidth - 10
     this.sendButton.y = (this.fHeight - this.buttonHeight) * 0.5
     this.sendButton.drawCustomCapusle(this.buttonWidth, this.buttonHeight, 0x77ff00, true, true)
-    this.sendButton.on('pointerdown', () => this.scrollView.addElement(0, ''))
+    this.sendButton.on('pointerdown', () => {
+      if (this.scrollView.currentElem == undefined) return
+
+      this.scrollView.currentElem.interactive = false
+      this.scrollView.currentElem.buttonMode = false
+      const index = this.selectMenu.elements.indexOf(this.scrollView.currentElem)
+      this.selectMenu.elements.splice(index, 1)
+
+      this.scrollView.sendMessage()
+
+      this.selectMenu.clearElements()
+      this.chatSequencer.waitingPlayerInput = false
+    })
 
     this.buttonText.anchor.set(0.5)
     this.buttonText.x = this.buttonText.width * 0.5 + this.buttonTextOffset

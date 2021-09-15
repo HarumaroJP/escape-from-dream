@@ -1,16 +1,18 @@
 import { Scrollbox } from 'pixi-scrollbox'
 import * as PIXI from 'pixi.js'
-import { Target } from './chatDisplay'
 import { ChatElement } from './chatElement'
+import { TextRoundedRect } from './textRoundedRect'
 
 export class ScrollView extends Scrollbox {
   scrollBox: PIXI.Graphics = new PIXI.Graphics()
+  inputField: TextRoundedRect
   elements: ChatElement[] = []
   private generalOffset: number = 20
 
-  create() {
+  create(inputField: TextRoundedRect) {
     this.overflow = 'hidden'
     this.content.addChild(this.scrollBox)
+    this.inputField = inputField
 
     return this
   }
@@ -40,11 +42,18 @@ export class ScrollView extends Scrollbox {
   }
 
   enableScroll: boolean = false
+  currentElem: ChatElement = null
 
-  addElement(target: number, str: string) {
-    const element = new ChatElement(target, str)
-    element.setScrollView(this.elements.length, this.generalOffset, this.boxWidth)
-    this.elements.push(element)
+  setMessage(element: ChatElement) {
+    this.currentElem = element
+    this.inputField.setText(element.message.text)
+  }
+
+  sendMessage() {
+    if (this.currentElem == null) return
+
+    this.currentElem.setScrollView(this.elements.length, this.generalOffset, this.boxWidth)
+    this.elements.push(this.currentElem)
 
     if (!this.enableScroll) {
       let elementsHeight: number = this.generalOffset
@@ -57,13 +66,15 @@ export class ScrollView extends Scrollbox {
 
     if (this.enableScroll) {
       let height = this.generalOffset
-      height += (element.elemHeight + this.generalOffset) * this.elements.length
+      height += (this.currentElem.elemHeight + this.generalOffset) * this.elements.length
       this.scrollBox.beginFill(0x575757).drawRect(0, 0, this.scrollBox.width, height).endFill()
       this.scrollTop = height
     }
 
     this.update()
 
-    this.content.addChild(element)
+    this.currentElem.setParent(this.content)
+    this.inputField.setText('')
+    this.currentElem = null
   }
 }

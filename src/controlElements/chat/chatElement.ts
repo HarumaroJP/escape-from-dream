@@ -44,6 +44,10 @@ export class ChatElement extends PIXI.Graphics {
     this.y = y
   }
 
+  onClick(callback: () => void) {
+    this.on('pointerdown', callback)
+  }
+
   setScrollView(elemCount: number, chatSpace: number, viewWidth: number) {
     let x: number, y: number
 

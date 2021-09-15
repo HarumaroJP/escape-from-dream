@@ -80,7 +80,7 @@ function animate() {
 
 WebFont.load({
   google: {
-    families: ['Inter', 'Noto Sans JP'],
+    families: ['Inter'],
   },
   custom: {
     families: ['hirakaku'],
