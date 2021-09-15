@@ -1,63 +1,63 @@
-import * as PIXI from 'pixi.js';
-import { CustomRoundedShape } from '../extensions/customRoundedShape';
-import { app } from './main';
+import * as PIXI from 'pixi.js'
+import { CustomRoundedShape } from '../extensions/customRoundedShape'
+import { app } from './main'
 
 export class Window extends PIXI.Container {
   // edge: PIXI.Graphics = new PIXI.Graphics();
-  titleBar: CustomRoundedShape = new CustomRoundedShape();
+  titleBar: CustomRoundedShape = new CustomRoundedShape()
 
-  titleText: PIXI.Text;
+  titleText: PIXI.Text
   titleTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
     align: 'center',
     fontFamily: 'hirakaku',
     fontSize: '18px',
     fill: 0x000000,
-  });
+  })
 
   //window property
-  winWidth: number;
-  winHeight: number;
+  winWidth: number
+  winHeight: number
 
-  winX: number;
-  winY: number;
+  winX: number
+  winY: number
 
-  winColor: number = 0xededed;
+  winColor: number = 0xededed
 
   //title property
-  titleHeight: number = 30;
-  roundOffset: number = 20;
+  titleHeight: number = 30
+  roundOffset: number = 20
 
   //edge property
-  round: number = 10;
-  thickness: number = 3;
+  round: number = 10
+  thickness: number = 3
 
-  isPointing: boolean;
+  isPointing: boolean
 
   constructor(titleText: string) {
-    super();
-    this.titleText = new PIXI.Text(titleText, this.titleTextStyle);
-    this.titleText.anchor.set(0.5);
+    super()
+    this.titleText = new PIXI.Text(titleText, this.titleTextStyle)
+    this.titleText.anchor.set(0.5)
   }
 
   createWindow() {
-    this.toDraggable(this.titleBar, this);
+    this.toDraggable(this.titleBar, this)
 
     // this.addChild(this.edge);
-    this.addChild(this.titleBar);
-    this.titleBar.addChild(this.titleText);
+    this.addChild(this.titleBar)
+    this.titleBar.addChild(this.titleText)
   }
 
   setWindowPivot(w: number, h: number) {
-    this.winWidth = w;
-    this.winHeight = h;
+    this.winWidth = w
+    this.winHeight = h
 
-    this.winX = (app.screen.width - w) * 0.5;
-    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset;
+    this.winX = (app.screen.width - w) * 0.5
+    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset
   }
 
   refleshWindow() {
-    this.titleBar.x = this.winX;
-    this.titleBar.y = this.winY - this.titleHeight;
+    this.titleBar.x = this.winX
+    this.titleBar.y = this.winY - this.titleHeight
     this.titleBar.drawCustomRect(
       this.round,
       this.winWidth,
@@ -67,10 +67,10 @@ export class Window extends PIXI.Container {
       true,
       false,
       false
-    );
+    )
 
-    this.titleText.x = this.winWidth * 0.5;
-    this.titleText.y = this.titleHeight * 0.5;
+    this.titleText.x = this.winWidth * 0.5
+    this.titleText.y = this.titleHeight * 0.5
     // this.edge.x = this.titleBar.x - this.thickness;
     // this.edge.y = this.titleBar.y - this.thickness;
 
@@ -87,32 +87,32 @@ export class Window extends PIXI.Container {
   }
 
   toDraggable(draggable: PIXI.Container, movable: PIXI.Container) {
-    draggable.interactive = true;
-    draggable.buttonMode = true;
-    movable.interactive = true;
+    draggable.interactive = true
+    draggable.buttonMode = true
+    movable.interactive = true
 
-    let isDraggable: boolean;
-    let data: PIXI.InteractionData;
-    let dragPoint: PIXI.Point;
+    let isDraggable: boolean
+    let data: PIXI.InteractionData
+    let dragPoint: PIXI.Point
 
-    let pointOffset: PIXI.Point;
+    let pointOffset: PIXI.Point
 
     draggable
       .on('pointerdown', (e: PIXI.InteractionEvent) => {
-        data = e.data;
-        pointOffset = data.getLocalPosition(draggable);
-        isDraggable = true;
+        data = e.data
+        pointOffset = data.getLocalPosition(draggable)
+        isDraggable = true
       })
       .on('pointermove', () => {
-        if (!isDraggable) return;
+        if (!isDraggable) return
 
-        dragPoint = data.getLocalPosition(movable.parent);
-        movable.x = dragPoint.x - this.winX - pointOffset.x;
-        movable.y = dragPoint.y - this.winY - pointOffset.y + this.titleHeight;
+        dragPoint = data.getLocalPosition(movable.parent)
+        movable.x = dragPoint.x - this.winX - pointOffset.x
+        movable.y = dragPoint.y - this.winY - pointOffset.y + this.titleHeight
       })
       .on('pointerup', () => {
-        data = null;
-        isDraggable = false;
-      });
+        data = null
+        isDraggable = false
+      })
   }
 }

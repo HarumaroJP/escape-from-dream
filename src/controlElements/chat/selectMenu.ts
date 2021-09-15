@@ -17,9 +17,7 @@ export class SelectMenu extends CustomRoundedShape {
     this.addChild(this.hintText)
   }
 
-  addElement(){
-    
-  }
+  addElement() {}
 
   reflesh(r: number, w: number, h: number) {
     this.drawCustomRect(r, w, h, 0x343434, false, false, true, false)
