@@ -18,9 +18,17 @@ export class AssetLoader {
     const dirName = assetDatabase.spriteDir + '/'
 
     await Promise.all(
-      assetDatabase.spriteList.map(async (name) => {
-        const texture = await loadSvg(dirName + name + '.svg', 100, 100)
-        AssetLoader.spriteResources.set(name, texture)
+      assetDatabase.subDirList.map(async (subDir) => {
+        await Promise.all(
+          subDir.spriteList.map(async (spriteName) => {
+            const texture = await loadSvg(
+              dirName + subDir.name + '/' + spriteName + '.svg',
+              100,
+              100
+            )
+            AssetLoader.spriteResources.set(spriteName, texture)
+          })
+        )
       })
     )
   }

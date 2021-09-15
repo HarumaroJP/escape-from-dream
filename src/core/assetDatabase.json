@@ -1,4 +1,28 @@
 {
   "spriteDir": "./image",
-  "spriteList": ["calculator", "search", "messenger", "sendIcon"]
+  "subDirList": [
+    {
+      "name": "icon",
+      "spriteList": ["calculator", "search", "messenger", "sendIcon"]
+    },
+    {
+      "name": "mystery1",
+      "spriteList": [
+        "button-blue-off",
+        "button-blue-on",
+        "button-green-off",
+        "button-green-on",
+        "button-red-off",
+        "button-red-on",
+        "lamp-off",
+        "lamp-on",
+        "lever-cyan-off",
+        "lever-cyan-on",
+        "lever-purple-off",
+        "lever-purple-on",
+        "lever-white-off",
+        "lever-white-on"
+      ]
+    }
+  ]
 }
