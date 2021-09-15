@@ -2,48 +2,58 @@ import * as PIXI from 'pixi.js'
 import { Target } from './chatDisplay'
 
 export class ChatElement extends PIXI.Graphics {
-  text: PIXI.Text
+  message: PIXI.Text
+  elemWidth: number
+  elemHeight: number = 30
+
   private textOffsetX: number = 10
-  private textOffsetY: number = 1.5
+  private textOffsetY: number = 5
+  private textPadding: number = 10
   private textStyle: PIXI.TextStyle = new PIXI.TextStyle({
+    fontFamily: 'hirakaku',
     fill: '#121212',
     fontSize: 15,
-    textBaseline: 'middle',
   })
 
-  private target: Target
+  private target: number
   private textLength = 22
-  private chatWidth: number = 200
-  chatHeight: number = 30
-  private chatOffsetX_me = 480
-  private chatOffsetX_you = 10
-  private chatSpace: number
+  private chatMaxWidth: number = 200
 
-  get elemHeight(): number {
-    return this.chatHeight
-  }
+  private chatOffsetX = 10
 
-  constructor(target: Target, text: string, elemCount: number, chatSpace: number) {
+  constructor(target: number, text: string) {
     super()
     this.target = target
-    this.chatSpace = chatSpace
-    text = text.substr(0, this.textLength)
 
-    this.reflesh(elemCount)
-    this.text = new PIXI.Text(text, this.textStyle)
-    this.text.x = this.textOffsetX
-    this.text.y = this.textOffsetY
-    this.addChild(this.text)
+    this.message = new PIXI.Text('', this.textStyle)
+    this.updateText(text.substr(0, this.textLength))
+
+    this.message.x = this.textOffsetX
+    this.message.y = this.textOffsetY
+    this.addChild(this.message)
   }
 
-  reflesh(elemCount: number) {
-    if (this.target == 'me') {
-      this.x = this.chatOffsetX_me
+  updateText(text: string) {
+    this.message.text = text
+    this.elemWidth = this.message.width + this.textPadding * 2
+    this.beginFill(0x77ff00).drawRoundedRect(0, 0, this.elemWidth, this.elemHeight, 40).endFill()
+  }
+
+  setPosition(x: number, y: number) {
+    this.x = x
+    this.y = y
+  }
+
+  setScrollView(elemCount: number, chatSpace: number, viewWidth: number) {
+    let x: number, y: number
+
+    if (this.target == 0) {
+      x = viewWidth - this.elemWidth - this.chatOffsetX
     } else {
-      this.x = this.chatOffsetX_you
+      x = this.chatOffsetX
     }
 
-    this.y = (this.chatHeight + this.chatSpace) * elemCount + this.chatSpace
-    this.beginFill(0x42d662).drawRoundedRect(0, 0, this.chatWidth, this.chatHeight, 40).endFill()
+    y = (this.elemHeight + chatSpace) * elemCount + chatSpace
+    this.setPosition(x, y)
   }
 }

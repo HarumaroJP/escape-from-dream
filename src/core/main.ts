@@ -82,6 +82,10 @@ WebFont.load({
   google: {
     families: ['Inter'],
   },
+  custom: {
+    families: ['hirakaku'],
+    urls: ['css/localfont.css'],
+  },
   active: () => {
     loader.load(createGameScene)
   },

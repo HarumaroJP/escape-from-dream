@@ -1,47 +1,46 @@
-import * as PIXI from 'pixi.js';
-import { gsap } from 'gsap';
+import * as PIXI from 'pixi.js'
+import { gsap } from 'gsap'
 
 export class Application extends PIXI.Sprite {
-  appName: string = 'noname';
+  appName: string = 'noname'
 
-  spriteSize: number;
+  spriteSize: number
 
-  constructor(appName: string, texture: PIXI.Texture, appSize: number) {
-    super(texture);
-    this.appName = appName;
-    this.spriteSize = appSize;
+  constructor(appName: string, appSize: number, texture: PIXI.Texture) {
+    super(texture)
+    this.appName = appName
+    this.spriteSize = appSize
+    this.interactive = true
+    this.buttonMode = true
 
-    this.interactive = true;
-    this.buttonMode = true;
+    this.anchor.set(0.5)
 
-    this.anchor.set(0.5);
+    this.setAnimations()
 
-    this.setAnimations();
-
-    this.reflesh();
+    this.reflesh()
   }
 
   scaleTween: gsap.core.Tween = gsap.to(this.scale, {
     duration: 0.2,
-    x: 0.13,
-    y: 0.13,
+    x: 0.65,
+    y: 0.65,
     paused: true,
-  });
+  })
 
   setAnimations() {
-    this.on('pointerover', this.onMouseEnter).on('pointerout', this.onMouseExit);
+    this.on('pointerover', this.onMouseEnter).on('pointerout', this.onMouseExit)
   }
 
   onMouseEnter() {
-    this.scaleTween.play();
+    this.scaleTween.play()
   }
 
   onMouseExit() {
-    this.scaleTween.reverse();
+    this.scaleTween.reverse()
   }
 
   reflesh() {
-    this.width = this.spriteSize;
-    this.height = this.spriteSize;
+    this.width = this.spriteSize
+    this.height = this.spriteSize
   }
 }

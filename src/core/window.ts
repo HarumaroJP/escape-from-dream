@@ -9,7 +9,7 @@ export class Window extends PIXI.Container {
   titleText: PIXI.Text;
   titleTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
     align: 'center',
-    fontFamily: 'Inter',
+    fontFamily: 'hirakaku',
     fontSize: '18px',
     fill: 0x000000,
   });

@@ -21,7 +21,7 @@ export class ScrollView extends Scrollbox {
 
     this.boxWidth = w
     this.boxHeight = h
-    this.scrollBox.beginFill(0x9bcde8).drawRect(0, 0, w, h).endFill()
+    this.scrollBox.beginFill(0x575757).drawRect(0, 0, w, h).endFill()
     this.scrollBox.width = w
     this.scrollBox.height = h
 
@@ -33,7 +33,7 @@ export class ScrollView extends Scrollbox {
   refleshElements() {
     let count = 0
     this.elements.forEach((e) => {
-      e.reflesh(count)
+      e.setScrollView(count, this.generalOffset, this.boxWidth)
       this.scrollBox.y -= e.elemHeight
       count += 1
     })
@@ -41,8 +41,9 @@ export class ScrollView extends Scrollbox {
 
   enableScroll: boolean = false
 
-  addElement(target: Target, str: string) {
-    const element = new ChatElement(target, str, this.elements.length, this.generalOffset)
+  addElement(target: number, str: string) {
+    const element = new ChatElement(target, str)
+    element.setScrollView(this.elements.length, this.generalOffset, this.boxWidth)
     this.elements.push(element)
 
     if (!this.enableScroll) {
@@ -57,7 +58,7 @@ export class ScrollView extends Scrollbox {
     if (this.enableScroll) {
       let height = this.generalOffset
       height += (element.elemHeight + this.generalOffset) * this.elements.length
-      this.scrollBox.beginFill(0x9bcde8).drawRect(0, 0, this.scrollBox.width, height).endFill()
+      this.scrollBox.beginFill(0x575757).drawRect(0, 0, this.scrollBox.width, height).endFill()
       this.scrollTop = height
     }
 

@@ -1,4 +1,4 @@
 {
   "spriteDir": "./image",
-  "spriteList": ["calculator", "search", "messenger"]
+  "spriteList": ["calculator", "search", "messenger", "sendIcon"]
 }

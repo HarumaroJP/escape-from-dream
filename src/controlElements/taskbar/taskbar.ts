@@ -37,7 +37,7 @@ export class Taskbar extends PIXI.Container implements Renderable {
   }
 
   createApplication(name: string, texture: PIXI.Texture): Application {
-    const app = new Application(name, texture, this.appSize)
+    const app = new Application(name, this.appSize, texture)
     this.applications.push(app)
     this.addChild(app)
 
