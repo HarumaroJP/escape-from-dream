@@ -3,8 +3,6 @@ export class GameData {
   lineList: { id: number; line: string }[] = []
 
   applyData(data: any) {
-    console.log(data)
-
     data['names'].forEach((elem) => {
       this.nameList.set(elem.id, elem.name)
     })

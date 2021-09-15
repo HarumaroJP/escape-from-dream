@@ -41,8 +41,6 @@ export class AssetLoader {
         )
 
         AssetLoader.gameData.applyData(res.data)
-
-        console.log(res.data)
         callback()
       } catch (error) {
         console.log(error)

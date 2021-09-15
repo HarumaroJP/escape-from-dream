@@ -14,8 +14,6 @@ export class ChatSequencer {
   chatInterval: number = 2
 
   constructor(scrollView: ScrollView, selectMenu: SelectMenu) {
-    console.log(AssetLoader.lineData)
-
     this.lineIterator = AssetLoader.lineData.entries()
     this.maxChatCount = AssetLoader.lineData.length
     this.scrollView = scrollView
