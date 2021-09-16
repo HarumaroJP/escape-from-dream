@@ -8,6 +8,7 @@ export class Application extends PIXI.Sprite {
 
   constructor(appName: string, appSize: number, texture: PIXI.Texture) {
     super(texture)
+
     this.appName = appName
     this.spriteSize = appSize
     this.interactive = true
@@ -20,14 +21,15 @@ export class Application extends PIXI.Sprite {
     this.reflesh()
   }
 
-  scaleTween: gsap.core.Tween = gsap.to(this.scale, {
-    duration: 0.2,
-    x: 0.65,
-    y: 0.65,
-    paused: true,
-  })
-
+  scaleTween: gsap.core.Tween
   setAnimations() {
+    this.scaleTween = gsap.to(this, {
+      duration: 0.2,
+      width: this.spriteSize + 15,
+      height: this.spriteSize + 15,
+      paused: true,
+    })
+
     this.on('pointerover', this.onMouseEnter).on('pointerout', this.onMouseExit)
   }
 

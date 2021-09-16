@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../../extensions/customRoundedShape'
-import { ChatElement } from './chatElement'
+import { ChatElement } from './chatElement/chatElement'
 import { ScrollView } from './scrollView'
 
 export class SelectMenu extends CustomRoundedShape {
@@ -43,7 +43,7 @@ export class SelectMenu extends CustomRoundedShape {
 
     element.interactive = true
     element.buttonMode = true
-    element.onClick(() => {
+    element.onClick.push(() => {
       this.scrollView.setMessage(element)
     })
     this.elements.push(element)

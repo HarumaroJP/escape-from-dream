@@ -3,11 +3,12 @@ import { Renderable } from '../../core/renderable'
 import { Window } from '../../core/window'
 import { ScrollView } from './scrollView'
 import { CustomRoundedShape } from '../../extensions/customRoundedShape'
-import { TextRoundedRect } from './textRoundedRect'
+import { TextRoundedRect } from '../../extensions/textRoundedRect'
 import { AssetLoader } from '../../core/assetLoader'
 import { SelectMenu } from './selectMenu'
-import { ChatSequencer } from './chatSequencer'
+import { MainMystery } from '../mystery/mainMystery'
 import { gsap } from 'gsap'
+import { MysteryManager } from '../mystery/mysteryManager'
 
 export type Target = 'me' | 'you'
 
@@ -16,7 +17,7 @@ export class ChatDisplay extends Window implements Renderable {
   private cavHeight: number = 500
   private selectMenuWidth: number = 300
 
-  private chatSequencer: ChatSequencer
+  private gameManager: MysteryManager
 
   private header: PIXI.Graphics = new PIXI.Graphics()
   private targetTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
@@ -91,8 +92,8 @@ export class ChatDisplay extends Window implements Renderable {
 
     this.footer.addChild(this.inputField)
 
-    this.chatSequencer = new ChatSequencer(this.scrollView, this.selectMenu)
-    this.chatSequencer.start()
+    this.gameManager = new MysteryManager(this.scrollView, this.selectMenu)
+    this.gameManager.start(0)
 
     return this
   }
@@ -103,11 +104,7 @@ export class ChatDisplay extends Window implements Renderable {
 
     this.selectMenu.x = this.winX + this.winWidth - this.selectMenuWidth
     this.selectMenu.y = this.winY
-    this.selectMenu.reflesh(
-      this.round,
-      this.selectMenuWidth,
-      this.winHeight + this.fHeight + this.navHeight
-    )
+    this.selectMenu.reflesh(this.round, this.selectMenuWidth, this.winHeight + this.fHeight + this.navHeight)
 
     const mainBodyWidth = this.winWidth - this.selectMenuWidth
 
@@ -120,16 +117,7 @@ export class ChatDisplay extends Window implements Renderable {
 
     this.footer.x = this.winX
     this.footer.y = this.winY + this.navHeight + this.winHeight
-    this.footer.drawCustomRect(
-      this.round,
-      mainBodyWidth,
-      this.fHeight,
-      0xf2f2f2,
-      false,
-      false,
-      false,
-      true
-    )
+    this.footer.drawCustomRect(this.round, mainBodyWidth, this.fHeight, 0xf2f2f2, false, false, false, true)
 
     this.inputField.x = this.fiendOffsetX
     this.inputField.y = this.fieldOffsetH * 0.5
@@ -149,11 +137,9 @@ export class ChatDisplay extends Window implements Renderable {
     this.sendButton.drawCustomCapusle(this.buttonWidth, this.buttonHeight, 0x77ff00, true, true)
 
     this.sendButton.on('mouseover', () => {
-      console.log('mouseover')
       this.buttonFade.play()
     })
     this.sendButton.on('mouseout', () => {
-      console.log('mouseout')
       this.buttonFade.reverse()
     })
     this.sendButton.on('pointerdown', () => {
@@ -167,7 +153,7 @@ export class ChatDisplay extends Window implements Renderable {
       this.scrollView.sendMessage()
 
       this.selectMenu.clearElements()
-      this.chatSequencer.waitingPlayerInput = false
+      this.gameManager.restart(this.gameManager.currentMystery.id)
     })
 
     this.buttonText.anchor.set(0.5)

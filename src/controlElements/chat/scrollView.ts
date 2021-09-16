@@ -1,7 +1,7 @@
 import { Scrollbox } from 'pixi-scrollbox'
 import * as PIXI from 'pixi.js'
-import { ChatElement } from './chatElement'
-import { TextRoundedRect } from './textRoundedRect'
+import { ChatElement } from './chatElement/chatElement'
+import { TextRoundedRect } from '../../extensions/textRoundedRect'
 
 export class ScrollView extends Scrollbox {
   scrollBox: PIXI.Graphics = new PIXI.Graphics()
@@ -33,11 +33,11 @@ export class ScrollView extends Scrollbox {
   }
 
   refleshElements() {
-    let count = 0
+    let nextElementPosY: number = this.generalOffset
     this.elements.forEach((e) => {
-      e.setScrollView(count, this.generalOffset, this.boxWidth)
+      e.setScrollView(nextElementPosY, this.boxWidth)
       this.scrollBox.y -= e.elemHeight
-      count += 1
+      nextElementPosY += e.elemHeight + this.generalOffset
     })
   }
 
@@ -46,18 +46,33 @@ export class ScrollView extends Scrollbox {
 
   setMessage(element: ChatElement) {
     this.currentElem = element
-    this.inputField.setText(element.message.text)
+
+    if (element.isText && element.target == 0) {
+      this.inputField.setText(element.getContent())
+    }
   }
 
   sendMessage() {
     if (this.currentElem == null) return
 
-    this.currentElem.setScrollView(this.elements.length, this.generalOffset, this.boxWidth)
-    this.elements.push(this.currentElem)
+    this.addElement(this.currentElem)
+
+    this.inputField.setText('')
+    this.currentElem = null
+  }
+
+  nextElementPosY: number = this.generalOffset
+
+  addElement(element: ChatElement) {
+    element.setScrollView(this.nextElementPosY, this.boxWidth)
+    this.nextElementPosY += element.elemHeight + this.generalOffset
+    this.elements.push(element)
 
     if (!this.enableScroll) {
       let elementsHeight: number = this.generalOffset
-      this.elements.forEach((elem) => (elementsHeight += elem.elemHeight + this.generalOffset))
+      this.elements.forEach((elem) => {
+        elementsHeight += elem.elemHeight + this.generalOffset
+      })
 
       if (elementsHeight >= this.scrollBox.height) {
         this.enableScroll = true
@@ -65,16 +80,13 @@ export class ScrollView extends Scrollbox {
     }
 
     if (this.enableScroll) {
-      let height = this.generalOffset
-      height += (this.currentElem.elemHeight + this.generalOffset) * this.elements.length
+      let height = this.nextElementPosY
       this.scrollBox.beginFill(0x575757).drawRect(0, 0, this.scrollBox.width, height).endFill()
       this.scrollTop = height
     }
 
     this.update()
 
-    this.currentElem.setParent(this.content)
-    this.inputField.setText('')
-    this.currentElem = null
+    element.setParent(this.content)
   }
 }

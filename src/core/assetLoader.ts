@@ -3,32 +3,29 @@ import assetDatabase from './assetDatabase.json'
 import axios from 'axios'
 import { devVersion } from './main'
 import { GameData } from './GameData'
-import { loadSvg } from './ImageLoader'
 
 export class AssetLoader {
   private static gameData: GameData = new GameData()
   private static loader: PIXI.Loader = PIXI.Loader.shared
   private static spriteResources: Map<string, PIXI.Texture> = new Map<string, PIXI.Texture>()
 
-  static get lineData(): { id: number; line: string }[] {
-    return AssetLoader.gameData.lineList
-  }
-
   async loadSpriteAssets() {
     const dirName = assetDatabase.spriteDir + '/'
 
     await Promise.all(
       assetDatabase.subDirList.map(async (subDir) => {
-        await Promise.all(
-          subDir.spriteList.map(async (spriteName) => {
-            const texture = await loadSvg(
-              dirName + subDir.name + '/' + spriteName + '.svg',
-              100,
-              100
-            )
-            AssetLoader.spriteResources.set(spriteName, texture)
-          })
-        )
+        subDir.spriteList.map((spriteName) => {
+          // const texture = await loadSvg(
+          //   dirName + subDir.name + '/' + spriteName + '.svg',
+          //   100,
+          //   100
+          // )
+          // AssetLoader.spriteResources.set(spriteName, texture)
+          AssetLoader.spriteResources.set(
+            spriteName,
+            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + '.svg')
+          )
+        })
       })
     )
   }
@@ -36,9 +33,7 @@ export class AssetLoader {
   load(callback: () => void): void {
     // preload
     AssetLoader.loader.load(async () => {
-      console.log(
-        'PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion
-      )
+      console.log('PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion)
 
       await this.loadSpriteAssets()
 
@@ -65,6 +60,10 @@ export class AssetLoader {
 
   static getNameById(id: number): string {
     return this.gameData.nameList.get(id)
+  }
+
+  static getMysteryLineData(id: number): { id: number; line: string }[] {
+    return this.gameData.mysteryLines.find((elem) => elem.id == id).line
   }
 
   static getConfigById(index: number): any {
