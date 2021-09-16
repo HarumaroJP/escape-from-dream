@@ -77,7 +77,6 @@ const createGameScene = () => {
     renderables.push(timeBar)
 
     gameScene.removeChild(titlePanel)
-    titlePanel.destroy()
   }
 
   animate()
