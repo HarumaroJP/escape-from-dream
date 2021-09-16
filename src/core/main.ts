@@ -8,6 +8,7 @@ import { AssetLoader } from './assetLoader'
 import { gsap } from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 import WebFont from 'webfontloader'
+import { TitlePanel } from '../controlElements/title/titlePanel'
 
 export const devVersion: string = '1.1d'
 
@@ -40,6 +41,9 @@ window.onresize = () => resize()
 
 const playerLoop = new PlayerLoop(app)
 
+let gameScene: PIXI.Container
+
+let titlePanel: TitlePanel
 let chatDisplay: ChatDisplay
 let taskBar: Taskbar
 let timeBar: TimeBar
@@ -48,21 +52,33 @@ const createGameScene = () => {
   playerLoop.removeAllScene()
   playerLoop.removeAllGameLoops()
 
-  const gameScene = new PIXI.Container()
+  gameScene = new PIXI.Container()
   app.stage.addChild(gameScene)
 
-  chatDisplay = new ChatDisplay()
-  gameScene.addChild(chatDisplay.create())
+  titlePanel = new TitlePanel()
+  gameScene.addChild(titlePanel)
+  renderables.push(titlePanel)
 
-  taskBar = new Taskbar()
-  gameScene.addChild(taskBar.create())
+  titlePanel.onStart = () => {
+    chatDisplay = new ChatDisplay()
+    gameScene.addChild(chatDisplay.create())
 
-  timeBar = new TimeBar()
-  gameScene.addChild(timeBar.create())
+    taskBar = new Taskbar()
+    gameScene.addChild(taskBar.create())
 
-  renderables.push(chatDisplay)
-  renderables.push(taskBar)
-  renderables.push(timeBar)
+    timeBar = new TimeBar()
+    gameScene.addChild(timeBar.create())
+
+    //titlePanelだけだからpopで対応
+    renderables.pop()
+
+    renderables.push(chatDisplay)
+    renderables.push(taskBar)
+    renderables.push(timeBar)
+
+    gameScene.removeChild(titlePanel)
+    titlePanel.destroy()
+  }
 
   animate()
 }

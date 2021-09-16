@@ -12,4 +12,14 @@ export class PIXIUtils {
     sprite.width = sprite.width * aspect
     sprite.height = maxHeight
   }
+
+  static array_equal(a: string | any[], b: string | any[]) {
+    if (!Array.isArray(a)) return false
+    if (!Array.isArray(b)) return false
+    if (a.length != b.length) return false
+    for (var i = 0, n = a.length; i < n; ++i) {
+      if (a[i] !== b[i]) return false
+    }
+    return true
+  }
 }

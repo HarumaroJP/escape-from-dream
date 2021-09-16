@@ -75,22 +75,22 @@ export class PanelChatElement extends SpriteChatElement {
 
     this.interacts.push(
       new Interact(
+        60,
         120,
-        85,
         40,
-        AssetLoader.getSprite('lever-white-off'),
-        AssetLoader.getSprite('lever-white-on'),
+        AssetLoader.getSprite('lever-cyan-off'),
+        AssetLoader.getSprite('lever-cyan-on'),
         'lever'
       )
     )
 
     this.interacts.push(
       new Interact(
-        60,
         120,
+        85,
         40,
-        AssetLoader.getSprite('lever-cyan-off'),
-        AssetLoader.getSprite('lever-cyan-on'),
+        AssetLoader.getSprite('lever-white-off'),
+        AssetLoader.getSprite('lever-white-on'),
         'lever'
       )
     )

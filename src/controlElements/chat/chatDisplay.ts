@@ -6,7 +6,6 @@ import { CustomRoundedShape } from '../../extensions/customRoundedShape'
 import { TextRoundedRect } from '../../extensions/textRoundedRect'
 import { AssetLoader } from '../../core/assetLoader'
 import { SelectMenu } from './selectMenu'
-import { MainMystery } from '../mystery/mainMystery'
 import { gsap } from 'gsap'
 import { MysteryManager } from '../mystery/mysteryManager'
 

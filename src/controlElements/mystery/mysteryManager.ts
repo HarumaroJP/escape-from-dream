@@ -35,7 +35,6 @@ export class MysteryManager {
     })
 
     CmdHandler.Register('mystery', async (args) => {
-      console.log(+args[0])
       const mysteryID = +args[0]
 
       //cant stop mainMystery
@@ -47,18 +46,28 @@ export class MysteryManager {
       this.start(mysteryID)
 
       mystery.onCleared = () => {
+        this.selectMenu.clearElements()
         this.restart(0)
       }
     })
 
     CmdHandler.Register('mystery-result', () => {
-      const op = this.colorMys.operations.find((opElm) => opElm.id == this.colorMys.requestedOp)
+      const op = this.colorMys.getOperation(this.colorMys.requestedOp)
 
       if (op != undefined) {
         this.colorMys.panelInfo[op.panelIdx] = !this.colorMys.panelInfo[op.panelIdx]
 
         if (op.lampIdx != -1) {
           this.colorMys.panelInfo[op.lampIdx] = !this.colorMys.panelInfo[op.lampIdx]
+        }
+
+        const pattern = this.colorMys.getPattern()
+        const isCurrect = pattern.every((idx) => this.colorMys.panelInfo[idx] == true)
+
+        if (isCurrect) {
+          this.colorMys.nextAttempt()
+        } else {
+          this.colorMys.resetAttempt()
         }
       }
 

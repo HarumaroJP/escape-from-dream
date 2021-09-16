@@ -44,6 +44,8 @@ export class Mystery {
     if (this.isCleard) {
       this.reset()
       this.onCleared()
+
+      return
     }
 
     if (!done) {
@@ -52,6 +54,8 @@ export class Mystery {
       this.lineIterator = this.lines.entries()
       this.startMystery()
     }
+
+    return
   }
 
   reset() {

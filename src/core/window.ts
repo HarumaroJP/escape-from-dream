@@ -24,6 +24,8 @@ export class Window extends PIXI.Container {
   winColor: number = 0xededed
 
   //title property
+  magicOffset: number = 50
+
   titleHeight: number = 30
   roundOffset: number = 20
 
@@ -52,22 +54,13 @@ export class Window extends PIXI.Container {
     this.winHeight = h
 
     this.winX = (app.screen.width - w) * 0.5
-    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset
+    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset  
   }
 
   refleshWindow() {
     this.titleBar.x = this.winX
     this.titleBar.y = this.winY - this.titleHeight
-    this.titleBar.drawCustomRect(
-      this.round,
-      this.winWidth,
-      this.titleHeight,
-      this.winColor,
-      true,
-      true,
-      false,
-      false
-    )
+    this.titleBar.drawCustomRect(this.round, this.winWidth, this.titleHeight, this.winColor, true, true, false, false)
 
     this.titleText.x = this.winWidth * 0.5
     this.titleText.y = this.titleHeight * 0.5

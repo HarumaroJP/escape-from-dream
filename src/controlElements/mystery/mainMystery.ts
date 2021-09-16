@@ -25,7 +25,6 @@ export class MainMystery extends Mystery {
         //if friend
         this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
       } else {
-        console.log('command')
         //if command
         CmdHandler.Execute(chat.line)
       }

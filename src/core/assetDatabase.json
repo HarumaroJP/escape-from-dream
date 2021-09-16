@@ -3,7 +3,7 @@
   "subDirList": [
     {
       "name": "icon",
-      "spriteList": ["calculator", "search", "messenger", "sendIcon"]
+      "spriteList": ["calculator", "search", "messenger", "sendIcon", "title-logo", "yochimu_icon"]
     },
     {
       "name": "mystery1",
@@ -22,7 +22,8 @@
         "lever-purple-on",
         "lever-white-off",
         "lever-white-on",
-        "lever-background"
+        "lever-background",
+        "mystery-1-manual"
       ]
     }
   ]
