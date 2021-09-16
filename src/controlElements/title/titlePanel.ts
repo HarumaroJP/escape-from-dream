@@ -5,13 +5,13 @@ import { PIXIUtils } from '../../extensions/utils'
 import { gsap } from 'gsap'
 
 export class TitlePanel extends PIXI.Graphics implements Renderable {
-  titleLogo: PIXI.Text
-  titleLogoStyle: PIXI.TextStyle = new PIXI.TextStyle({
-    align: 'center',
-    fontFamily: 'hirakaku',
-    fontSize: '100px',
-    fill: 0xffffff,
-  })
+  titleLogo: PIXI.Sprite
+  // titleLogoStyle: PIXI.TextStyle = new PIXI.TextStyle({
+  //   align: 'center',
+  //   fontFamily: 'hirakaku',
+  //   fontSize: '100px',
+  //   fill: 0xffffff,
+  // })
 
   titleText: PIXI.Text
   titleTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
@@ -30,15 +30,15 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
     super()
     this.interactive = true
 
-    // this.titleLogo = new PIXI.Sprite(AssetLoader.getSprite('title-logo'))
-    this.titleLogo = new PIXI.Text('僕らの予知夢からの脱出', this.titleLogoStyle)
+    this.titleLogo = new PIXI.Sprite(AssetLoader.getSprite('title-logo'))
+    // this.titleLogo = new PIXI.Text('僕らの予知夢からの脱出', this.titleLogoStyle)
     this.titleLogo.anchor.set(0.5)
     this.titleLogo.x = window.innerWidth * 0.5
-    this.titleLogo.y = 200
+    this.titleLogo.y = 250
 
     // this.titleLogo.y = window.innerHeight * 0.5
 
-    // PIXIUtils.resizeSprite(this.titleLogo, window.innerHeight * 0.5)
+    PIXIUtils.resizeSprite(this.titleLogo, window.innerHeight * 0.5)
 
     this.beginFill(0x000000).drawRect(0, 0, window.innerWidth, window.innerHeight).endFill()
 
@@ -48,7 +48,7 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
     this.titleText = new PIXI.Text(titleText, this.titleTextStyle)
     this.titleText.anchor.set(0.5)
     this.titleText.x = window.innerWidth * 0.5
-    this.titleText.y = window.innerHeight * 0.5 + 100
+    this.titleText.y = window.innerHeight * 0.5 + 150
 
     const startText = 'クリックで開始 ▶'
 

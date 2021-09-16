@@ -21,9 +21,19 @@ export class AssetLoader {
           //   100
           // )
           // AssetLoader.spriteResources.set(spriteName, texture)
+
+          let extension: string
+
+          if (spriteName.slice(-3) == 'png') {
+            spriteName = spriteName.slice(0, -4)
+            extension = '.png'
+          } else {
+            extension = '.svg'
+          }
+
           AssetLoader.spriteResources.set(
             spriteName,
-            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + '.svg')
+            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + extension)
           )
         })
       })
