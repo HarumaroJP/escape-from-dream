@@ -52,6 +52,16 @@ export class MysteryManager {
     })
 
     CmdHandler.Register('mystery-result', () => {
+      const op = this.colorMys.operations.find((opElm) => opElm.id == this.colorMys.requestedOp)
+
+      if (op != undefined) {
+        this.colorMys.panelInfo[op.panelIdx] = !this.colorMys.panelInfo[op.panelIdx]
+
+        if (op.lampIdx != -1) {
+          this.colorMys.panelInfo[op.lampIdx] = !this.colorMys.panelInfo[op.lampIdx]
+        }
+      }
+
       this.scrollView.setMessage(new PanelChatElement(1, this.colorMys.panelInfo))
       this.colorMys.requestedOp = ''
     })

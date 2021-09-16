@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js';
-import { MathUtils } from './mathUtils';
+import { MathUtils } from './utils';
 
 export class CustomRoundedShape extends PIXI.Graphics {
   drawCustomRect(

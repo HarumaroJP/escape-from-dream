@@ -1,11 +1,12 @@
 import * as PIXI from 'pixi.js'
+import { PIXIUtils } from '../../../extensions/utils'
 import { ChatElement } from './chatElement'
 
 export class SpriteChatElement extends ChatElement {
   sprite: PIXI.Sprite
 
-  spritePadding: number = 10
-  maxSpriteHeight: number = 120
+  spritePadding: number = 15
+  maxSpriteHeight: number = 160
 
   constructor(target: number, texture: PIXI.Texture) {
     super(target)
@@ -23,13 +24,11 @@ export class SpriteChatElement extends ChatElement {
     this.sprite = new PIXI.Sprite(texture)
 
     //画像のリサイズ
-    const aspectY = this.maxSpriteHeight / this.sprite.height
-    this.sprite.width = this.sprite.width * aspectY
-    this.sprite.height = this.maxSpriteHeight
+    PIXIUtils.resizeSprite(this.sprite, this.maxSpriteHeight)
 
     this.elemWidth = this.sprite.width + this.spritePadding
     this.elemHeight = this.sprite.height + this.spritePadding
-    this.beginFill(0x77ff00).drawRoundedRect(0, 0, this.elemWidth, this.elemHeight, 40).endFill()
+    this.beginFill(0x77ff00).drawRoundedRect(0, 0, this.elemWidth, this.elemHeight, 15).endFill()
   }
 
   getContent(): any {

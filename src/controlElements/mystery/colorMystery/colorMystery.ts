@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../../core/assetLoader'
 import { CmdHandler } from '../../../core/cmdHandler'
 import { ChatElement } from '../../chat/chatElement/chatElement'
@@ -6,11 +7,13 @@ import { Mystery } from '../mystery'
 
 export class SubMystery1 extends Mystery {
   requestedOp: string
-  operations: { id: string; panelIdx: number }[] = []
-  panelInfo: boolean[] = Array(6).fill(false)
+  operations: { id: string; panelIdx: number; lampIdx: number }[] = []
+  panelInfo: boolean[] = Array(9).fill(false)
 
   constructor(id: number, isRepeat: boolean) {
     super(id, AssetLoader.getMysteryLineData(id), isRepeat)
+
+    this.registerOps()
 
     this.onChatLogic = async (chat) => {
       if (chat.id == 0) {
@@ -49,11 +52,11 @@ export class SubMystery1 extends Mystery {
   }
 
   registerOps() {
-    this.operations.push({ id: 'lever-cyan', panelIdx: 0 })
-    this.operations.push({ id: 'lever-purple', panelIdx: 1 })
-    this.operations.push({ id: 'lever-white', panelIdx: 2 })
-    this.operations.push({ id: 'button-red', panelIdx: 3 })
-    this.operations.push({ id: 'button-green', panelIdx: 4 })
-    this.operations.push({ id: 'button-blue', panelIdx: 5 })
+    this.operations.push({ id: 'button-red', panelIdx: 1, lampIdx: 0 })
+    this.operations.push({ id: 'button-green', panelIdx: 3, lampIdx: 2 })
+    this.operations.push({ id: 'button-blue', panelIdx: 5, lampIdx: 4 })
+    this.operations.push({ id: 'lever-purple', panelIdx: 6, lampIdx: -1 })
+    this.operations.push({ id: 'lever-white', panelIdx: 7, lampIdx: -1 })
+    this.operations.push({ id: 'lever-cyan', panelIdx: 8, lampIdx: -1 })
   }
 }
