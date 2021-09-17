@@ -60,24 +60,17 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
   reflesh() {
     //taskBar
-    this.barWidth =
-      this.applications.length * (this.appSize + this.appSpace) -
-      this.appSpace +
-      this.appSideSpace * 2
+    this.barWidth = this.applications.length * (this.appSize + this.appSpace) - this.appSpace + this.appSideSpace * 2
 
     this.barHeight = this.appSize + this.barHeightOffset
 
     this.x = (app.screen.width - this.barWidth) * 0.5
     this.y = app.screen.height - (this.barYOffset + this.appSize + this.barHeightOffset)
 
-    this.taskBar
-      .beginFill(this.barColor)
-      .drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound)
-      .endFill()
-
-    this.taskBar.alpha = 0.3
+    this.taskBar.beginFill(this.barColor).drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound).endFill()
 
     this.alignApplications()
+    this.taskBar.alpha = 0.3
   }
 
   onResize(): void {

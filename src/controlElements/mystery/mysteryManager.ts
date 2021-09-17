@@ -31,7 +31,7 @@ export class MysteryManager {
 
     CmdHandler.Register('image', (args) => {
       const spriteName = args[0]
-      this.scrollView.setMessage(new SpriteChatElement(1, AssetLoader.getSprite(spriteName)))
+      this.scrollView.setMessage(new SpriteChatElement(1, AssetLoader.getSprite(spriteName), -1))
     })
 
     CmdHandler.Register('mystery', async (args) => {

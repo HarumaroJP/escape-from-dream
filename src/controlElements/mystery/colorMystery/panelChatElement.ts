@@ -10,12 +10,10 @@ export class PanelChatElement extends SpriteChatElement {
   leverSize: number = 30
   lampSize: number = 10
 
-  maxSpriteHeight: number = 200
-
   interacts: Interact[] = []
 
   constructor(target: number, panelInfo: boolean[]) {
-    super(target, AssetLoader.getSprite('lever-background'))
+    super(target, AssetLoader.getSprite('lever-background'), 160)
 
     this.interacts.push(
       new Interact(200, 25, 0, AssetLoader.getSprite('lamp-off'), AssetLoader.getSprite('lamp-on'), 'lamp')

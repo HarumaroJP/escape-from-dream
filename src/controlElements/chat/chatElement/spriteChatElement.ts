@@ -6,10 +6,14 @@ export class SpriteChatElement extends ChatElement {
   sprite: PIXI.Sprite
 
   spritePadding: number = 15
-  maxSpriteHeight: number = 160
+  maxSpriteHeight: number = 300
 
-  constructor(target: number, texture: PIXI.Texture) {
+  constructor(target: number, texture: PIXI.Texture, overrideMaxHeight: number) {
     super(target)
+
+    if (overrideMaxHeight != -1) {
+      this.maxSpriteHeight = overrideMaxHeight
+    }
 
     this.updateSprite(texture)
     this.sprite.anchor.set(0.5)
@@ -20,11 +24,15 @@ export class SpriteChatElement extends ChatElement {
     this.addChild(this.sprite)
   }
 
+  resizeContent() {
+    //画像のリサイズ
+    PIXIUtils.resizeSprite(this.sprite, this.maxSpriteHeight)
+  }
+
   updateSprite(texture: PIXI.Texture) {
     this.sprite = new PIXI.Sprite(texture)
 
-    //画像のリサイズ
-    PIXIUtils.resizeSprite(this.sprite, this.maxSpriteHeight)
+    this.resizeContent()
 
     this.elemWidth = this.sprite.width + this.spritePadding
     this.elemHeight = this.sprite.height + this.spritePadding

@@ -41,9 +41,10 @@ export class TimeBar extends PIXI.Container implements Renderable {
       // 可読性無視で
       const text = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(
         now.getDate()
-      ).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(
-        now.getMinutes()
-      ).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`
+      ).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(
+        2,
+        '0'
+      )}:${String(now.getSeconds()).padStart(2, '0')}`
 
       this.timeText.text = text
     }, 1000)
@@ -60,6 +61,8 @@ export class TimeBar extends PIXI.Container implements Renderable {
 
     this.timeText.x = this.barWidth * 0.5
     this.timeText.y = this.barHeight * 0.5
+
+    this.timeBar.alpha = 0.3
   }
 
   onResize(): void {

@@ -33,7 +33,9 @@ export class AssetLoader {
 
           AssetLoader.spriteResources.set(
             spriteName,
-            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + extension)
+            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + extension, {
+              scaleMode: PIXI.SCALE_MODES.NEAREST,
+            })
           )
         })
       })
