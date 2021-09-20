@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js' // node_modulesから PIXI.jsをインポート
 import { PlayerLoop } from './playerLoop'
-import { ChatDisplay } from '../controlElements/chat/chatDisplay'
 import { Renderable } from './renderable'
 import { Taskbar } from '../controlElements/taskbar/taskbar'
 import { TimeBar } from '../controlElements/timeBar/timeBar'
@@ -9,6 +8,7 @@ import { gsap } from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 import WebFont from 'webfontloader'
 import { TitlePanel } from '../controlElements/title/titlePanel'
+import { LIMEDisplay } from '../controlElements/applications/chat/limeDisplay'
 
 export const devVersion: string = '1.1d'
 
@@ -41,10 +41,9 @@ window.onresize = () => resize()
 
 const playerLoop = new PlayerLoop(app)
 
-let gameScene: PIXI.Container
+export let gameScene: PIXI.Container
 
 let titlePanel: TitlePanel
-let chatDisplay: ChatDisplay
 let taskBar: Taskbar
 let timeBar: TimeBar
 
@@ -60,26 +59,24 @@ const createGameScene = () => {
   renderables.push(titlePanel)
 
   titlePanel.onStart = () => {
-    chatDisplay = new ChatDisplay()
-    gameScene.addChild(chatDisplay.create())
-
     taskBar = new Taskbar()
-    gameScene.addChild(taskBar.create())
-
     timeBar = new TimeBar()
-    gameScene.addChild(timeBar.create())
 
     //titlePanelだけだからpopで対応
     renderables.pop()
 
-    renderables.push(chatDisplay)
-    renderables.push(taskBar)
-    renderables.push(timeBar)
+    addGameScene(taskBar.create())
+    addGameScene(timeBar.create())
 
     gameScene.removeChild(titlePanel)
   }
 
   animate()
+}
+
+export const addGameScene = (window: PIXI.Container & Renderable) => {
+  gameScene.addChild(window)
+  renderables.push(window)
 }
 
 const resize = () => {

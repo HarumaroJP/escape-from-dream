@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../../core/assetLoader'
 import { PIXIUtils } from '../../../extensions/utils'
-import { SpriteChatElement } from '../../chat/chatElement/spriteChatElement'
+import { SpriteChatElement } from '../../applications/chat/chatElement/spriteChatElement'
 
 type InteractType = 'lever' | 'button' | 'lamp'
 

@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../core/assetLoader'
-import { app } from '../../core/main'
+import { addGameScene, app } from '../../core/main'
 import { Renderable } from '../../core/renderable'
-import { CustomRoundedShape } from '../../extensions/customRoundedShape'
+import { Window } from '../../core/window'
+import { LIMEDisplay } from '../applications/chat/limeDisplay'
+import { YochimuDisplay } from '../applications/yochimu/YochimuDisplay'
 import { Application } from './application'
 
 export class Taskbar extends PIXI.Container implements Renderable {
@@ -22,22 +24,30 @@ export class Taskbar extends PIXI.Container implements Renderable {
   Searcher: Application
   Messenger: Application
   Calculator: Application
+  Yochimu: Application
   applications: Application[] = []
 
-  create(): PIXI.Container {
+  create(): Taskbar {
     this.addChild(this.taskBar)
 
-    this.Searcher = this.createApplication('searcher', AssetLoader.getSprite('search'))
-    this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'))
-    this.Calculator = this.createApplication('calculator', AssetLoader.getSprite('calculator'))
+    const lime = new LIMEDisplay().create()
+    const yochimu = new YochimuDisplay().create()
+
+    addGameScene(lime)
+    addGameScene(yochimu)
+
+    this.Searcher = this.createApplication('searcher', AssetLoader.getSprite('search'), undefined)
+    this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'), lime)
+    this.Yochimu = this.createApplication('yochimu', AssetLoader.getSprite('yochimu_icon'), yochimu)
+    this.Calculator = this.createApplication('calculator', AssetLoader.getSprite('calculator'), undefined)
 
     this.reflesh()
 
     return this
   }
 
-  createApplication(name: string, texture: PIXI.Texture): Application {
-    const app = new Application(name, this.appSize, texture)
+  createApplication(name: string, icon: PIXI.Texture, window: Window): Application {
+    const app = new Application(name, this.appSize, icon, window)
     this.applications.push(app)
     this.addChild(app)
 

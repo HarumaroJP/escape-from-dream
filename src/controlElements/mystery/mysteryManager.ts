@@ -1,12 +1,12 @@
 import { AssetLoader } from '../../core/assetLoader'
 import { CmdHandler } from '../../core/cmdHandler'
-import { ScrollView } from '../chat/scrollView'
-import { SelectMenu } from '../chat/selectMenu'
-import { SpriteChatElement } from '../chat/chatElement/spriteChatElement'
 import { MainMystery } from './mainMystery'
 import { Mystery } from './mystery'
 import { SubMystery1 as ColorMystery } from './colorMystery/colorMystery'
 import { PanelChatElement } from './colorMystery/panelChatElement'
+import { ScrollView } from '../applications/chat/scrollView'
+import { SelectMenu } from '../applications/chat/selectMenu'
+import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatElement'
 
 export class MysteryManager {
   currentMystery: Mystery

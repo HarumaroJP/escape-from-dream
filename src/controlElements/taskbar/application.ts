@@ -1,13 +1,17 @@
 import * as PIXI from 'pixi.js'
 import { gsap } from 'gsap'
+import { Window } from '../../core/window'
 
 export class Application extends PIXI.Sprite {
   appName: string = 'noname'
+  window: Window
 
   spriteSize: number
 
-  constructor(appName: string, appSize: number, texture: PIXI.Texture) {
-    super(texture)
+  constructor(appName: string, appSize: number, icon: PIXI.Texture, window: Window) {
+    super(icon)
+
+    this.window = window
 
     this.appName = appName
     this.spriteSize = appSize

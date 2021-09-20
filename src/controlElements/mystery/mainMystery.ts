@@ -1,7 +1,7 @@
 import { AssetLoader } from '../../core/assetLoader'
 import { CmdHandler } from '../../core/cmdHandler'
-import { ChatElement } from '../chat/chatElement/chatElement'
-import { TextChatElement } from '../chat/chatElement/textChatElement'
+import { ChatElement } from '../applications/chat/chatElement/chatElement'
+import { TextChatElement } from '../applications/chat/chatElement/textChatElement'
 import { Mystery } from './mystery'
 
 export class MainMystery extends Mystery {

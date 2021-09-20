@@ -23,6 +23,7 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
   })
 
   startText: PIXI.Text
+  isFading: boolean
 
   onStart: () => void
 
@@ -72,6 +73,9 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
     this.addChild(this.startText)
 
     this.on('pointerdown', () => {
+      if (this.isFading) return
+
+      this.isFading = true
       gsap
         .to(this, {
           alpha: 0,

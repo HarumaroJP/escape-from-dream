@@ -1,8 +1,10 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../extensions/customRoundedShape'
-import { app } from './main'
+import { app, gameScene } from './main'
+import { Renderable } from './renderable'
 
-export class Window extends PIXI.Container {
+export class Window extends PIXI.Container implements Renderable {
+  static winZIndex: number = 0
   // edge: PIXI.Graphics = new PIXI.Graphics();
   titleBar: CustomRoundedShape = new CustomRoundedShape()
 
@@ -41,20 +43,29 @@ export class Window extends PIXI.Container {
     this.titleText.anchor.set(0.5)
   }
 
+  onResize(): void {}
+
   createWindow() {
     this.toDraggable(this.titleBar, this)
 
     // this.addChild(this.edge);
     this.addChild(this.titleBar)
     this.titleBar.addChild(this.titleText)
+
+    this.interactive = true
+
+    this.on('pointerdown', () => {
+      Window.winZIndex++
+      this.zIndex = Window.winZIndex
+    })
   }
 
-  setWindowPivot(w: number, h: number) {
+  setWindowSize(w: number, h: number) {
     this.winWidth = w
     this.winHeight = h
 
     this.winX = (app.screen.width - w) * 0.5
-    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset  
+    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset
   }
 
   refleshWindow() {
@@ -77,6 +88,14 @@ export class Window extends PIXI.Container {
     //     this.radius
     //   )
     //   .endFill();
+  }
+
+  open() {
+    this.renderable = true
+  }
+
+  close() {
+    this.renderable = false
   }
 
   toDraggable(draggable: PIXI.Container, movable: PIXI.Container) {

@@ -19,7 +19,7 @@ export class TimeBar extends PIXI.Container implements Renderable {
 
   edgeOffset: number = 20
 
-  create(): PIXI.Container {
+  create(): TimeBar {
     this.timeBar.alpha = 0.5
     this.timeText.anchor.set(0.5)
 
