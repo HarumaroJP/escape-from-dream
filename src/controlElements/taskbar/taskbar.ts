@@ -4,7 +4,7 @@ import { addGameScene, app } from '../../core/main'
 import { Renderable } from '../../core/renderable'
 import { Window } from '../../core/window'
 import { LIMEDisplay } from '../applications/chat/limeDisplay'
-import { YochimuDisplay } from '../applications/yochimu/YochimuDisplay'
+import { YochimuDisplay } from '../applications/yochimu/yochimuDisplay'
 import { Application } from './application'
 
 export class Taskbar extends PIXI.Container implements Renderable {
@@ -23,7 +23,6 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
   Searcher: Application
   Messenger: Application
-  Calculator: Application
   Yochimu: Application
   applications: Application[] = []
 
@@ -39,7 +38,6 @@ export class Taskbar extends PIXI.Container implements Renderable {
     this.Searcher = this.createApplication('searcher', AssetLoader.getSprite('search'), undefined)
     this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'), lime)
     this.Yochimu = this.createApplication('yochimu', AssetLoader.getSprite('yochimu_icon'), yochimu)
-    this.Calculator = this.createApplication('calculator', AssetLoader.getSprite('calculator'), undefined)
 
     this.reflesh()
 

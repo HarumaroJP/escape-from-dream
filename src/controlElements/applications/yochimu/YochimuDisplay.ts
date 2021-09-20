@@ -6,8 +6,8 @@ export class YochimuDisplay extends Window {
   backGround: CustomRoundedShape = new CustomRoundedShape()
   backGroundColor: number = 0xffffff
 
-  cavWidth: number = 500
-  cavHeight: number = 600
+  cavWidth: number = 400
+  cavHeight: number = 700
 
   constructor() {
     super('予知夢フォルダー')
