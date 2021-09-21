@@ -3,10 +3,17 @@
   "subDirList": [
     {
       "name": "icon",
-      "spriteList": ["calculator", "search", "messenger", "sendIcon", "title-logo.png", "yochimu_icon"]
+      "spriteList": [
+        "calculator",
+        "search",
+        "messenger",
+        "sendIcon",
+        "title-logo.png",
+        "yochimu_icon"
+      ]
     },
     {
-      "name": "mystery1",
+      "name": "mystery1-elements",
       "spriteList": [
         "button-blue-off",
         "button-blue-on",
@@ -22,8 +29,18 @@
         "lever-purple-on",
         "lever-white-off",
         "lever-white-on",
-        "lever-background",
+        "lever-background"
+      ]
+    },
+    {
+      "name": "mystery1-yochimu",
+      "spriteList": [
         "mystery-1-manual"
+      ]
+    },{
+      "name":"mystery2-icecreams",
+      "spriteList":[
+        
       ]
     }
   ]

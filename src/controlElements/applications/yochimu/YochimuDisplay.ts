@@ -15,9 +15,8 @@ export class YochimuDisplay extends Window {
   }
 
   create(): Window {
-    this.createWindow()
-
     this.addChild(this.backGround)
+    this.createWindow()
     return this
   }
 

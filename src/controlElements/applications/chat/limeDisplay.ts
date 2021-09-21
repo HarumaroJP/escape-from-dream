@@ -75,8 +75,6 @@ export class LIMEDisplay extends Window {
   }
 
   create(): Window {
-    this.createWindow()
-
     this.targetName.text = AssetLoader.getNameById(1)
 
     this.addChild(this.header)
@@ -90,6 +88,8 @@ export class LIMEDisplay extends Window {
 
     this.footer.addChild(this.inputField)
 
+    this.createWindow()
+
     this.gameManager = new MysteryManager(this.scrollView, this.selectMenu)
     this.gameManager.start(0)
 
@@ -102,7 +102,11 @@ export class LIMEDisplay extends Window {
 
     this.selectMenu.x = this.winX + this.winWidth - this.selectMenuWidth
     this.selectMenu.y = this.winY
-    this.selectMenu.reflesh(this.round, this.selectMenuWidth, this.winHeight + this.fHeight + this.navHeight)
+    this.selectMenu.reflesh(
+      this.round,
+      this.selectMenuWidth,
+      this.winHeight + this.fHeight + this.navHeight
+    )
 
     const mainBodyWidth = this.winWidth - this.selectMenuWidth
 
@@ -115,7 +119,16 @@ export class LIMEDisplay extends Window {
 
     this.footer.x = this.winX
     this.footer.y = this.winY + this.navHeight + this.winHeight
-    this.footer.drawCustomRect(this.round, mainBodyWidth, this.fHeight, 0xf2f2f2, false, false, false, true)
+    this.footer.drawCustomRect(
+      this.round,
+      mainBodyWidth,
+      this.fHeight,
+      0xf2f2f2,
+      false,
+      false,
+      false,
+      true
+    )
 
     this.inputField.x = this.fiendOffsetX
     this.inputField.y = this.fieldOffsetH * 0.5

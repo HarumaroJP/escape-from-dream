@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../core/assetLoader'
-import { addGameScene, app } from '../../core/main'
+import { addGameScene, app, gameScene } from '../../core/main'
 import { Renderable } from '../../core/renderable'
 import { Window } from '../../core/window'
 import { LIMEDisplay } from '../applications/chat/limeDisplay'
@@ -8,6 +8,7 @@ import { YochimuDisplay } from '../applications/yochimu/yochimuDisplay'
 import { Application } from './application'
 
 export class Taskbar extends PIXI.Container implements Renderable {
+  winZIndex: number = 0
   barColor: number = 0xf1f1f1
   taskBar: PIXI.Graphics = new PIXI.Graphics()
 
@@ -24,7 +25,7 @@ export class Taskbar extends PIXI.Container implements Renderable {
   Searcher: Application
   Messenger: Application
   Yochimu: Application
-  applications: Application[] = []
+  static applications: Application[] = []
 
   create(): Taskbar {
     this.addChild(this.taskBar)
@@ -46,16 +47,30 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
   createApplication(name: string, icon: PIXI.Texture, window: Window): Application {
     const app = new Application(name, this.appSize, icon, window)
-    this.applications.push(app)
+    Taskbar.applications.push(app)
     this.addChild(app)
 
+    if (app.window != undefined) {
+      app.window.on('pointerdown', () => {
+        console.log('pointerdown')
+
+        this.winZIndex++
+        app.window.zIndex = this.winZIndex
+        this.sortWindows()
+      })
+    }
+
     return app
+  }
+
+  sortWindows() {
+    gameScene.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
   }
 
   alignApplications() {
     let appCount = 1
     let appHalfSize = this.appSize * 0.5
-    this.applications.forEach((app: PIXI.Container) => {
+    Taskbar.applications.forEach((app: PIXI.Container) => {
       //isBarSide
       const space = appCount == 1 ? 0 : this.appSpace
 
@@ -68,14 +83,20 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
   reflesh() {
     //taskBar
-    this.barWidth = this.applications.length * (this.appSize + this.appSpace) - this.appSpace + this.appSideSpace * 2
+    this.barWidth =
+      Taskbar.applications.length * (this.appSize + this.appSpace) -
+      this.appSpace +
+      this.appSideSpace * 2
 
     this.barHeight = this.appSize + this.barHeightOffset
 
     this.x = (app.screen.width - this.barWidth) * 0.5
     this.y = app.screen.height - (this.barYOffset + this.appSize + this.barHeightOffset)
 
-    this.taskBar.beginFill(this.barColor).drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound).endFill()
+    this.taskBar
+      .beginFill(this.barColor)
+      .drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound)
+      .endFill()
 
     this.alignApplications()
     this.taskBar.alpha = 0.3

@@ -1,11 +1,9 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../extensions/customRoundedShape'
-import { app, gameScene } from './main'
+import { app } from './main'
 import { Renderable } from './renderable'
 
 export class Window extends PIXI.Container implements Renderable {
-  static winZIndex: number = 0
-  // edge: PIXI.Graphics = new PIXI.Graphics();
   titleBar: CustomRoundedShape = new CustomRoundedShape()
 
   titleText: PIXI.Text
@@ -53,11 +51,7 @@ export class Window extends PIXI.Container implements Renderable {
     this.titleBar.addChild(this.titleText)
 
     this.interactive = true
-
-    this.on('pointerdown', () => {
-      Window.winZIndex++
-      this.zIndex = Window.winZIndex
-    })
+    this.children.forEach(c => c.interactive = true)
   }
 
   setWindowSize(w: number, h: number) {
@@ -65,13 +59,23 @@ export class Window extends PIXI.Container implements Renderable {
     this.winHeight = h
 
     this.winX = (app.screen.width - w) * 0.5
-    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset
+    this.winY =
+      (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset
   }
 
   refleshWindow() {
     this.titleBar.x = this.winX
     this.titleBar.y = this.winY - this.titleHeight
-    this.titleBar.drawCustomRect(this.round, this.winWidth, this.titleHeight, this.winColor, true, true, false, false)
+    this.titleBar.drawCustomRect(
+      this.round,
+      this.winWidth,
+      this.titleHeight,
+      this.winColor,
+      true,
+      true,
+      false,
+      false
+    )
 
     this.titleText.x = this.winWidth * 0.5
     this.titleText.y = this.titleHeight * 0.5

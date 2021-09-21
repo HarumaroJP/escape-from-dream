@@ -8,7 +8,6 @@ import { gsap } from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 import WebFont from 'webfontloader'
 import { TitlePanel } from '../controlElements/title/titlePanel'
-import { LIMEDisplay } from '../controlElements/applications/chat/limeDisplay'
 
 export const devVersion: string = '1.1d'
 

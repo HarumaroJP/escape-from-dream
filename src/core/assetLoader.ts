@@ -45,7 +45,9 @@ export class AssetLoader {
   load(callback: () => void): void {
     // preload
     AssetLoader.loader.load(async () => {
-      console.log('PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion)
+      console.log(
+        'PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion
+      )
 
       await this.loadSpriteAssets()
 
