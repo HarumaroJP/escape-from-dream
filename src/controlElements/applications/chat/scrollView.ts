@@ -47,7 +47,7 @@ export class ScrollView extends Scrollbox {
   setMessage(element: ChatElement) {
     this.currentElem = element
 
-    if (element.isText && element.target == 0) {
+    if (element.isText && element.target == 2) {
       this.inputField.setText(element.getContent())
     }
   }

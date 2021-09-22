@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../../core/assetLoader'
 import { CmdHandler } from '../../../core/cmdHandler'
 import { ChatElement } from '../../applications/chat/chatElement/chatElement'
@@ -23,7 +24,10 @@ export class ColorMystery extends Mystery {
     this.registerOps()
 
     this.onChatLogic = async (chat) => {
-      if (chat.id == 0) {
+      if (chat.id == 1) {
+        //if command
+        await CmdHandler.Execute(chat.line)
+      } else if (chat.id == 2) {
         //if player
         const lines: string[] = chat.line.split(',')
         const ops: { line: string; op: string }[] = []
@@ -61,12 +65,11 @@ export class ColorMystery extends Mystery {
         this.paused = true
 
         await this.waitUntil(() => !this.paused)
-      } else if (chat.id == 1) {
-        //if command
-        await CmdHandler.Execute(chat.line)
       } else {
         //if friend
-        this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
+        const element: ChatElement = new TextChatElement(chat.id, chat.line)
+        element.setIcon(PIXI.Texture.WHITE)
+        this.scrollView.setMessage(element)
       }
     }
   }

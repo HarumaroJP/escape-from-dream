@@ -9,6 +9,11 @@ export class ChatElement extends PIXI.Graphics {
   elemWidth: number
   elemHeight: number = 30
 
+  icon: PIXI.Sprite
+  iconSize: number = 30
+  iconOffset: number = 10
+  hasIcon: boolean = false
+
   isText: boolean = false
 
   onClick: (() => void)[] = []
@@ -37,6 +42,18 @@ export class ChatElement extends PIXI.Graphics {
     })
   }
 
+  setIcon(texture: PIXI.Texture) {
+    this.hasIcon = true
+    this.icon = new PIXI.Sprite(texture)
+
+    this.icon.width = this.iconSize
+    this.icon.height = this.iconSize
+
+    this.addChild(this.icon)
+
+    this.icon.x = -this.iconSize - this.iconOffset
+  }
+
   setPosition(x: number, y: number) {
     this.x = x
     this.y = y
@@ -53,6 +70,10 @@ export class ChatElement extends PIXI.Graphics {
       x = viewWidth - this.elemWidth - this.chatOffsetX
     } else {
       x = this.chatOffsetX
+
+      if (this.hasIcon) {
+        x += this.iconSize + this.iconOffset
+      }
     }
 
     y = posY

@@ -75,7 +75,7 @@ export class LIMEDisplay extends Window {
   }
 
   create(): Window {
-    this.targetName.text = AssetLoader.getNameById(2)
+    this.targetName.text = AssetLoader.getNameById(0)
 
     this.addChild(this.header)
     this.header.addChild(this.targetName)
