@@ -62,7 +62,6 @@ export class Window extends PIXI.Container implements Renderable {
       this.closeButton = new PIXI.Sprite(AssetLoader.getSprite('close-button'))
       this.closeButton.interactive = true
       this.closeButton.buttonMode = true
-      this.closeButton.anchor.set(1, 0.5)
       this.closeButton.on('pointerdown', () => {
         this.close()
       })
@@ -71,7 +70,7 @@ export class Window extends PIXI.Container implements Renderable {
       this.closeButton.width = buttonSize
       this.closeButton.height = buttonSize
 
-      this.titleBar.addChild(this.closeButton)
+      this.addChild(this.closeButton)
     }
   }
 
@@ -94,8 +93,8 @@ export class Window extends PIXI.Container implements Renderable {
     this.titleText.y = this.titleHeight * 0.5
 
     if (this.isClosable) {
-      this.closeButton.x = this.winWidth - this.closeButtonSizeOffset
-      this.closeButton.y = this.titleHeight * 0.5
+      this.closeButton.x = this.winX + this.winWidth - this.titleHeight + this.closeButtonSizeOffset * 0.5
+      this.closeButton.y = this.winY - this.titleHeight + this.closeButtonSizeOffset * 0.5
     }
     // this.edge.x = this.titleBar.x - this.thickness;
     // this.edge.y = this.titleBar.y - this.thickness;

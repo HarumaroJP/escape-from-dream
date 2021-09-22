@@ -1,15 +1,18 @@
+import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../../core/assetLoader'
 import { Window } from '../../../core/window'
 import { CustomRoundedShape } from '../../../extensions/customRoundedShape'
+import { PIXIUtils } from '../../../extensions/utils'
 import { YochimuScrollView } from './yochimuScrollView'
 
 export class YochimuDisplay extends Window {
-  backGround: CustomRoundedShape = new CustomRoundedShape()
+  backGround: PIXI.Sprite
+  maxBackgroundHeight: number = 800
   scrollView: YochimuScrollView = new YochimuScrollView()
   backGroundColor: number = 0xffffff
 
-  cavWidth: number = 400
-  cavHeight: number = 700
+  cavWidth: number = 300
+  cavHeight: number = 600
   bodyWidthOffset: number = 30
 
   constructor() {
@@ -17,6 +20,9 @@ export class YochimuDisplay extends Window {
   }
 
   create(): Window {
+    this.backGround = new PIXI.Sprite(AssetLoader.getSprite('yochimu_Background'))
+    PIXIUtils.resizeSpriteByHeight(this.backGround, this.maxBackgroundHeight)
+
     this.addChild(this.backGround)
     this.addChild(this.scrollView.create())
     this.createWindow(true)
@@ -24,6 +30,10 @@ export class YochimuDisplay extends Window {
 
     this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
     this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
+    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
+    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
+
+    this.titleBar.renderable = false
 
     this.close()
     return this
@@ -33,11 +43,7 @@ export class YochimuDisplay extends Window {
     this.setWindowSize(this.cavWidth, this.cavHeight)
     this.refleshWindow()
 
-    this.backGround.x = this.winX
-    this.backGround.y = this.winY
-    this.backGround
-      .clear()
-      .drawCustomRect(this.round, this.cavWidth, this.cavHeight, this.backGroundColor, false, false, true, true)
+    this.backGround.x = this.winWidth + this.cavWidth + this.bodyWidthOffset
 
     this.scrollView.reflesh(
       this.winX + this.bodyWidthOffset,

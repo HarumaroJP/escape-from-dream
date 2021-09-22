@@ -7,7 +7,7 @@ export class YochimuScrollView extends Scrollbox {
   scrollBox: PIXI.Graphics = new PIXI.Graphics()
   elements: PIXI.Sprite[] = []
 
-  private generalOffset: number = 50
+  private generalOffset: number = 30
 
   create() {
     this.overflow = 'hidden'
@@ -23,7 +23,7 @@ export class YochimuScrollView extends Scrollbox {
     this.boxWidth = w
     this.boxHeight = h
 
-    this.scrollBox.beginFill(0x575757).drawRect(0, 0, w, h).endFill()
+    this.scrollBox.drawRect(0, 0, w, h)
 
     this.update()
   }
@@ -34,6 +34,8 @@ export class YochimuScrollView extends Scrollbox {
   addSprite(texture: PIXI.Texture) {
     const sprite = new PIXI.Sprite(texture)
     PIXIUtils.resizeSpriteByWidth(sprite, this.boxWidth)
+
+    sprite.y += this.nextElementPosY
 
     this.nextElementPosY += sprite.height + this.generalOffset
     this.elements.push(sprite)
@@ -51,12 +53,11 @@ export class YochimuScrollView extends Scrollbox {
 
     if (this.enableScroll) {
       let height = this.nextElementPosY
-      this.scrollBox.beginFill(0x575757).drawRect(0, 0, this.scrollBox.width, height).endFill()
+      this.scrollBox.drawRect(0, 0, this.scrollBox.width, height)
     }
 
     this.update()
 
     sprite.setParent(this.content)
-
   }
 }

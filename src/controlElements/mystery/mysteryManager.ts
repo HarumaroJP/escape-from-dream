@@ -79,8 +79,8 @@ export class MysteryManager {
         }
       }
 
-      const panel: ChatElement = new PanelChatElement(1, this.colorMys.panelInfo)
-      panel.setIcon(PIXI.Texture.WHITE)
+      const panel: ChatElement = new PanelChatElement(5, this.colorMys.panelInfo)
+      panel.setIcon(AssetLoader.getIconById(5))
       this.scrollView.setMessage(panel)
 
       this.colorMys.requestedOp = ''

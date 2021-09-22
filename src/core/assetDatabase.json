@@ -38,7 +38,7 @@
     },
     {
       "name": "mystery1-yochimu",
-      "spriteList": ["mystery-1-manual.png"]
+      "spriteList": ["mystery-1-manual.png", "yochimu_Background.png"]
     },
     {
       "name": "mystery2-icecreams",
