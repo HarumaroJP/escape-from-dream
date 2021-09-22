@@ -21,7 +21,7 @@ export class PuzzleMystery extends Mystery {
         this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
       } else {
         //if command
-        CmdHandler.Execute(chat.line)
+        await CmdHandler.Execute(chat.line)
       }
     }
   }
@@ -29,6 +29,16 @@ export class PuzzleMystery extends Mystery {
   startLightsout() {
     gameScene.addChild(this.panel)
     frontContainer(this.panel)
+    this.panel.onClear = () => {
+      this.endLightsout()
+    }
     this.panel.show()
+  }
+
+  endLightsout() {
+    this.panel.hide(() => {
+      gameScene.removeChild(this.panel)
+      this.isCleard = true
+    })
   }
 }

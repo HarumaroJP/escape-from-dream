@@ -1,5 +1,5 @@
-import { ScrollView } from "../applications/chat/scrollView"
-import { SelectMenu } from "../applications/chat/selectMenu"
+import { ScrollView } from '../applications/chat/scrollView'
+import { SelectMenu } from '../applications/chat/selectMenu'
 
 export class Mystery {
   id: number

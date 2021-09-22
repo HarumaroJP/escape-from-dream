@@ -26,7 +26,7 @@ export class MainMystery extends Mystery {
         this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
       } else {
         //if command
-        CmdHandler.Execute(chat.line)
+       await CmdHandler.Execute(chat.line)
       }
     }
   }

@@ -32,7 +32,7 @@ export class MysteryManager {
       mys.chatInterval = AssetLoader.getConfigById(0)
     })
 
-    CmdHandler.Register('image', (args) => {
+    CmdHandler.Register('image', async (args) => {
       const spriteName = args[0]
       this.scrollView.setMessage(new SpriteChatElement(1, AssetLoader.getSprite(spriteName), -1))
     })
@@ -54,7 +54,7 @@ export class MysteryManager {
       }
     })
 
-    CmdHandler.Register('mystery-result', () => {
+    CmdHandler.Register('mystery-result',async () => {
       const op = this.colorMys.getOperation(this.colorMys.requestedOp)
 
       if (op != undefined) {
@@ -78,8 +78,9 @@ export class MysteryManager {
       this.colorMys.requestedOp = ''
     })
 
-    CmdHandler.Register('lightsout', () => {
+    CmdHandler.Register('lightsout', async () => {
       this.puzzleMys.startLightsout()
+      await this.puzzleMys.waitUntil(() => this.puzzleMys.isCleard)
     })
   }
 
