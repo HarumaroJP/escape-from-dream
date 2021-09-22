@@ -2,11 +2,12 @@ import { AssetLoader } from '../../core/assetLoader'
 import { CmdHandler } from '../../core/cmdHandler'
 import { MainMystery } from './mainMystery'
 import { Mystery } from './mystery'
-import { SubMystery1 as ColorMystery } from './colorMystery/colorMystery'
+import { ColorMystery as ColorMystery } from './colorMystery/colorMystery'
 import { PanelChatElement } from './colorMystery/panelChatElement'
 import { ScrollView } from '../applications/chat/scrollView'
 import { SelectMenu } from '../applications/chat/selectMenu'
 import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatElement'
+import { PuzzleMystery } from './puzzleMystery/puzzleMystery'
 
 export class MysteryManager {
   currentMystery: Mystery
@@ -16,6 +17,7 @@ export class MysteryManager {
 
   mainMys: MainMystery = new MainMystery(0, false)
   colorMys: ColorMystery = new ColorMystery(1, true)
+  puzzleMys: PuzzleMystery = new PuzzleMystery(2, false)
 
   constructor(scrollView: ScrollView, selectMenu: SelectMenu) {
     this.scrollView = scrollView
@@ -23,6 +25,7 @@ export class MysteryManager {
 
     this.mysteries.push(this.mainMys)
     this.mysteries.push(this.colorMys)
+    this.mysteries.push(this.puzzleMys)
     this.mysteries.forEach((mys) => {
       mys.scrollView = scrollView
       mys.selectMenu = selectMenu
@@ -73,6 +76,10 @@ export class MysteryManager {
 
       this.scrollView.setMessage(new PanelChatElement(1, this.colorMys.panelInfo))
       this.colorMys.requestedOp = ''
+    })
+
+    CmdHandler.Register('lightsout', () => {
+      this.puzzleMys.startLightsout()
     })
   }
 

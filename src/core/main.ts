@@ -41,6 +41,7 @@ window.onresize = () => resize()
 const playerLoop = new PlayerLoop(app)
 
 export let gameScene: PIXI.Container
+export let winZIndex: number = 0
 
 let titlePanel: TitlePanel
 let taskBar: Taskbar
@@ -71,6 +72,13 @@ const createGameScene = () => {
   }
 
   animate()
+}
+
+export const frontContainer = (container: PIXI.Container) => {
+  winZIndex++
+  container.zIndex = winZIndex
+
+  gameScene.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
 }
 
 export const addGameScene = (window: PIXI.Container & Renderable) => {

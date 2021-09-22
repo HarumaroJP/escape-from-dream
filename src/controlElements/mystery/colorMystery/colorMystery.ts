@@ -4,7 +4,7 @@ import { ChatElement } from '../../applications/chat/chatElement/chatElement'
 import { TextChatElement } from '../../applications/chat/chatElement/textChatElement'
 import { Mystery } from '../mystery'
 
-export class SubMystery1 extends Mystery {
+export class ColorMystery extends Mystery {
   requestedOp: string
   operations: { id: string; panelIdx: number; lampIdx: number }[] = []
   panelInfo: boolean[] = Array(9).fill(false)

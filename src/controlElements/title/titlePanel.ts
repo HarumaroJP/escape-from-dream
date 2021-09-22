@@ -77,7 +77,7 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
 
       this.isFading = true
       gsap
-        .to(this, {
+      .to(this, {
           alpha: 0,
           duration: 2,
           ease: 'Power2.easeInOut',
