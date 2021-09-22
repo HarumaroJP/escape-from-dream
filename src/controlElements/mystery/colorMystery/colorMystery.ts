@@ -62,11 +62,11 @@ export class ColorMystery extends Mystery {
 
         await this.waitUntil(() => !this.paused)
       } else if (chat.id == 1) {
-        //if friend
-        this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
-      } else {
         //if command
         await CmdHandler.Execute(chat.line)
+      } else {
+        //if friend
+        this.scrollView.setMessage(new TextChatElement(chat.id, chat.line))
       }
     }
   }
