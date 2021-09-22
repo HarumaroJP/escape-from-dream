@@ -78,7 +78,23 @@ export class AssetLoader {
     return this.gameData.mysteryLines.find((elem) => elem.id == id).line
   }
 
-  static getConfigById(index: number): any {
-    return this.gameData.configList[index]
+  static getIconById(id: number): PIXI.Texture<PIXI.Resource> {
+    switch (id) {
+      case 3:
+        return this.getSprite(this.getConfigByKey('chat_icon_A'))
+
+      case 4:
+        return this.getSprite(this.getConfigByKey('chat_icon_B'))
+
+      case 5:
+        return this.getSprite(this.getConfigByKey('chat_icon_C'))
+
+      default:
+        return undefined
+    }
+  }
+
+  static getConfigByKey(key: string): any {
+    return this.gameData.configList.get(key)
   }
 }

@@ -68,7 +68,7 @@ export class ColorMystery extends Mystery {
       } else {
         //if friend
         const element: ChatElement = new TextChatElement(chat.id, chat.line)
-        element.setIcon(PIXI.Texture.WHITE)
+        element.setIcon(AssetLoader.getIconById(chat.id))
         this.scrollView.setMessage(element)
       }
     }

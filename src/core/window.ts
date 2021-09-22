@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../extensions/customRoundedShape'
 import { AssetLoader } from './assetLoader'
-import { app, frontContainer } from './main'
+import { app, backContainer, frontContainer } from './main'
 import { Renderable } from './renderable'
 
 export class Window extends PIXI.Container implements Renderable {
@@ -118,6 +118,7 @@ export class Window extends PIXI.Container implements Renderable {
   }
 
   close() {
+    backContainer(this)
     this.renderable = false
   }
 

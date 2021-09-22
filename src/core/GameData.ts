@@ -2,7 +2,7 @@ export class GameData {
   mysteryFlags: Map<number, boolean> = new Map<number, boolean>()
   mysteryLines: { id: number; line: { id: number; line: string }[] }[] = []
   nameList: Map<number, string> = new Map<number, string>()
-  configList: any[] = []
+  configList: Map<string, string> = new Map<string, string>()
 
   applyData(data: any) {
     data['names'].forEach((elem) => {
@@ -14,8 +14,8 @@ export class GameData {
       this.mysteryFlags.set(elem.id, false)
     })
 
-    data['config'].forEach((elem) => {
-      this.configList.push(elem)
+    data['config'].map((elem) => {
+      this.configList.set(elem[0], elem[1])
     })
   }
 }

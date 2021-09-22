@@ -81,6 +81,12 @@ export const frontContainer = (container: PIXI.Container) => {
   gameScene.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
 }
 
+export const backContainer = (container: PIXI.Container) => {
+  container.zIndex = -10
+
+  gameScene.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
+}
+
 export const addGameScene = (window: PIXI.Container & Renderable) => {
   gameScene.addChild(window)
   renderables.push(window)

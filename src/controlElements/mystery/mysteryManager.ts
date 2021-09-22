@@ -31,7 +31,7 @@ export class MysteryManager {
     this.mysteries.forEach((mys) => {
       mys.scrollView = scrollView
       mys.selectMenu = selectMenu
-      mys.chatInterval = AssetLoader.getConfigById(0)
+      mys.chatInterval = AssetLoader.getConfigByKey('chat_Interval')
     })
 
     CmdHandler.Register('image', async (args) => {

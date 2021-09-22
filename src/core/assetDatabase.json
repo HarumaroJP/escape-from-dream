@@ -3,7 +3,18 @@
   "subDirList": [
     {
       "name": "icon",
-      "spriteList": ["calculator", "search", "messenger", "sendIcon", "title-logo.png", "yochimu_icon", "close-button"]
+      "spriteList": [
+        "calculator",
+        "search",
+        "messenger",
+        "sendIcon",
+        "title-logo.png",
+        "yochimu_icon",
+        "close-button",
+        "green_icon",
+        "yellow_icon",
+        "ei_icon.png"
+      ]
     },
     {
       "name": "mystery1-elements",
