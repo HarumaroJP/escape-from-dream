@@ -50,11 +50,12 @@ export class MysteryManager {
 
       mystery.onCleared = () => {
         this.selectMenu.clearElements()
+        this.currentMystery = this.mainMys
         this.restart(0)
       }
     })
 
-    CmdHandler.Register('mystery-result',async () => {
+    CmdHandler.Register('mystery-result', async () => {
       const op = this.colorMys.getOperation(this.colorMys.requestedOp)
 
       if (op != undefined) {
