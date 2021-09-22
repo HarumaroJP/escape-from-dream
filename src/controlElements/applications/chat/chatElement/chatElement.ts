@@ -66,7 +66,7 @@ export class ChatElement extends PIXI.Graphics {
   setScrollView(posY: number, viewWidth: number) {
     let x: number, y: number
 
-    if (this.target == 0) {
+    if (this.target == 2) {
       x = viewWidth - this.elemWidth - this.chatOffsetX
     } else {
       x = this.chatOffsetX

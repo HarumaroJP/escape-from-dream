@@ -52,7 +52,7 @@ export class ColorMystery extends Mystery {
             }
           }
 
-          const element: ChatElement = new TextChatElement(0, msg.line)
+          const element: ChatElement = new TextChatElement(2, msg.line)
           this.selectMenu.addElement(element)
 
           if (msg.op != undefined) {

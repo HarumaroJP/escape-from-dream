@@ -18,7 +18,7 @@ export class MainMystery extends Mystery {
         const lines: string[] = chat.line.split(',')
 
         lines.forEach((str) => {
-          const element: ChatElement = new TextChatElement(0, str)
+          const element: ChatElement = new TextChatElement(2, str)
           this.selectMenu.addElement(element)
         })
 
