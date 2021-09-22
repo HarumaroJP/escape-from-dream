@@ -26,7 +26,7 @@ export class SpriteChatElement extends ChatElement {
 
   resizeContent() {
     //画像のリサイズ
-    PIXIUtils.resizeSprite(this.sprite, this.maxSpriteHeight)
+    PIXIUtils.resizeSpriteByHeight(this.sprite, this.maxSpriteHeight)
   }
 
   updateSprite(texture: PIXI.Texture) {

@@ -34,7 +34,7 @@ export class AssetLoader {
           AssetLoader.spriteResources.set(
             spriteName,
             PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + extension, {
-              scaleMode: PIXI.SCALE_MODES.NEAREST,
+              scaleMode: PIXI.SCALE_MODES.LINEAR,
             })
           )
         })
@@ -45,9 +45,7 @@ export class AssetLoader {
   load(callback: () => void): void {
     // preload
     AssetLoader.loader.load(async () => {
-      console.log(
-        'PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion
-      )
+      console.log('PIXI loaded. \n\n-- Project N 僕らの予知夢からの脱出 -- \ndevVersion : ' + devVersion)
 
       await this.loadSpriteAssets()
 

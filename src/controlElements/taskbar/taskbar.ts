@@ -43,6 +43,9 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
     this.reflesh()
 
+    //最初はLIMEを最前面に
+    frontContainer(lime)
+
     return this
   }
 
@@ -87,7 +90,11 @@ export class Taskbar extends PIXI.Container implements Renderable {
     this.x = (app.screen.width - this.barWidth) * 0.5
     this.y = app.screen.height - (this.barYOffset + this.appSize + this.barHeightOffset)
 
-    this.taskBar.beginFill(this.barColor).drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound).endFill()
+    this.taskBar
+      .clear()
+      .beginFill(this.barColor)
+      .drawRoundedRect(0, 0, this.barWidth, this.barHeight, this.barRound)
+      .endFill()
 
     this.alignApplications()
     this.taskBar.alpha = 0.3

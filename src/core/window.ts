@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../extensions/customRoundedShape'
-import { app } from './main'
+import { AssetLoader } from './assetLoader'
+import { app, frontContainer } from './main'
 import { Renderable } from './renderable'
 
 export class Window extends PIXI.Container implements Renderable {
   titleBar: CustomRoundedShape = new CustomRoundedShape()
-
   titleText: PIXI.Text
   titleTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
     align: 'center',
@@ -13,6 +13,10 @@ export class Window extends PIXI.Container implements Renderable {
     fontSize: '18px',
     fill: 0x000000,
   })
+
+  isClosable: boolean = false
+  closeButton: PIXI.Sprite
+  closeButtonSizeOffset: number = 10
 
   //window property
   winWidth: number
@@ -43,15 +47,32 @@ export class Window extends PIXI.Container implements Renderable {
 
   onResize(): void {}
 
-  createWindow() {
+  createWindow(isClosable: boolean) {
     this.toDraggable(this.titleBar, this)
 
-    // this.addChild(this.edge);
     this.addChild(this.titleBar)
     this.titleBar.addChild(this.titleText)
 
     this.interactive = true
-    this.children.forEach(c => c.interactive = true)
+    this.children.forEach((c) => (c.interactive = true))
+
+    this.isClosable = isClosable
+
+    if (isClosable) {
+      this.closeButton = new PIXI.Sprite(AssetLoader.getSprite('close-button'))
+      this.closeButton.interactive = true
+      this.closeButton.buttonMode = true
+      this.closeButton.anchor.set(1, 0.5)
+      this.closeButton.on('pointerdown', () => {
+        this.close()
+      })
+
+      const buttonSize = this.titleHeight - this.closeButtonSizeOffset
+      this.closeButton.width = buttonSize
+      this.closeButton.height = buttonSize
+
+      this.titleBar.addChild(this.closeButton)
+    }
   }
 
   setWindowSize(w: number, h: number) {
@@ -59,26 +80,23 @@ export class Window extends PIXI.Container implements Renderable {
     this.winHeight = h
 
     this.winX = (app.screen.width - w) * 0.5
-    this.winY =
-      (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset
+    this.winY = (app.screen.height - h) * 0.5 + this.titleHeight - this.roundOffset - this.magicOffset
   }
 
   refleshWindow() {
     this.titleBar.x = this.winX
     this.titleBar.y = this.winY - this.titleHeight
-    this.titleBar.drawCustomRect(
-      this.round,
-      this.winWidth,
-      this.titleHeight,
-      this.winColor,
-      true,
-      true,
-      false,
-      false
-    )
+    this.titleBar
+      .clear()
+      .drawCustomRect(this.round, this.winWidth, this.titleHeight, this.winColor, true, true, false, false)
 
     this.titleText.x = this.winWidth * 0.5
     this.titleText.y = this.titleHeight * 0.5
+
+    if (this.isClosable) {
+      this.closeButton.x = this.winWidth - this.closeButtonSizeOffset
+      this.closeButton.y = this.titleHeight * 0.5
+    }
     // this.edge.x = this.titleBar.x - this.thickness;
     // this.edge.y = this.titleBar.y - this.thickness;
 
@@ -96,6 +114,7 @@ export class Window extends PIXI.Container implements Renderable {
 
   open() {
     this.renderable = true
+    frontContainer(this)
   }
 
   close() {

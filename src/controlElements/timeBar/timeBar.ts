@@ -56,7 +56,7 @@ export class TimeBar extends PIXI.Container implements Renderable {
     this.x = app.screen.width - this.barWidth - barSideRadius - this.edgeOffset
     this.y = app.screen.height - this.barHeight - this.edgeOffset
 
-    this.timeBar.drawCustomCapusle(this.barWidth, this.barHeight, this.barColor, true, true)
+    this.timeBar.clear().drawCustomCapusle(this.barWidth, this.barHeight, this.barColor, true, true)
     this.timeBar.alpha = 0.5
 
     this.timeText.x = this.barWidth * 0.5

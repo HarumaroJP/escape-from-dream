@@ -7,10 +7,16 @@ export class MathUtils {
 }
 
 export class PIXIUtils {
-  static resizeSprite(sprite: PIXI.Sprite, maxHeight: number) {
+  static resizeSpriteByHeight(sprite: PIXI.Sprite, maxHeight: number) {
     const aspect = maxHeight / sprite.height
     sprite.width = sprite.width * aspect
     sprite.height = maxHeight
+  }
+
+  static resizeSpriteByWidth(sprite: PIXI.Sprite, maxWidth: number) {
+    const aspect = maxWidth / sprite.width
+    sprite.height = sprite.height * aspect
+    sprite.width = maxWidth
   }
 
   static array_equal(a: string | any[], b: string | any[]) {

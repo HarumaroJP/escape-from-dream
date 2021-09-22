@@ -114,7 +114,7 @@ export class PanelChatElement extends SpriteChatElement {
           break
       }
 
-      PIXIUtils.resizeSprite(interact, maxHeight)
+      PIXIUtils.resizeSpriteByHeight(interact, maxHeight)
       interact.set(isActive)
     }
 
@@ -161,7 +161,7 @@ class Interact extends PIXI.Sprite {
       this.width = this.tex_on.width
       this.height = this.tex_on.height
 
-      PIXIUtils.resizeSprite(this, this.overrideSize)
+      PIXIUtils.resizeSpriteByHeight(this, this.overrideSize)
     }
   }
 

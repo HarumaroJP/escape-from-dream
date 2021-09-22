@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import { CustomRoundedShape } from '../../../extensions/customRoundedShape'
 import { ChatElement } from './chatElement/chatElement'
-import { ScrollView } from './scrollView'
+import { ChatScrollView } from './chatScrollView'
 
 export class SelectMenu extends CustomRoundedShape {
   hintTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
@@ -16,7 +16,7 @@ export class SelectMenu extends CustomRoundedShape {
 
   elements: ChatElement[] = []
 
-  scrollView: ScrollView
+  scrollView: ChatScrollView
 
   menuWidth: number
   menuHeight: number
@@ -24,7 +24,7 @@ export class SelectMenu extends CustomRoundedShape {
 
   chatSpace: number = 10
 
-  constructor(scrollView: ScrollView) {
+  constructor(scrollView: ChatScrollView) {
     super()
     this.hintText.anchor.x = 0.5
     this.addChild(this.hintText)
@@ -63,7 +63,7 @@ export class SelectMenu extends CustomRoundedShape {
     this.menuWidth = w
     this.menuHeight = h
 
-    this.drawCustomRect(r, w, h, 0x343434, false, false, true, false)
+    this.clear().drawCustomRect(r, w, h, 0x343434, false, false, true, false)
     this.hintText.x = w * 0.5
     this.hintText.y = this.hintTextOffsetY
   }

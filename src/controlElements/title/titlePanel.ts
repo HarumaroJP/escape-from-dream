@@ -39,7 +39,7 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
 
     // this.titleLogo.y = window.innerHeight * 0.5
 
-    PIXIUtils.resizeSprite(this.titleLogo, window.innerHeight * 0.5)
+    PIXIUtils.resizeSpriteByHeight(this.titleLogo, window.innerHeight * 0.5)
 
     this.beginFill(0x000000).drawRect(0, 0, window.innerWidth, window.innerHeight).endFill()
 

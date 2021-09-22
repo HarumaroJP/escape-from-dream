@@ -64,7 +64,7 @@ export class LightsoutPanel extends PIXI.Graphics {
       this.buttonSize
     )
 
-    PIXIUtils.resizeSprite(button, this.buttonSize)
+    PIXIUtils.resizeSpriteByHeight(button, this.buttonSize)
 
     this.lightButtons[c - 1][r - 1] = button
 

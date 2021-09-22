@@ -3,7 +3,7 @@
   "subDirList": [
     {
       "name": "icon",
-      "spriteList": ["calculator", "search", "messenger", "sendIcon", "title-logo.png", "yochimu_icon"]
+      "spriteList": ["calculator", "search", "messenger", "sendIcon", "title-logo.png", "yochimu_icon", "close-button"]
     },
     {
       "name": "mystery1-elements",
@@ -27,7 +27,7 @@
     },
     {
       "name": "mystery1-yochimu",
-      "spriteList": ["mystery-1-manual"]
+      "spriteList": ["mystery-1-manual.png"]
     },
     {
       "name": "mystery2-icecreams",

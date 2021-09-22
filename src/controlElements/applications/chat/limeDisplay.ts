@@ -4,7 +4,7 @@ import { gsap } from 'gsap'
 import { MysteryManager } from '../../mystery/mysteryManager'
 import { CustomRoundedShape } from '../../../extensions/customRoundedShape'
 import { TextRoundedRect } from '../../../extensions/textRoundedRect'
-import { ScrollView } from './scrollView'
+import { ChatScrollView } from './chatScrollView'
 import { AssetLoader } from '../../../core/assetLoader'
 import { Window } from '../../../core/window'
 
@@ -66,12 +66,11 @@ export class LIMEDisplay extends Window {
     paused: true,
   })
 
-  private scrollView: ScrollView = new ScrollView()
+  private scrollView: ChatScrollView = new ChatScrollView()
   private selectMenu: SelectMenu = new SelectMenu(this.scrollView)
 
   constructor() {
     super('LIME')
-    this.reflesh()
   }
 
   create(): Window {
@@ -88,10 +87,12 @@ export class LIMEDisplay extends Window {
 
     this.footer.addChild(this.inputField)
 
-    this.createWindow()
+    this.createWindow(true)
 
     this.gameManager = new MysteryManager(this.scrollView, this.selectMenu)
     this.gameManager.start(0)
+
+    this.reflesh()
 
     return this
   }
@@ -108,31 +109,27 @@ export class LIMEDisplay extends Window {
 
     this.header.x = this.winX
     this.header.y = this.winY
-    this.header.beginFill(0x1b1b1b).drawRect(0, 0, mainBodyWidth, this.navHeight).endFill()
+    this.header.clear().beginFill(0x1b1b1b).drawRect(0, 0, mainBodyWidth, this.navHeight).endFill()
     this.targetName.anchor.y = 0.5
     this.targetName.x = this.targetNameOffset
     this.targetName.y = this.navHeight * 0.5
 
     this.footer.x = this.winX
     this.footer.y = this.winY + this.navHeight + this.winHeight
-    this.footer.drawCustomRect(this.round, mainBodyWidth, this.fHeight, 0xf2f2f2, false, false, false, true)
+    this.footer.clear().drawCustomRect(this.round, mainBodyWidth, this.fHeight, 0xf2f2f2, false, false, false, true)
 
     this.inputField.x = this.fiendOffsetX
     this.inputField.y = this.fieldOffsetH * 0.5
-    this.inputField.drawCustomCapusle(
-      mainBodyWidth - this.fieldOffsetW,
-      this.fHeight - this.fieldOffsetH,
-      0xd6d6d6,
-      true,
-      true
-    )
+    this.inputField
+      .clear()
+      .drawCustomCapusle(mainBodyWidth - this.fieldOffsetW, this.fHeight - this.fieldOffsetH, 0xd6d6d6, true, true)
     this.inputField.reflesh(mainBodyWidth - this.fieldOffsetW, this.fHeight - this.fieldOffsetH)
 
     this.sendButton.interactive = true
     this.sendButton.buttonMode = true
     this.sendButton.x = mainBodyWidth - this.buttonWidth - 10
     this.sendButton.y = (this.fHeight - this.buttonHeight) * 0.5
-    this.sendButton.drawCustomCapusle(this.buttonWidth, this.buttonHeight, 0x77ff00, true, true)
+    this.sendButton.clear().drawCustomCapusle(this.buttonWidth, this.buttonHeight, 0x77ff00, true, true)
 
     this.sendButton.on('mouseover', () => {
       this.buttonFade.play()

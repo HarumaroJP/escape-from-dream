@@ -1,4 +1,4 @@
-import { ScrollView } from '../applications/chat/scrollView'
+import { ChatScrollView } from '../applications/chat/chatScrollView'
 import { SelectMenu } from '../applications/chat/selectMenu'
 
 export class Mystery {
@@ -7,7 +7,7 @@ export class Mystery {
   lineIterator: IterableIterator<[number, { id: number; line: string }]>
   chatInterval: number
   maxChatCount: number
-  scrollView: ScrollView
+  scrollView: ChatScrollView
   selectMenu: SelectMenu
 
   paused: boolean = false

@@ -5,7 +5,7 @@ import { MainMystery } from './mainMystery'
 import { Mystery } from './mystery'
 import { ColorMystery as ColorMystery } from './colorMystery/colorMystery'
 import { PanelChatElement } from './colorMystery/panelChatElement'
-import { ScrollView } from '../applications/chat/scrollView'
+import { ChatScrollView } from '../applications/chat/chatScrollView'
 import { SelectMenu } from '../applications/chat/selectMenu'
 import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatElement'
 import { PuzzleMystery } from './puzzleMystery/puzzleMystery'
@@ -14,14 +14,14 @@ import { ChatElement } from '../applications/chat/chatElement/chatElement'
 export class MysteryManager {
   currentMystery: Mystery
   mysteries: Mystery[] = []
-  scrollView: ScrollView
+  scrollView: ChatScrollView
   selectMenu: SelectMenu
 
   mainMys: MainMystery = new MainMystery(0, false)
   colorMys: ColorMystery = new ColorMystery(1, true)
   puzzleMys: PuzzleMystery = new PuzzleMystery(2, false)
 
-  constructor(scrollView: ScrollView, selectMenu: SelectMenu) {
+  constructor(scrollView: ChatScrollView, selectMenu: SelectMenu) {
     this.scrollView = scrollView
     this.selectMenu = selectMenu
 
