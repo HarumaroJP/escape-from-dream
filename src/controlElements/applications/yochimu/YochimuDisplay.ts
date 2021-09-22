@@ -7,7 +7,7 @@ import { YochimuScrollView } from './yochimuScrollView'
 
 export class YochimuDisplay extends Window {
   backGround: PIXI.Sprite
-  maxBackgroundHeight: number = 800
+  maxBackgroundHeight: number = 720
   scrollView: YochimuScrollView = new YochimuScrollView()
   backGroundColor: number = 0xffffff
 
@@ -43,7 +43,8 @@ export class YochimuDisplay extends Window {
     this.setWindowSize(this.cavWidth, this.cavHeight)
     this.refleshWindow()
 
-    this.backGround.x = this.winWidth + this.cavWidth + this.bodyWidthOffset
+    this.backGround.x = this.winWidth + this.cavWidth + this.bodyWidthOffset + 45
+    this.backGround.y = this.winHeight - 530
 
     this.scrollView.reflesh(
       this.winX + this.bodyWidthOffset,
