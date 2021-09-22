@@ -1,3 +1,4 @@
+import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../core/assetLoader'
 import { CmdHandler } from '../../core/cmdHandler'
 import { MainMystery } from './mainMystery'
@@ -8,6 +9,7 @@ import { ScrollView } from '../applications/chat/scrollView'
 import { SelectMenu } from '../applications/chat/selectMenu'
 import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatElement'
 import { PuzzleMystery } from './puzzleMystery/puzzleMystery'
+import { ChatElement } from '../applications/chat/chatElement/chatElement'
 
 export class MysteryManager {
   currentMystery: Mystery
@@ -34,7 +36,9 @@ export class MysteryManager {
 
     CmdHandler.Register('image', async (args) => {
       const spriteName = args[0]
-      this.scrollView.setMessage(new SpriteChatElement(1, AssetLoader.getSprite(spriteName), -1))
+      const element: ChatElement = new SpriteChatElement(1, AssetLoader.getSprite(spriteName), -1)
+      element.setIcon(PIXI.Texture.WHITE)
+      this.scrollView.setMessage(element)
     })
 
     CmdHandler.Register('mystery', async (args) => {
@@ -75,7 +79,10 @@ export class MysteryManager {
         }
       }
 
-      this.scrollView.setMessage(new PanelChatElement(1, this.colorMys.panelInfo))
+      const panel: ChatElement = new PanelChatElement(1, this.colorMys.panelInfo)
+      panel.setIcon(PIXI.Texture.WHITE)
+      this.scrollView.setMessage(panel)
+
       this.colorMys.requestedOp = ''
     })
 
