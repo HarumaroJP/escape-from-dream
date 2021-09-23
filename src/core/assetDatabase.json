@@ -53,7 +53,7 @@
     },
     {
       "name": "photos",
-      "spriteList": ["home.png", "room.png"]
+      "spriteList": ["home.png", "room.png", "jihanki_syasin_onlight.png", "jihanki_syasin.png"]
     },
     {
       "name": "mystery2-icecreams",
