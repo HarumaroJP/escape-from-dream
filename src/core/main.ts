@@ -92,10 +92,20 @@ export const addGameScene = (window: PIXI.Container & Renderable) => {
   renderables.push(window)
 }
 
+export const removeGameScene = (window: PIXI.Container & Renderable) => {
+  gameScene.removeChild(window)
+  const idx = renderables.findIndex((elem) => elem == window)
+  renderables.splice(idx, 1)
+}
+
 const resize = () => {
   console.log('resize')
   app.renderer.resize(window.innerWidth, window.innerHeight)
-  renderables.forEach((r) => r.onResize())
+  renderables.forEach((r) => {
+    if (r != undefined) {
+      r.onResize()
+    }
+  })
 }
 
 function animate() {

@@ -1,7 +1,9 @@
 import { Scrollbox } from 'pixi-scrollbox'
 import * as PIXI from 'pixi.js'
+import { addGameScene, removeGameScene } from '../../../core/main'
 import { TextRoundedRect } from '../../../extensions/textRoundedRect'
 import { PIXIUtils } from '../../../extensions/utils'
+import { SpritePreview } from './spritePreview'
 
 export class YochimuScrollView extends Scrollbox {
   scrollBox: PIXI.Graphics = new PIXI.Graphics()
@@ -35,6 +37,14 @@ export class YochimuScrollView extends Scrollbox {
     const sprite = new PIXI.Sprite(texture)
     sprite.interactive = true
     sprite.buttonMode = true
+
+    sprite.on('pointerdown', () => {
+      const preview = new SpritePreview(texture)
+      preview.onClose = () => {
+        removeGameScene(preview)
+      }
+      addGameScene(preview)
+    })
 
     PIXIUtils.resizeSpriteByWidth(sprite, this.boxWidth)
 

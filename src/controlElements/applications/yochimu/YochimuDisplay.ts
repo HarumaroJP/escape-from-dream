@@ -29,10 +29,11 @@ export class YochimuDisplay extends Window {
     this.reflesh()
     this.toDraggable(this.backGround, this)
 
-    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
-    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
-    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
-    this.scrollView.addSprite(AssetLoader.getSprite('mystery-1-manual'))
+    const yochimuSpritePaths: string[] = AssetLoader.getConfigByKey('yochimu_imgs').split(',')
+
+    yochimuSpritePaths.forEach((path) => {
+      this.scrollView.addSprite(AssetLoader.getSprite(path))
+    })
 
     this.titleBar.renderable = false
 

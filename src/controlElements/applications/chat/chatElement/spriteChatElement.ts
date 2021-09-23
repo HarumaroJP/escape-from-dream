@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js'
+import { addGameScene, removeGameScene } from '../../../../core/main'
 import { PIXIUtils } from '../../../../extensions/utils'
+import { SpritePreview } from '../../yochimu/spritePreview'
 import { ChatElement } from './chatElement'
 
 export class SpriteChatElement extends ChatElement {
@@ -20,6 +22,17 @@ export class SpriteChatElement extends ChatElement {
 
     this.sprite.x = this.elemWidth * 0.5
     this.sprite.y = this.elemHeight * 0.5
+
+    this.sprite.interactive = true
+    this.sprite.buttonMode = true
+
+    this.sprite.on('pointerdown', () => {
+      const preview = new SpritePreview(texture)
+      preview.onClose = () => {
+        removeGameScene(preview)
+      }
+      addGameScene(preview)
+    })
 
     this.addChild(this.sprite)
   }
