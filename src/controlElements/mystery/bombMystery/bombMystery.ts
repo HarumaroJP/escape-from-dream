@@ -44,7 +44,6 @@ export class BombMystery extends Mystery {
             const op = this.castArgument(msgs, ':')
             const cond = this.castArgument(msgs, '@')
 
-            console.log({ line: line, op: op, cond: cond })
             ops.push({ line: line, op: op, cond: cond })
           })
 
@@ -108,10 +107,7 @@ export class BombMystery extends Mystery {
   }
 
   nextAttempt() {
-    console.log(this.panelInfo)
-
-    const currentPattern = this.getPatternAt(this.attempt)
-    console.log(currentPattern)
+    const currentPattern = this.getPatternAt(this.attempt - 1)
     const isClear = currentPattern.every((idx) => this.panelInfo[idx] == true)
 
     if (!this.isAlreadyFailed && !isClear) {
@@ -122,8 +118,6 @@ export class BombMystery extends Mystery {
       this.isDefuseFailed = this.isAlreadyFailed
 
       if (!this.isAlreadyFailed) {
-        console.log('clear')
-
         this.isCleard = true
       }
 

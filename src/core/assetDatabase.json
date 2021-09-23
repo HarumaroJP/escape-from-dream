@@ -77,6 +77,28 @@
         "4-4-on",
         "vending-machine.png"
       ]
+    },
+    {
+      "name": "mystery-3",
+      "spriteList": [
+        "bom_button_blue_off",
+        "bom_button_blue_on",
+        "bom_button_brown_off",
+        "bom_button_brown_on",
+        "bom_button_green_off",
+        "bom_button_green_on",
+        "bom_button_orange_off",
+        "bom_button_orange_on",
+        "bom_button_pink_off",
+        "bom_button_pink_on",
+        "bom_button_purple_off",
+        "bom_button_purple_on",
+        "bom_button_red_off",
+        "bom_button_red_on",
+        "bom_button_yellow_off",
+        "bom_button_yellow_on",
+        "bom_background.png"
+      ]
     }
   ]
 }

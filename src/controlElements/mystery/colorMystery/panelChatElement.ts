@@ -15,6 +15,9 @@ export class PanelChatElement extends SpriteChatElement {
   constructor(target: number, panelInfo: boolean[]) {
     super(target, AssetLoader.getSprite('lever-background'), 160)
 
+    this.sprite.interactive = false
+    this.sprite.buttonMode = false
+
     this.interacts.push(
       new Interact(200, 25, 0, AssetLoader.getSprite('lamp-off'), AssetLoader.getSprite('lamp-on'), 'lamp')
     )
