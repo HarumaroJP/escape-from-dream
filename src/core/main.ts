@@ -74,7 +74,14 @@ const createGameScene = () => {
   animate()
 }
 
+let isClosed: boolean = false
+
 export const frontContainer = (container: PIXI.Container) => {
+  if (isClosed) {
+    isClosed = false
+    return
+  }
+
   winZIndex++
   container.zIndex = winZIndex
 
@@ -82,7 +89,10 @@ export const frontContainer = (container: PIXI.Container) => {
 }
 
 export const backContainer = (container: PIXI.Container) => {
-  container.zIndex = -10
+  const lastObject = gameScene.children.reduce((a, b) => (a.zIndex < b.zIndex ? a : b))
+
+  isClosed = true
+  container.zIndex = lastObject.zIndex - 1
 
   gameScene.children.sort((itemA, itemB) => itemA.zIndex - itemB.zIndex)
 }
