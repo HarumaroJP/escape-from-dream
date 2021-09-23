@@ -36,6 +36,8 @@ export class YochimuDisplay extends Window {
     })
 
     this.titleBar.renderable = false
+    this.titleBar.interactive = false
+    this.titleBar.buttonMode = false
 
     this.close()
     return this
