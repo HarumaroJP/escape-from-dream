@@ -35,13 +35,13 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
     const lime = new LIMEDisplay().create()
     const yochimu = new YochimuDisplay().create()
-    const hint = new HintDisplay().create()
+    const tutorial = new HintDisplay().create()
 
     addGameScene(lime)
     addGameScene(yochimu)
-    addGameScene(hint)
+    addGameScene(tutorial)
 
-    this.Hint = this.createApplication('hint', AssetLoader.getSprite('search'), hint)
+    this.Hint = this.createApplication('hint', AssetLoader.getSprite('search'), tutorial)
     this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'), lime)
     this.Yochimu = this.createApplication('yochimu', AssetLoader.getSprite('yochimu_icon'), yochimu)
 
@@ -50,6 +50,7 @@ export class Taskbar extends PIXI.Container implements Renderable {
     //最初はLIMEを最前面に
 
     lime.open()
+    tutorial.open()
 
     this.gameManager = new MysteryManager(lime.scrollView, lime.selectMenu, this)
     this.gameManager.start(0)

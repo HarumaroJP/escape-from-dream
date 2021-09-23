@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import { gsap } from 'gsap'
 import { AssetLoader } from '../../../core/assetLoader'
 import { Window } from '../../../core/window'
 import { CustomRoundedShape } from '../../../extensions/customRoundedShape'
@@ -9,16 +10,20 @@ export class HintDisplay extends Window {
   sprites: PIXI.Sprite[] = []
   spriteContainer: PIXI.Container = new PIXI.Container()
   background: CustomRoundedShape = new CustomRoundedShape()
+  backgroundMask: PIXI.Graphics = new PIXI.Graphics()
   backGroundColor: number = 0xffffff
 
-  cavWidth: number = 750
-  cavHeight: number = 400
+  cavWidth: number = 1100
+  cavHeight: number = 620
 
   centerButton: PIXI.Sprite
   rightButton: PIXI.Sprite
   leftButton: PIXI.Sprite
+
   buttonSize: number = 50
   buttonOffset: number = 20
+
+  currentIndex: number = 0
 
   constructor() {
     super('チュートリアル')
@@ -26,6 +31,7 @@ export class HintDisplay extends Window {
 
   create(): Window {
     this.addChild(this.background)
+    this.addChild(this.backgroundMask)
     this.addChild(this.spriteContainer)
 
     this.centerButton = new PIXI.Sprite(AssetLoader.getSprite('right_arrow'))
@@ -43,6 +49,11 @@ export class HintDisplay extends Window {
     this.createWindow(true)
     this.reflesh()
 
+    this.backgroundMask.x = this.winX
+    this.backgroundMask.y = this.winY - this.titleHeight
+    this.backgroundMask.beginFill(0x000000).drawRoundedRect(0, 0, this.cavWidth, this.cavHeight, this.round).endFill()
+    this.spriteContainer.mask = this.backgroundMask
+
     this.centerButton.width = this.buttonSize
     this.centerButton.height = this.buttonSize
     this.rightButton.width = this.buttonSize
@@ -58,6 +69,41 @@ export class HintDisplay extends Window {
 
     this.leftButton.x = this.winX + this.buttonOffset
     this.leftButton.y = this.winY + this.cavHeight * 0.5
+
+    this.setActiveButtons(true)
+
+    this.centerButton.on('pointerdown', () => {
+      this.currentIndex += 1
+      gsap
+        .to(this.spriteContainer, {
+          duration: 0.5,
+          x: -this.cavWidth * this.currentIndex,
+        })
+        .play()
+      this.update()
+    })
+    this.rightButton.on('pointerdown', () => {
+      this.currentIndex += 1
+      gsap
+        .to(this.spriteContainer, {
+          duration: 0.5,
+          x: -this.cavWidth * this.currentIndex,
+        })
+        .play()
+      this.update()
+    })
+    this.leftButton.on('pointerdown', () => {
+      this.currentIndex -= 1
+      gsap
+        .to(this.spriteContainer, {
+          duration: 0.5,
+          x: -this.cavWidth * this.currentIndex,
+        })
+        .play()
+      this.update()
+    })
+
+    this.update()
 
     this.spritePaths.forEach((path) => {
       const sprite: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite(path))
@@ -81,11 +127,43 @@ export class HintDisplay extends Window {
 
     this.spriteContainer.x = (this.cavWidth - this.sprites[0].width) * 0.5
 
+    this.y += 50
+
     this.close()
     return this
   }
 
-  update() {}
+  update() {
+    this.setActiveButtons(false)
+
+    if (this.currentIndex == 0) {
+      this.centerButton.interactive = true
+      this.centerButton.buttonMode = true
+      this.centerButton.renderable = true
+    } else {
+      this.leftButton.interactive = true
+      this.leftButton.buttonMode = true
+      this.leftButton.renderable = true
+
+      if (this.currentIndex + 1 < this.sprites.length) {
+        this.rightButton.interactive = true
+        this.rightButton.buttonMode = true
+        this.rightButton.renderable = true
+      }
+    }
+  }
+
+  setActiveButtons(value: boolean) {
+    this.centerButton.interactive = value
+    this.centerButton.buttonMode = value
+    this.centerButton.renderable = value
+    this.rightButton.interactive = value
+    this.rightButton.buttonMode = value
+    this.rightButton.renderable = value
+    this.leftButton.interactive = value
+    this.leftButton.buttonMode = value
+    this.leftButton.renderable = value
+  }
 
   reflesh() {
     this.setWindowSize(this.cavWidth, this.cavHeight)
