@@ -49,7 +49,6 @@ export class Window extends PIXI.Container implements Renderable {
 
   createWindow(isClosable: boolean) {
     this.toDraggable(this.titleBar, this)
-
     this.addChild(this.titleBar)
     this.titleBar.addChild(this.titleText)
 
@@ -135,15 +134,15 @@ export class Window extends PIXI.Container implements Renderable {
     draggable
       .on('pointerdown', (e: PIXI.InteractionEvent) => {
         data = e.data
-        pointOffset = data.getLocalPosition(draggable)
+        pointOffset = data.getLocalPosition(movable)
         isDraggable = true
       })
       .on('pointermove', () => {
         if (!isDraggable) return
 
         dragPoint = data.getLocalPosition(movable.parent)
-        movable.x = dragPoint.x - this.winX - pointOffset.x
-        movable.y = dragPoint.y - this.winY - pointOffset.y + this.titleHeight
+        movable.x = dragPoint.x - pointOffset.x
+        movable.y = dragPoint.y - pointOffset.y
       })
       .on('pointerup', () => {
         data = null

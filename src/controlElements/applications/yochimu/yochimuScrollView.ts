@@ -33,6 +33,9 @@ export class YochimuScrollView extends Scrollbox {
 
   addSprite(texture: PIXI.Texture) {
     const sprite = new PIXI.Sprite(texture)
+    sprite.interactive = true
+    sprite.buttonMode = true
+
     PIXIUtils.resizeSpriteByWidth(sprite, this.boxWidth)
 
     sprite.y += this.nextElementPosY
