@@ -39,6 +39,8 @@ export class ColorMystery extends Mystery {
 
           //parse to operation
           lines.forEach((li) => {
+            if (!li.match(/\S/g)) return
+
             const msgs = li.split(/(?=[:@])/g)
 
             const line = msgs[0]
