@@ -93,7 +93,7 @@ export class LIMEDisplay extends Window {
     this.gameManager.start(0)
 
     this.reflesh()
-
+    this.close()
     return this
   }
 

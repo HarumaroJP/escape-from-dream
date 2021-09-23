@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { AssetLoader } from '../../../core/assetLoader'
 import { Window } from '../../../core/window'
-import { CustomRoundedShape } from '../../../extensions/customRoundedShape'
 import { PIXIUtils } from '../../../extensions/utils'
 import { YochimuScrollView } from './yochimuScrollView'
 

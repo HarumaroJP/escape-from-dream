@@ -4,6 +4,7 @@ import { addGameScene, app, frontContainer, gameScene } from '../../core/main'
 import { Renderable } from '../../core/renderable'
 import { Window } from '../../core/window'
 import { LIMEDisplay } from '../applications/chat/limeDisplay'
+import { HintDisplay } from '../applications/hint/hintDisplay'
 import { YochimuDisplay } from '../applications/yochimu/yochimuDisplay'
 import { Application } from './application'
 
@@ -21,7 +22,7 @@ export class Taskbar extends PIXI.Container implements Renderable {
   barHeightOffset: number = 35
   barYOffset: number = 20
 
-  Searcher: Application
+  Hint: Application
   Messenger: Application
   Yochimu: Application
   static applications: Application[] = []
@@ -31,20 +32,21 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
     const lime = new LIMEDisplay().create()
     const yochimu = new YochimuDisplay().create()
-
-    yochimu.close()
+    const hint = new HintDisplay().create()
 
     addGameScene(lime)
     addGameScene(yochimu)
+    addGameScene(hint)
 
-    this.Searcher = this.createApplication('searcher', AssetLoader.getSprite('search'), undefined)
+    this.Hint = this.createApplication('hint', AssetLoader.getSprite('search'), hint)
     this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'), lime)
     this.Yochimu = this.createApplication('yochimu', AssetLoader.getSprite('yochimu_icon'), yochimu)
 
     this.reflesh()
 
     //最初はLIMEを最前面に
-    frontContainer(lime)
+
+    lime.open()
 
     return this
   }
@@ -54,11 +56,11 @@ export class Taskbar extends PIXI.Container implements Renderable {
     Taskbar.applications.push(app)
     this.addChild(app)
 
-    app.on('pointerdown', () => {
-      app.window.open()
-    })
-
     if (app.window != undefined) {
+      app.on('pointerdown', () => {
+        app.window.open()
+      })
+
       app.window.on('pointerdown', () => {
         frontContainer(app.window)
       })

@@ -111,8 +111,8 @@ export class Window extends PIXI.Container implements Renderable {
   }
 
   open() {
-    this.renderable = true
     frontContainer(this)
+    this.renderable = true
   }
 
   close() {

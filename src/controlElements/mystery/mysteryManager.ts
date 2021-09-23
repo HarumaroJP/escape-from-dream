@@ -10,6 +10,8 @@ import { SelectMenu } from '../applications/chat/selectMenu'
 import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatElement'
 import { PuzzleMystery } from './puzzleMystery/puzzleMystery'
 import { ChatElement } from '../applications/chat/chatElement/chatElement'
+import { BombMystery } from './bombMystery/bombMystery'
+import { TextChatElement } from '../applications/chat/chatElement/textChatElement'
 
 export class MysteryManager {
   currentMystery: Mystery
@@ -20,6 +22,7 @@ export class MysteryManager {
   mainMys: MainMystery = new MainMystery(0, false)
   colorMys: ColorMystery = new ColorMystery(1, true)
   puzzleMys: PuzzleMystery = new PuzzleMystery(2, false)
+  bombMys: BombMystery = new BombMystery(3, true)
 
   constructor(scrollView: ChatScrollView, selectMenu: SelectMenu) {
     this.scrollView = scrollView
@@ -28,6 +31,7 @@ export class MysteryManager {
     this.mysteries.push(this.mainMys)
     this.mysteries.push(this.colorMys)
     this.mysteries.push(this.puzzleMys)
+    this.mysteries.push(this.bombMys)
     this.mysteries.forEach((mys) => {
       mys.scrollView = scrollView
       mys.selectMenu = selectMenu
@@ -59,7 +63,7 @@ export class MysteryManager {
       }
     })
 
-    CmdHandler.Register('mystery-result', async () => {
+    CmdHandler.Register('panel-result', async () => {
       const op = this.colorMys.getOperation(this.colorMys.requestedOp)
 
       if (op != undefined) {
@@ -89,6 +93,23 @@ export class MysteryManager {
     CmdHandler.Register('lightsout', async () => {
       this.puzzleMys.startLightsout()
       await this.puzzleMys.waitUntil(() => this.puzzleMys.isCleard)
+    })
+
+    CmdHandler.Register('bomb-result', async () => {
+      const op = this.bombMys.getOperation(this.bombMys.requestedOp)
+
+      if (op != undefined) {
+        this.bombMys.panelInfo[op.panelIdx] = !this.bombMys.panelInfo[op.panelIdx]
+        this.bombMys.nextAttempt()
+      }
+
+      // const panel: ChatElement = new PanelChatElement(5, this.colorMys.panelInfo)
+
+      const panel: ChatElement = new TextChatElement(5, '')
+      panel.setIcon(AssetLoader.getIconById(5))
+      this.scrollView.setMessage(panel)
+
+      this.colorMys.requestedOp = ''
     })
   }
 
