@@ -11,9 +11,9 @@ import { SpriteChatElement } from '../applications/chat/chatElement/spriteChatEl
 import { PuzzleMystery } from './puzzleMystery/puzzleMystery'
 import { ChatElement } from '../applications/chat/chatElement/chatElement'
 import { BombMystery } from './bombMystery/bombMystery'
-import { TextChatElement } from '../applications/chat/chatElement/textChatElement'
 import { BombChatElement } from './bombMystery/bombChatElement'
 import { MathUtils } from '../../extensions/utils'
+import { Taskbar } from '../taskbar/taskbar'
 
 export class MysteryManager {
   currentMystery: Mystery
@@ -26,7 +26,7 @@ export class MysteryManager {
   puzzleMys: PuzzleMystery = new PuzzleMystery(2, false)
   bombMys: BombMystery = new BombMystery(3, true)
 
-  constructor(scrollView: ChatScrollView, selectMenu: SelectMenu) {
+  constructor(scrollView: ChatScrollView, selectMenu: SelectMenu, taskBar: Taskbar) {
     this.scrollView = scrollView
     this.selectMenu = selectMenu
 
@@ -94,6 +94,8 @@ export class MysteryManager {
 
     CmdHandler.Register('lightsout', async () => {
       this.puzzleMys.startLightsout()
+      // taskBar.
+
       await this.puzzleMys.waitUntil(() => this.puzzleMys.isCleard)
     })
 

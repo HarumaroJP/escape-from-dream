@@ -19,7 +19,7 @@ export class YochimuDisplay extends Window {
     super('予知夢フォルダー')
   }
 
-  create(): Window {
+  create(): YochimuDisplay {
     this.backGround = new PIXI.Sprite(AssetLoader.getSprite('yochimu_Background'))
     PIXIUtils.resizeSpriteByHeight(this.backGround, this.maxBackgroundHeight)
 

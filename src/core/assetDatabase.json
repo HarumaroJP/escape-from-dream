@@ -37,8 +37,23 @@
       ]
     },
     {
-      "name": "mystery1-yochimu",
-      "spriteList": ["mystery-1-manual.png", "yochimu_Background.png"]
+      "name": "yochimus",
+      "spriteList": [
+        "mystery-1-manual-mono.png",
+        "mystery-1-manual.png",
+        "yochimu_Background.png",
+        "home-morning.jpg",
+        "newspaper.png",
+        "pathway.jpg",
+        "room-morning.png",
+        "shutter.jpg",
+        "train-map.png",
+        "zihanki.jpg"
+      ]
+    },
+    {
+      "name": "photos",
+      "spriteList": ["home.png", "room.png"]
     },
     {
       "name": "mystery2-icecreams",

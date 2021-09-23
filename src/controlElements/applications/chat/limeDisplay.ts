@@ -15,8 +15,6 @@ export class LIMEDisplay extends Window {
   private cavHeight: number = 500
   private selectMenuWidth: number = 300
 
-  private gameManager: MysteryManager
-
   private header: PIXI.Graphics = new PIXI.Graphics()
   private targetTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
     align: 'left',
@@ -66,14 +64,16 @@ export class LIMEDisplay extends Window {
     paused: true,
   })
 
-  private scrollView: ChatScrollView = new ChatScrollView()
-  private selectMenu: SelectMenu = new SelectMenu(this.scrollView)
+  scrollView: ChatScrollView = new ChatScrollView()
+  selectMenu: SelectMenu = new SelectMenu(this.scrollView)
+
+  onSend: () => void
 
   constructor() {
     super('LIME')
   }
 
-  create(): Window {
+  create(): LIMEDisplay {
     this.targetName.text = AssetLoader.getNameById(0)
 
     this.addChild(this.header)
@@ -88,9 +88,6 @@ export class LIMEDisplay extends Window {
     this.footer.addChild(this.inputField)
 
     this.createWindow(true)
-
-    this.gameManager = new MysteryManager(this.scrollView, this.selectMenu)
-    this.gameManager.start(0)
 
     this.reflesh()
     this.close()
@@ -148,7 +145,7 @@ export class LIMEDisplay extends Window {
       this.scrollView.sendMessage()
 
       this.selectMenu.clearElements()
-      this.gameManager.restart(this.gameManager.currentMystery.id)
+      this.onSend()
     })
 
     this.buttonText.anchor.set(0.5)

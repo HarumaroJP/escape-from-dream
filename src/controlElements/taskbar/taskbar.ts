@@ -6,9 +6,12 @@ import { Window } from '../../core/window'
 import { LIMEDisplay } from '../applications/chat/limeDisplay'
 import { HintDisplay } from '../applications/hint/hintDisplay'
 import { YochimuDisplay } from '../applications/yochimu/yochimuDisplay'
+import { MysteryManager } from '../mystery/mysteryManager'
 import { Application } from './application'
 
 export class Taskbar extends PIXI.Container implements Renderable {
+  gameManager: MysteryManager
+
   barColor: number = 0xf1f1f1
   taskBar: PIXI.Graphics = new PIXI.Graphics()
 
@@ -48,7 +51,15 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
     lime.open()
 
+    this.gameManager = new MysteryManager(lime.scrollView, lime.selectMenu, this)
+    this.gameManager.start(0)
+    lime.onSend = () => this.gameManager.restart(this.gameManager.currentMystery.id)
+
     return this
+  }
+
+  yochimuToFixed(){
+    
   }
 
   createApplication(name: string, icon: PIXI.Texture, window: Window): Application {

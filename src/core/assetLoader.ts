@@ -27,6 +27,9 @@ export class AssetLoader {
           if (spriteName.slice(-3) == 'png') {
             spriteName = spriteName.slice(0, -4)
             extension = '.png'
+          } else if (spriteName.slice(-3) == 'jpg') {
+            spriteName = spriteName.slice(0, -4)
+            extension = '.jpg'
           } else {
             extension = '.svg'
           }
