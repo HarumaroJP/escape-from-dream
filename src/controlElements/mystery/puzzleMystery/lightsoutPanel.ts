@@ -7,6 +7,8 @@ export class LightsoutPanel extends PIXI.Graphics {
   venMachine: PIXI.Sprite
   buttonContainer: PIXI.Container = new PIXI.Container()
 
+  resetButton: ResetButton
+
   lightButtons: LightsButton[][] = []
   lightButtonFlags: boolean[][] = []
 
@@ -16,6 +18,7 @@ export class LightsoutPanel extends PIXI.Graphics {
   buttonSpaceY: number = 30
 
   onClear: () => void
+  onShow: () => void
 
   constructor() {
     super()
@@ -48,6 +51,19 @@ export class LightsoutPanel extends PIXI.Graphics {
         this.createButton(i, j)
       }
     }
+
+    this.resetButton = new ResetButton(0, this.venMachine.height * 0.5 - 235)
+    this.resetButton.on('pointerdown', () => {
+      this.lightButtons.forEach((btns) => {
+        btns.forEach((btn) => btn.set(false))
+      })
+
+      this.lightButtonFlags.forEach((btns) => {
+        btns.fill(false)
+      })
+    })
+
+    this.venMachine.addChild(this.resetButton)
 
     this.alpha = 0
   }
@@ -125,6 +141,9 @@ export class LightsoutPanel extends PIXI.Graphics {
         alpha: 1,
         duration: 2,
         ease: 'Power2.easeInOut',
+        onComplete: () => {
+          this.onShow()
+        },
       })
       .play()
   }
@@ -166,8 +185,40 @@ class LightsButton extends PIXI.Sprite {
     this.buttonMode = true
   }
 
+  set(isActive: boolean) {
+    this.isActive = isActive
+    this.texture = this.isActive ? this.tex_on : this.tex_off
+  }
+
   switch() {
     this.isActive = !this.isActive
     this.texture = this.isActive ? this.tex_on : this.tex_off
+  }
+}
+
+class ResetButton extends PIXI.Container {
+  buttonHitArea: PIXI.Circle = new PIXI.Circle(0, 0, 60)
+  textStyle: PIXI.TextStyle = new PIXI.TextStyle({
+    align: 'center',
+    fontFamily: 'hirakaku',
+    fontSize: '25px',
+    fill: 0xffffff,
+  })
+
+  text: PIXI.Text = new PIXI.Text('考え直す', this.textStyle)
+
+  constructor(x: number, y: number) {
+    super()
+
+    this.x = x
+    this.y = y
+
+    this.addChild(this.text)
+    this.text.anchor.set(0.5)
+
+    this.hitArea = this.buttonHitArea
+
+    this.interactive = true
+    this.buttonMode = true
   }
 }

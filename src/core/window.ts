@@ -120,6 +120,26 @@ export class Window extends PIXI.Container implements Renderable {
     this.renderable = false
   }
 
+  enable() {
+    this.titleBar.renderable = true
+    this.titleBar.interactive = true
+    this.titleBar.buttonMode = true
+
+    this.closeButton.renderable = true
+    this.closeButton.interactive = true
+    this.closeButton.buttonMode = true
+  }
+
+  disable() {
+    this.titleBar.renderable = false
+    this.titleBar.interactive = false
+    this.titleBar.buttonMode = false
+
+    this.closeButton.renderable = false
+    this.closeButton.interactive = false
+    this.closeButton.buttonMode = false
+  }
+
   toDraggable(draggable: PIXI.Container, movable: PIXI.Container) {
     draggable.interactive = true
     draggable.buttonMode = true

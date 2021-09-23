@@ -43,6 +43,24 @@ export class YochimuDisplay extends Window {
     return this
   }
 
+  enable() {
+    this.backGround.interactive = true
+    this.backGround.buttonMode = true
+    
+    this.closeButton.renderable = true
+    this.closeButton.interactive = true
+    this.closeButton.buttonMode = true
+  }
+
+  disable() {
+    this.backGround.interactive = false
+    this.backGround.buttonMode = false
+
+    this.closeButton.renderable = false
+    this.closeButton.interactive = false
+    this.closeButton.buttonMode = false
+  }
+
   reflesh() {
     this.setWindowSize(this.cavWidth, this.cavHeight)
     this.refleshWindow()

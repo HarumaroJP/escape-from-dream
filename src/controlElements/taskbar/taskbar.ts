@@ -58,8 +58,11 @@ export class Taskbar extends PIXI.Container implements Renderable {
     return this
   }
 
-  yochimuToFixed(){
-    
+  yochimuToFixed(x: number, y: number) {
+    frontContainer(this.Yochimu.window)
+
+    this.Yochimu.window.x = x
+    this.Yochimu.window.y = y
   }
 
   createApplication(name: string, icon: PIXI.Texture, window: Window): Application {

@@ -93,10 +93,20 @@ export class MysteryManager {
     })
 
     CmdHandler.Register('lightsout', async () => {
+      this.puzzleMys.panel.onShow = () => {
+        taskBar.Yochimu.window.open()
+        const x = this.puzzleMys.panel.x + (this.puzzleMys.panel.width - taskBar.Yochimu.window.width) * 0.5
+        const y = this.puzzleMys.panel.y + 20
+        taskBar.yochimuToFixed(x, y)
+
+        taskBar.Yochimu.window.disable()
+      }
+
       this.puzzleMys.startLightsout()
-      // taskBar.
 
       await this.puzzleMys.waitUntil(() => this.puzzleMys.isCleard)
+
+      taskBar.Yochimu.window.enable()
     })
 
     const buttonPattern = MathUtils.shuffle([0, 1, 2, 3, 4, 5])
