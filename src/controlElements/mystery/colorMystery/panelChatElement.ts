@@ -13,13 +13,13 @@ export class PanelChatElement extends SpriteChatElement {
   interacts: Interact[] = []
 
   constructor(target: number, panelInfo: boolean[]) {
-    super(target, AssetLoader.getSprite('lever-background'), 160)
+    super(target, AssetLoader.getTexture('lever-background'), 160)
 
     this.sprite.interactive = false
     this.sprite.buttonMode = false
 
     this.interacts.push(
-      new Interact(200, 25, 0, AssetLoader.getSprite('lamp-off'), AssetLoader.getSprite('lamp-on'), 'lamp')
+      new Interact(200, 25, 0, AssetLoader.getTexture('lamp-off'), AssetLoader.getTexture('lamp-on'), 'lamp')
     )
 
     this.interacts.push(
@@ -27,14 +27,14 @@ export class PanelChatElement extends SpriteChatElement {
         200,
         45,
         0,
-        AssetLoader.getSprite('button-red-off'),
-        AssetLoader.getSprite('button-red-on'),
+        AssetLoader.getTexture('button-red-off'),
+        AssetLoader.getTexture('button-red-on'),
         'button'
       )
     )
 
     this.interacts.push(
-      new Interact(200, 74, 0, AssetLoader.getSprite('lamp-off'), AssetLoader.getSprite('lamp-on'), 'lamp')
+      new Interact(200, 74, 0, AssetLoader.getTexture('lamp-off'), AssetLoader.getTexture('lamp-on'), 'lamp')
     )
 
     this.interacts.push(
@@ -42,14 +42,14 @@ export class PanelChatElement extends SpriteChatElement {
         200,
         94,
         0,
-        AssetLoader.getSprite('button-blue-off'),
-        AssetLoader.getSprite('button-blue-on'),
+        AssetLoader.getTexture('button-blue-off'),
+        AssetLoader.getTexture('button-blue-on'),
         'button'
       )
     )
 
     this.interacts.push(
-      new Interact(200, 123, 0, AssetLoader.getSprite('lamp-off'), AssetLoader.getSprite('lamp-on'), 'lamp')
+      new Interact(200, 123, 0, AssetLoader.getTexture('lamp-off'), AssetLoader.getTexture('lamp-on'), 'lamp')
     )
 
     this.interacts.push(
@@ -57,8 +57,8 @@ export class PanelChatElement extends SpriteChatElement {
         200,
         144,
         0,
-        AssetLoader.getSprite('button-green-off'),
-        AssetLoader.getSprite('button-green-on'),
+        AssetLoader.getTexture('button-green-off'),
+        AssetLoader.getTexture('button-green-on'),
         'button'
       )
     )
@@ -68,8 +68,8 @@ export class PanelChatElement extends SpriteChatElement {
         60,
         45,
         40,
-        AssetLoader.getSprite('lever-purple-off'),
-        AssetLoader.getSprite('lever-purple-on'),
+        AssetLoader.getTexture('lever-purple-off'),
+        AssetLoader.getTexture('lever-purple-on'),
         'lever'
       )
     )
@@ -79,8 +79,8 @@ export class PanelChatElement extends SpriteChatElement {
         60,
         120,
         40,
-        AssetLoader.getSprite('lever-cyan-off'),
-        AssetLoader.getSprite('lever-cyan-on'),
+        AssetLoader.getTexture('lever-cyan-off'),
+        AssetLoader.getTexture('lever-cyan-on'),
         'lever'
       )
     )
@@ -90,8 +90,8 @@ export class PanelChatElement extends SpriteChatElement {
         120,
         85,
         40,
-        AssetLoader.getSprite('lever-white-off'),
-        AssetLoader.getSprite('lever-white-on'),
+        AssetLoader.getTexture('lever-white-off'),
+        AssetLoader.getTexture('lever-white-on'),
         'lever'
       )
     )

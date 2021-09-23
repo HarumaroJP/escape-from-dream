@@ -20,7 +20,7 @@ export class YochimuDisplay extends Window {
   }
 
   create(): YochimuDisplay {
-    this.backGround = new PIXI.Sprite(AssetLoader.getSprite('yochimu_Background'))
+    this.backGround = new PIXI.Sprite(AssetLoader.getTexture('yochimu_Background'))
     PIXIUtils.resizeSpriteByHeight(this.backGround, this.maxBackgroundHeight)
 
     this.addChild(this.backGround)
@@ -32,7 +32,7 @@ export class YochimuDisplay extends Window {
     const yochimuSpritePaths: string[] = AssetLoader.getConfigByKey('yochimu_imgs').split(',')
 
     yochimuSpritePaths.forEach((path) => {
-      this.scrollView.addSprite(AssetLoader.getSprite(path))
+      this.scrollView.addSprite(AssetLoader.getTexture(path))
     })
 
     this.titleBar.renderable = false
@@ -46,10 +46,12 @@ export class YochimuDisplay extends Window {
   enable() {
     this.backGround.interactive = true
     this.backGround.buttonMode = true
-    
+
     this.closeButton.renderable = true
     this.closeButton.interactive = true
     this.closeButton.buttonMode = true
+
+    this.scrollView.active()
   }
 
   disable() {
@@ -59,6 +61,8 @@ export class YochimuDisplay extends Window {
     this.closeButton.renderable = false
     this.closeButton.interactive = false
     this.closeButton.buttonMode = false
+
+    this.scrollView.deactive()
   }
 
   reflesh() {

@@ -3,6 +3,8 @@ import { AssetLoader } from '../../core/assetLoader'
 import { Renderable } from '../../core/renderable'
 import { PIXIUtils } from '../../extensions/utils'
 import { gsap } from 'gsap'
+import { VideoPanel } from '../../core/videoPanel'
+import { gameScene, videoScene } from '../../core/main'
 
 export class TitlePanel extends PIXI.Graphics implements Renderable {
   titleLogo: PIXI.Sprite
@@ -28,10 +30,10 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
   infoPanelHeight: number = 90
   infoPanelOffsetX: number = 90
   infoPanelSpace: number = 20
-  info_title: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite('info_title'))
-  info_ei: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite('info_ei'))
-  info_jiro: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite('info_jiro'))
-  info_taro: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite('info_taro'))
+  info_title: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture('info_title'))
+  info_ei: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture('info_ei'))
+  info_jiro: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture('info_jiro'))
+  info_taro: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture('info_taro'))
 
   onStart: () => void
 
@@ -39,7 +41,7 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
     super()
     this.interactive = true
 
-    this.titleLogo = new PIXI.Sprite(AssetLoader.getSprite('title-logo'))
+    this.titleLogo = new PIXI.Sprite(AssetLoader.getTexture('title-logo'))
     this.titleLogo.anchor.set(0.5)
     this.titleLogo.x = window.innerWidth * 0.5
     this.titleLogo.y = 250
@@ -113,7 +115,10 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
           duration: 2,
           ease: 'Power2.easeInOut',
           onComplete: () => {
-            this.onStart()
+            const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play('op', 30, () => {
+              this.onStart()
+            })
+            videoScene.addChild(video.panel)
           },
         })
         .play()

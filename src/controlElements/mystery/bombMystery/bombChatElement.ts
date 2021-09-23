@@ -13,33 +13,33 @@ export class BombChatElement extends SpriteChatElement {
   generalOffsetY: number = 110
 
   constructor(target: number, panelInfo: boolean[], buttonPattern: number[]) {
-    super(target, AssetLoader.getSprite('bom_background'), 230)
+    super(target, AssetLoader.getTexture('bom_background'), 230)
 
     this.sprite.interactive = false
     this.sprite.buttonMode = false
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_red_off'), AssetLoader.getSprite('bom_button_red_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_red_off'), AssetLoader.getTexture('bom_button_red_on'))
     )
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_blue_off'), AssetLoader.getSprite('bom_button_blue_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_blue_off'), AssetLoader.getTexture('bom_button_blue_on'))
     )
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_yellow_off'), AssetLoader.getSprite('bom_button_yellow_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_yellow_off'), AssetLoader.getTexture('bom_button_yellow_on'))
     )
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_green_off'), AssetLoader.getSprite('bom_button_green_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_green_off'), AssetLoader.getTexture('bom_button_green_on'))
     )
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_pink_off'), AssetLoader.getSprite('bom_button_pink_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_pink_off'), AssetLoader.getTexture('bom_button_pink_on'))
     )
 
     this.interacts.push(
-      new Interact(0, 0, AssetLoader.getSprite('bom_button_brown_off'), AssetLoader.getSprite('bom_button_brown_on'))
+      new Interact(0, 0, AssetLoader.getTexture('bom_button_brown_off'), AssetLoader.getTexture('bom_button_brown_on'))
     )
 
     let btnCounter: number = 0

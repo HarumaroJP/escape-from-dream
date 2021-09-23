@@ -58,7 +58,7 @@ export class Window extends PIXI.Container implements Renderable {
     this.isClosable = isClosable
 
     if (isClosable) {
-      this.closeButton = new PIXI.Sprite(AssetLoader.getSprite('close-button'))
+      this.closeButton = new PIXI.Sprite(AssetLoader.getTexture('close-button'))
       this.closeButton.interactive = true
       this.closeButton.buttonMode = true
       this.closeButton.on('pointerdown', () => {

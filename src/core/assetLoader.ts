@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
-import assetDatabase from './assetDatabase.json'
+import imageDatabase from './imageDatabase.json'
+import videoDatabase from './videoDatabase.json'
 import axios from 'axios'
 import { devVersion } from './main'
 import { GameData } from './GameData'
@@ -8,12 +9,13 @@ export class AssetLoader {
   private static gameData: GameData = new GameData()
   private static loader: PIXI.Loader = PIXI.Loader.shared
   private static spriteResources: Map<string, PIXI.Texture> = new Map<string, PIXI.Texture>()
+  private static videoResources: Map<string, string> = new Map<string, string>()
 
   async loadSpriteAssets() {
-    const dirName = assetDatabase.spriteDir + '/'
+    const spriteDirName = imageDatabase.spriteDir + '/'
 
     await Promise.all(
-      assetDatabase.subDirList.map(async (subDir) => {
+      imageDatabase.subDirList.map(async (subDir) => {
         subDir.spriteList.map((spriteName) => {
           // const texture = await loadSvg(
           //   dirName + subDir.name + '/' + spriteName + '.svg',
@@ -36,11 +38,21 @@ export class AssetLoader {
 
           AssetLoader.spriteResources.set(
             spriteName,
-            PIXI.Texture.from(dirName + subDir.name + '/' + spriteName + extension, {
+            PIXI.Texture.from(spriteDirName + subDir.name + '/' + spriteName + extension, {
               scaleMode: PIXI.SCALE_MODES.LINEAR,
             })
           )
         })
+      })
+    )
+
+    const videoDirName = videoDatabase.videoDir + '/'
+
+    await Promise.all(
+      videoDatabase.videoList.map(async (video) => {
+        const videoName = video.slice(0, -4)
+
+        AssetLoader.videoResources.set(videoName, videoDirName + videoName + '.mp4')
       })
     )
   }
@@ -69,7 +81,11 @@ export class AssetLoader {
     })
   }
 
-  static getSprite(name: string): PIXI.Texture<PIXI.Resource> {
+  static getVideoTexture(name: string): PIXI.Texture {
+    return PIXI.Texture.from(AssetLoader.videoResources.get(name),{})
+  }
+
+  static getTexture(name: string): PIXI.Texture<PIXI.Resource> {
     return AssetLoader.spriteResources.get(name)
   }
 
@@ -84,13 +100,13 @@ export class AssetLoader {
   static getIconById(id: number): PIXI.Texture<PIXI.Resource> {
     switch (id) {
       case 3:
-        return this.getSprite(this.getConfigByKey('chat_icon_A'))
+        return this.getTexture(this.getConfigByKey('chat_icon_A'))
 
       case 4:
-        return this.getSprite(this.getConfigByKey('chat_icon_B'))
+        return this.getTexture(this.getConfigByKey('chat_icon_B'))
 
       case 5:
-        return this.getSprite(this.getConfigByKey('chat_icon_C'))
+        return this.getTexture(this.getConfigByKey('chat_icon_C'))
 
       default:
         return undefined

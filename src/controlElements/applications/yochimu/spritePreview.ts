@@ -22,7 +22,7 @@ export class SpritePreview extends PIXI.Container implements Renderable {
     this.sprite = new PIXI.Sprite(texture)
     this.sprite.anchor.set(0.5)
 
-    this.closeButton = new PIXI.Sprite(AssetLoader.getSprite('close-button'))
+    this.closeButton = new PIXI.Sprite(AssetLoader.getTexture('close-button'))
     this.closeButton.width = this.closeButtonSize
     this.closeButton.height = this.closeButtonSize
     this.closeButton.anchor.set(0.5)

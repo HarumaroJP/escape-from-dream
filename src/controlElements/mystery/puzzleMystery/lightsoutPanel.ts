@@ -33,7 +33,7 @@ export class LightsoutPanel extends PIXI.Graphics {
       this.lightButtonFlags.push(new Array(this.buttonCount).fill(false))
     }
 
-    this.venMachine = new PIXI.Sprite(AssetLoader.getSprite('vending-machine'))
+    this.venMachine = new PIXI.Sprite(AssetLoader.getTexture('vending-machine'))
     this.venMachine.interactive = true
     this.venMachine.anchor.set(0.5)
     this.venMachine.x = window.innerWidth * 0.5
@@ -75,8 +75,8 @@ export class LightsoutPanel extends PIXI.Graphics {
     const button: LightsButton = new LightsButton(
       c,
       r,
-      AssetLoader.getSprite(tex_on_name),
-      AssetLoader.getSprite(tex_off_name),
+      AssetLoader.getTexture(tex_on_name),
+      AssetLoader.getTexture(tex_off_name),
       this.buttonSize
     )
 

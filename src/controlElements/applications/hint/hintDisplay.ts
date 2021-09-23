@@ -34,9 +34,9 @@ export class HintDisplay extends Window {
     this.addChild(this.backgroundMask)
     this.addChild(this.spriteContainer)
 
-    this.centerButton = new PIXI.Sprite(AssetLoader.getSprite('right_arrow'))
-    this.rightButton = new PIXI.Sprite(AssetLoader.getSprite('right_arrow'))
-    this.leftButton = new PIXI.Sprite(AssetLoader.getSprite('left_arrow'))
+    this.centerButton = new PIXI.Sprite(AssetLoader.getTexture('right_arrow'))
+    this.rightButton = new PIXI.Sprite(AssetLoader.getTexture('right_arrow'))
+    this.leftButton = new PIXI.Sprite(AssetLoader.getTexture('left_arrow'))
 
     this.centerButton.anchor.set(0.5)
     this.rightButton.anchor.set(1, 0.5)
@@ -106,7 +106,7 @@ export class HintDisplay extends Window {
     this.update()
 
     this.spritePaths.forEach((path) => {
-      const sprite: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite(path))
+      const sprite: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture(path))
 
       this.spriteContainer.addChild(sprite)
       this.sprites.push(sprite)

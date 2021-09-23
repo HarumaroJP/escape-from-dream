@@ -33,6 +33,20 @@ export class YochimuScrollView extends Scrollbox {
   enableScroll: boolean = false
   nextElementPosY: number = this.generalOffset
 
+  active() {
+    this.elements.forEach((elem) => {
+      elem.interactive = true
+      elem.buttonMode = true
+    })
+  }
+
+  deactive() {
+    this.elements.forEach((elem) => {
+      elem.interactive = false
+      elem.buttonMode = false
+    })
+  }
+
   addSprite(texture: PIXI.Texture) {
     const sprite = new PIXI.Sprite(texture)
     sprite.interactive = true

@@ -14,6 +14,8 @@ import { BombMystery } from './bombMystery/bombMystery'
 import { BombChatElement } from './bombMystery/bombChatElement'
 import { MathUtils } from '../../extensions/utils'
 import { Taskbar } from '../taskbar/taskbar'
+import { VideoPanel } from '../../core/videoPanel'
+import { videoScene } from '../../core/main'
 
 export class MysteryManager {
   currentMystery: Mystery
@@ -42,9 +44,19 @@ export class MysteryManager {
 
     CmdHandler.Register('image', async (args) => {
       const spriteName = args[0]
-      const element: ChatElement = new SpriteChatElement(1, AssetLoader.getSprite(spriteName), -1)
+      const element: ChatElement = new SpriteChatElement(1, AssetLoader.getTexture(spriteName), -1)
       element.setIcon(PIXI.Texture.WHITE)
       this.scrollView.setMessage(element)
+    })
+
+    CmdHandler.Register('video', async (args) => {
+      const videoName = args[0]
+      const duration = +args[1]
+
+      const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play(videoName, duration, () => {})
+      videoScene.addChild(video.panel)
+
+      await new Promise((resolve) => setTimeout(resolve, duration * 1000))
     })
 
     CmdHandler.Register('mystery', async (args) => {

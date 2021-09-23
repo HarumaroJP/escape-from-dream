@@ -52,7 +52,7 @@ export class LIMEDisplay extends Window {
   private buttonText: PIXI.Text = new PIXI.Text('送信', this.buttonTextStyle)
   private buttonTextOffset: number = 15
 
-  private buttonIcon: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getSprite('sendIcon'))
+  private buttonIcon: PIXI.Sprite = new PIXI.Sprite(AssetLoader.getTexture('sendIcon'))
   private buttonIconOffset: number = 60
 
   private buttonIconSize: number = 25

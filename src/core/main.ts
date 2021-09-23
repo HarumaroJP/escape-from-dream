@@ -8,6 +8,7 @@ import { gsap } from 'gsap'
 import PixiPlugin from 'gsap/PixiPlugin'
 import WebFont from 'webfontloader'
 import { TitlePanel } from '../controlElements/title/titlePanel'
+import { VideoPanel } from './videoPanel'
 
 export const devVersion: string = '1.1d'
 
@@ -40,6 +41,7 @@ window.onresize = () => resize()
 
 const playerLoop = new PlayerLoop(app)
 
+export let videoScene: PIXI.Container
 export let gameScene: PIXI.Container
 export let winZIndex: number = 0
 
@@ -52,7 +54,9 @@ const createGameScene = () => {
   playerLoop.removeAllGameLoops()
 
   gameScene = new PIXI.Container()
+  videoScene = new PIXI.Container()
   app.stage.addChild(gameScene)
+  app.stage.addChild(videoScene)
 
   titlePanel = new TitlePanel()
   gameScene.addChild(titlePanel)

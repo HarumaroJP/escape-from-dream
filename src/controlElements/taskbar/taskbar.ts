@@ -41,9 +41,9 @@ export class Taskbar extends PIXI.Container implements Renderable {
     addGameScene(yochimu)
     addGameScene(tutorial)
 
-    this.Messenger = this.createApplication('messenger', AssetLoader.getSprite('messenger'), lime)
-    this.Hint = this.createApplication('hint', AssetLoader.getSprite('search'), tutorial)
-    this.Yochimu = this.createApplication('yochimu', AssetLoader.getSprite('yochimu_icon'), yochimu)
+    this.Messenger = this.createApplication('messenger', AssetLoader.getTexture('messenger'), lime)
+    this.Hint = this.createApplication('hint', AssetLoader.getTexture('search'), tutorial)
+    this.Yochimu = this.createApplication('yochimu', AssetLoader.getTexture('yochimu_icon'), yochimu)
 
     this.reflesh()
 
@@ -51,6 +51,8 @@ export class Taskbar extends PIXI.Container implements Renderable {
 
     lime.open()
     tutorial.open()
+    yochimu.open()
+    yochimu.close()
 
     this.gameManager = new MysteryManager(lime.scrollView, lime.selectMenu, this)
     this.gameManager.start(0)
