@@ -41,8 +41,8 @@ export class Taskbar extends PIXI.Container implements Renderable {
     addGameScene(yochimu)
     addGameScene(tutorial)
 
-    this.Messenger = this.createApplication('messenger', AssetLoader.getTexture('messenger'), lime)
     this.Hint = this.createApplication('hint', AssetLoader.getTexture('search'), tutorial)
+    this.Messenger = this.createApplication('messenger', AssetLoader.getTexture('messenger'), lime)
     this.Yochimu = this.createApplication('yochimu', AssetLoader.getTexture('yochimu_icon'), yochimu)
 
     this.reflesh()
