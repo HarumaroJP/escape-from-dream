@@ -8,9 +8,11 @@ import { Mystery } from '../mystery'
 export class ColorMystery extends Mystery {
   requestedOp: string
   operations: { id: string; panelIdx: number; lampIdx: number }[] = []
+  conditions: { id: string; condition: () => boolean }[] = []
   panelInfo: boolean[] = Array(9).fill(false)
 
   attempt: number = 1
+  isDefuseFailed: boolean = false
 
   readonly phases: { isClear: boolean; leverIdx: number; pattern: number[] }[] = [
     { isClear: false, leverIdx: 6, pattern: [1, 3, 6] },
@@ -24,54 +26,87 @@ export class ColorMystery extends Mystery {
     this.registerOps()
 
     this.onChatLogic = async (chat) => {
-      if (chat.id == 1) {
-        //if command
-        await CmdHandler.Execute(chat.line)
-      } else if (chat.id == 2) {
-        //if player
-        const lines: string[] = chat.line.split(',')
-        const ops: { line: string; op: string }[] = []
+      let canBreak: boolean = false
 
-        //parse to operation
-        lines.forEach((li) => {
-          const msgs = li.split(':')
-          const op = msgs.length == 1 ? undefined : msgs[1]
-          ops.push({ line: msgs[0], op: op })
-        })
+      while (!canBreak) {
+        if (chat.id == 1) {
+          //if command
+          await CmdHandler.Execute(chat.line)
+        } else if (chat.id == 2) {
+          //if player
+          const lines: string[] = chat.line.split(',')
+          const ops: { line: string; op: string; cond: string }[] = []
 
-        const cleardPhases = this.getCleardPhase()
+          //parse to operation
+          lines.forEach((li) => {
+            const msgs = li.split(/(?=[:@])/g)
 
-        //add chatElement
-        ops.forEach((msg) => {
-          if (msg.op != undefined) {
-            //cleard lever?
-            const op = this.getOperation(msg.op)
+            const line = msgs[0]
+            const op = this.castArgument(msgs, ':')
+            const cond = this.castArgument(msgs, '@')
 
-            if (cleardPhases.some((p) => p.leverIdx == op.panelIdx)) {
-              return
+            console.log({ line: line, op: op, cond: cond })
+            ops.push({ line: line, op: op, cond: cond })
+          })
+
+          const cleardPhases = this.getCleardPhase()
+
+          //add chatElement
+          ops.forEach((msg) => {
+            if (msg.op != undefined) {
+              //cleard lever?
+              const op = this.getOperation(msg.op)
+
+              if (cleardPhases.some((p) => p.leverIdx == op.panelIdx)) {
+                return
+              }
             }
+
+            const element: ChatElement = new TextChatElement(2, msg.line)
+            this.selectMenu.addElement(element)
+
+            if (msg.op != undefined) {
+              element.onClick.push(() => {
+                this.requestedOp = msg.op
+              })
+            }
+          })
+
+          this.paused = true
+
+          await this.waitUntil(() => !this.paused)
+        } else {
+          //if friend
+          const lines: string[] = chat.line.split('@')
+          const msg: { line: string; cond: string } = { line: lines[0], cond: lines[1] }
+
+          if (this.condition(msg.cond)) {
+            const element: ChatElement = new TextChatElement(chat.id, chat.line)
+            element.setIcon(AssetLoader.getIconById(chat.id))
+            this.scrollView.setMessage(element)
+          } else {
+            chat = this.forceNext()
+            continue
           }
+        }
 
-          const element: ChatElement = new TextChatElement(2, msg.line)
-          this.selectMenu.addElement(element)
-
-          if (msg.op != undefined) {
-            element.onClick.push(() => {
-              this.requestedOp = msg.op
-            })
-          }
-        })
-
-        this.paused = true
-
-        await this.waitUntil(() => !this.paused)
-      } else {
-        //if friend
-        const element: ChatElement = new TextChatElement(chat.id, chat.line)
-        element.setIcon(AssetLoader.getIconById(chat.id))
-        this.scrollView.setMessage(element)
+        canBreak = true
       }
     }
+  }
+
+  castArgument(msgs: string[], tag: string): string {
+    const arg = msgs.find((str) => str.slice(0, 1) == tag)
+
+    if (arg == undefined) return undefined
+
+    return arg.slice(1)
+  }
+
+  condition(key: string): boolean {
+    if (key == undefined) return true
+
+    return this.conditions.find((cond) => cond.id == key).condition()
   }
 
   getOperation(key: string): { id: string; panelIdx: number; lampIdx: number } {
@@ -112,12 +147,15 @@ export class ColorMystery extends Mystery {
       this.resetButtons()
       this.attempt = 1
     } else {
+      this.isDefuseFailed = false
       this.attempt++
     }
   }
 
   resetAttempt() {
     const phase = this.getCurrentPhase()
+
+    this.isDefuseFailed = true
 
     this.panelInfo[phase.leverIdx] = false
     this.resetButtons()
@@ -137,5 +175,7 @@ export class ColorMystery extends Mystery {
     this.operations.push({ id: 'lever-purple', panelIdx: 6, lampIdx: -1 })
     this.operations.push({ id: 'lever-cyan', panelIdx: 7, lampIdx: -1 })
     this.operations.push({ id: 'lever-white', panelIdx: 8, lampIdx: -1 })
+
+    this.conditions.push({ id: 'isDefuseFailed', condition: () => this.isDefuseFailed })
   }
 }

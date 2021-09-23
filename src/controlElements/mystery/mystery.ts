@@ -58,6 +58,11 @@ export class Mystery {
     return
   }
 
+  forceNext(): any {
+    const iteratable = this.lineIterator.next()
+    return iteratable.value[1]
+  }
+
   reset() {
     this.paused = false
     this.lineIterator = this.lines.entries()
