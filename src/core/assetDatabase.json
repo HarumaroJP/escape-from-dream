@@ -13,7 +13,11 @@
         "close-button",
         "green_icon",
         "yellow_icon",
-        "ei_icon.png"
+        "ei_icon.png",
+        "info_ei.png",
+        "info_jiro.png",
+        "info_taro.png",
+        "info_title.png"
       ]
     },
     {
@@ -53,7 +57,23 @@
     },
     {
       "name": "photos",
-      "spriteList": ["home.png", "room.png", "jihanki_syasin_onlight.png", "jihanki_syasin.png"]
+      "spriteList": ["home.png", "room.png", "jihanki_syasin_onlight.png", "jihanki_syasin.png", "mystery3-hint.png"]
+    },
+    {
+      "name": "tutorial",
+      "spriteList": [
+        "left_arrow.png",
+        "right_arrow.png",
+        "ok_icon.png",
+        "page1.png",
+        "page2.png",
+        "page3.png",
+        "page4.png",
+        "page5.png",
+        "page6.png",
+        "page7.png",
+        "page8.png"
+      ]
     },
     {
       "name": "mystery2-icecreams",
