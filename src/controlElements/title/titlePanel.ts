@@ -115,11 +115,11 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
           duration: 2,
           ease: 'Power2.easeInOut',
           onComplete: () => {
-            // const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play('op', 30, () => {
-            //   this.onStart()
-            // })
-            // videoScene.addChild(video.panel)
-            this.onStart()
+            const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play('op', 30, () => {
+              this.onStart()
+            })
+            videoScene.addChild(video.panel)
+            // this.onStart()
           },
         })
         .play()
