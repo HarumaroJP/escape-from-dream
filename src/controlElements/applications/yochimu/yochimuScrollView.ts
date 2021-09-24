@@ -12,7 +12,8 @@ export class YochimuScrollView extends Scrollbox {
   private generalOffset: number = 30
 
   create() {
-    this.overflow = 'hidden'
+    this.overflowX = 'hidden'
+    this.scrollbarOffsetVertical = 30
     this.content.addChild(this.scrollBox)
 
     return this
