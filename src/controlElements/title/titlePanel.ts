@@ -7,6 +7,9 @@ import { VideoPanel } from '../../core/videoPanel'
 import { gameScene, videoScene } from '../../core/main'
 
 export class TitlePanel extends PIXI.Graphics implements Renderable {
+  titleContainer: PIXI.Container = new PIXI.Container()
+  tradeContainer: PIXI.Container = new PIXI.Container()
+
   titleLogo: PIXI.Sprite
   // titleLogoStyle: PIXI.TextStyle = new PIXI.TextStyle({
   //   align: 'center',
@@ -25,6 +28,15 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
   })
 
   startText: PIXI.Text
+  tradeMarkText: PIXI.Text
+  tradeMarkTextStyle: PIXI.TextStyle = new PIXI.TextStyle({
+    align: 'center',
+    fontFamily: 'hirakaku',
+    lineHeight: 40,
+    fontSize: '25px',
+    fill: 0xffffff,
+  })
+
   isFading: boolean
 
   infoPanelHeight: number = 90
@@ -65,26 +77,34 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
     this.startText.x = window.innerWidth * 0.5
     this.startText.y = window.innerHeight - 100
 
-    this.info_title.anchor.set(1, 1)
-    this.info_ei.anchor.set(1, 1)
-    this.info_jiro.anchor.set(1, 1)
-    this.info_taro.anchor.set(1, 1)
+    const tradeMark =
+      '授業主催： N・S高\n協力：株式会社SCRAP\n企画制作：N・S高生\n「リアル脱出ゲーム」は株式会社SCRAPの登録商標です。\n\n株式会社SCRAPとN・S高で実施した授業「リアル脱出ゲームの作り方」の一環で\n生徒が制作したものであり、SCRAPが主催/公認するものではありません。'
+
+    this.tradeMarkText = new PIXI.Text(tradeMark, this.tradeMarkTextStyle)
+    this.tradeMarkText.anchor.set(0.5, 0.5)
+    this.tradeMarkText.x = window.innerWidth * 0.5
+    this.tradeMarkText.y = window.innerHeight * 0.5
+
+    this.info_title.anchor.set(0, 1)
+    this.info_ei.anchor.set(0, 1)
+    this.info_jiro.anchor.set(0, 1)
+    this.info_taro.anchor.set(0, 1)
 
     PIXIUtils.resizeSpriteByHeight(this.info_title, this.infoPanelHeight - 40)
     PIXIUtils.resizeSpriteByHeight(this.info_ei, this.infoPanelHeight)
     PIXIUtils.resizeSpriteByHeight(this.info_jiro, this.infoPanelHeight)
     PIXIUtils.resizeSpriteByHeight(this.info_taro, this.infoPanelHeight)
 
-    this.info_title.x = window.innerWidth - this.infoPanelOffsetX - this.info_title.width * 0.25
+    this.info_title.x = this.infoPanelOffsetX + this.info_title.width * 0.25
     this.info_title.y = window.innerHeight - this.infoPanelHeight * 4 - this.infoPanelSpace * 3
 
-    this.info_ei.x = window.innerWidth - this.infoPanelOffsetX
+    this.info_ei.x = this.infoPanelOffsetX
     this.info_ei.y = window.innerHeight - this.infoPanelHeight * 3 - this.infoPanelSpace * 2
 
-    this.info_jiro.x = window.innerWidth - this.infoPanelOffsetX
+    this.info_jiro.x = this.infoPanelOffsetX
     this.info_jiro.y = window.innerHeight - this.infoPanelHeight * 2 - this.infoPanelSpace
 
-    this.info_taro.x = window.innerWidth - this.infoPanelOffsetX
+    this.info_taro.x = this.infoPanelOffsetX
     this.info_taro.y = window.innerHeight - this.infoPanelHeight
 
     gsap
@@ -97,32 +117,51 @@ export class TitlePanel extends PIXI.Graphics implements Renderable {
       })
       .play()
 
-    this.addChild(this.titleLogo)
-    this.addChild(this.titleText)
-    this.addChild(this.startText)
-    this.addChild(this.info_title)
-    this.addChild(this.info_ei)
-    this.addChild(this.info_jiro)
-    this.addChild(this.info_taro)
+    this.addChild(this.titleContainer)
+    this.addChild(this.tradeContainer)
+
+    this.tradeContainer.alpha = 0
+
+    this.titleContainer.addChild(this.titleLogo)
+    this.titleContainer.addChild(this.titleText)
+    this.titleContainer.addChild(this.startText)
+    this.titleContainer.addChild(this.info_title)
+    this.titleContainer.addChild(this.info_ei)
+    this.titleContainer.addChild(this.info_jiro)
+    this.titleContainer.addChild(this.info_taro)
+
+    this.tradeContainer.addChild(this.tradeMarkText)
 
     this.on('pointerdown', () => {
       if (this.isFading) return
 
       this.isFading = true
-      gsap
-        .to(this, {
-          alpha: 0,
-          duration: 2,
-          ease: 'Power2.easeInOut',
-          onComplete: () => {
-            const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play('op', 30, () => {
-              this.onStart()
-            })
-            videoScene.addChild(video.panel)
-            // this.onStart()
-          },
-        })
-        .play()
+      const fadeLine = gsap.timeline()
+
+      fadeLine.to(this.titleContainer, {
+        alpha: 0,
+        duration: 2,
+        ease: 'Power2.easeInOut',
+      })
+
+      fadeLine.to(this.tradeContainer, {
+        alpha: 1,
+        duration: 3,
+        ease: 'Power2.easeInOut',
+      })
+
+      fadeLine.to(this.tradeContainer, {
+        alpha: 0,
+        duration: 3,
+        ease: 'Power2.easeInOut',
+        delay: 1,
+        onComplete: () => {
+          const video: { src: any; panel: PIXI.Graphics } = VideoPanel.play('op', 30, () => {
+            this.onStart()
+          })
+          videoScene.addChild(video.panel)
+        },
+      })
     })
   }
 
